@@ -49,11 +49,11 @@ const workoutDetailsData = {
     details: `- Daily 15-20 min ab circuits\n- No equipment needed\n- Fat-burning diet included`,
     description: `Get visible abs by combining daily core exercises with proper diet. Focus on lower abs, obliques, and upper abs with high-rep circuits.`,
   },
-  "POWERLIFTING": {
+  POWERLIFTING: {
     details: `- Squat, deadlift, bench press\n- 4-day strength split\n- Recovery and mobility plan`,
     description: `Lift heavy, lift smart. This plan is for those aiming for strength PRs and progressive overload, with proper recovery and joint support.`,
   },
-  "CROSSFIT": {
+  CROSSFIT: {
     details: `- Functional full-body WODs\n- AMRAP, EMOM, and timed sets\n- Conditioning & strength mix`,
     description: `Push your limits with high-intensity CrossFit sessions. Combine cardio, lifting, and agility to improve full-body performance.`,
   },
@@ -83,7 +83,10 @@ export default function WorkoutDetails() {
 
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
         <Ionicons name="arrow-back" size={24} color="#000" />
       </TouchableOpacity>
 
@@ -97,7 +100,10 @@ export default function WorkoutDetails() {
       <View style={styles.detailsBox}>
         <Text style={styles.details}>{plan.details}</Text>
 
-        <TouchableOpacity style={styles.addButton} onPress={handleStartWorkout}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={handleStartWorkout}
+        >
           <Text style={styles.addText}>START</Text>
         </TouchableOpacity>
 

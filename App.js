@@ -20,6 +20,8 @@ import {
   Platform,
 } from "react-native";
 import { auth } from "./firebase";
+import BeginWorkout from "./Pages/Routines/BeginWorkout";
+import LargeArmsExercises from "./LargeArmsExercises";
 
 const Stack = createNativeStackNavigator();
 const backgroundImage = require("./assets/barbel.jpg");
@@ -47,7 +49,10 @@ export default function App() {
     return (
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.select({ ios: "padding", android: undefined })}
+        behavior={Platform.select({
+          ios: "padding",
+          android: undefined,
+        })}
       >
         <ImageBackground
           source={backgroundImage}
@@ -79,18 +84,35 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="Dashboard"
-          component={(props) => (
-            <Dashboard {...props} logout={handleLogout} />
-          )}
-        />
+        <Stack.Screen name="Dashboard">
+          {(props) => <Dashboard {...props} logout={handleLogout} />}
+        </Stack.Screen>
         <Stack.Screen name="Workout" component={Workout} />
-        <Stack.Screen name="MaleWorkoutPlans" component={MaleWorkoutPlans} />
-        <Stack.Screen name="FemaleWorkoutPlans" component={FemaleWorkoutPlans} />
-        <Stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
-        <Stack.Screen name="WorkoutDetailsFemale" component={WorkoutDetailsFemale} />
-        <Stack.Screen name="WorkoutExercises" component={WorkoutExercisesScreen} />
+        <Stack.Screen
+          name="MaleWorkoutPlans"
+          component={MaleWorkoutPlans}
+        />
+        <Stack.Screen
+          name="FemaleWorkoutPlans"
+          component={FemaleWorkoutPlans}
+        />
+        <Stack.Screen
+          name="WorkoutDetails"
+          component={WorkoutDetails}
+        />
+        <Stack.Screen
+          name="WorkoutDetailsFemale"
+          component={WorkoutDetailsFemale}
+        />
+        <Stack.Screen
+          name="WorkoutExercises"
+          component={WorkoutExercisesScreen}
+        />
+        <Stack.Screen
+          name="LargeArmsExercises"
+          component={LargeArmsExercises}
+        />
+        <Stack.Screen name="BeginWorkout" component={BeginWorkout} />
       </Stack.Navigator>
     </NavigationContainer>
   );
