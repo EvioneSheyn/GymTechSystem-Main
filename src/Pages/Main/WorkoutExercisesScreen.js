@@ -10,70 +10,70 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Exercises } from "./modules/Exercises";
+import { Exercises } from "../../../modules/Exercises";
 
 // const exercises = [
 //   {
 //     name: "Treadmill",
 //     details: "8 min., 110–140bpm",
-//     image: require("./assets/exercises/treadmill.jpg"),
+//     image: require("root/assets/exercises/treadmill.jpg"),
 //   },
 //   {
 //     name: "Hammer strength chest bench press",
 //     details: "3x15x20 kg",
-//     image: require("./assets/exercises/chestpress.jpg"),
+//     image: require("root/assets/exercises/chestpress.jpg"),
 //   },
 //   {
 //     name: "Close-grip front lat pulldown",
 //     details: "3x15x35 kg",
-//     image: require("./assets/exercises/latpulldown.jpg"),
+//     image: require("root/assets/exercises/latpulldown.jpg"),
 //   },
 //   {
 //     name: "30-degree incline dumbbell fly",
 //     details: "3x15x6 kg",
-//     image: require("./assets/exercises/fly.jpg"),
+//     image: require("root/assets/exercises/fly.jpg"),
 //   },
 //   {
 //     name: "Standing rope pullover",
 //     details: "3x15x20 kg",
-//     image: require("./assets/exercises/ropepullover.jpg"),
+//     image: require("root/assets/exercises/ropepullover.jpg"),
 //   },
 //   {
 //     name: "Hanging leg raises",
 //     details: "3x15",
-//     image: require("./assets/exercises/legraises.jpg"),
+//     image: require("root/assets/exercises/legraises.jpg"),
 //   },
 
 //   // ✅ Added Stretching Exercises Below
 //   {
 //     name: "Shoulder joint stretch",
 //     details: "1x30 s",
-//     image: require("./assets/exercises/shoulderstretch.jpg"),
+//     image: require("root/assets/exercises/shoulderstretch.jpg"),
 //   },
 //   {
 //     name: "Chest muscle stretch",
 //     details: "1x30 s",
-//     image: require("./assets/exercises/cheststretch.jpg"),
+//     image: require("root/assets/exercises/cheststretch.jpg"),
 //   },
 //   {
 //     name: "Deltoids stretch",
 //     details: "1x20 s",
-//     image: require("./assets/exercises/deltoidstretch.jpg"),
+//     image: require("root/assets/exercises/deltoidstretch.jpg"),
 //   },
 //   {
 //     name: "Overhead triceps stretch",
 //     details: "1x20 s",
-//     image: require("./assets/exercises/tricepsstretch.jpg"),
+//     image: require("root/assets/exercises/tricepsstretch.jpg"),
 //   },
 //   {
 //     name: "Oblique & lat side reach stretch",
 //     details: "1x20 s",
-//     image: require("./assets/exercises/obliquestretch.jpg"),
+//     image: require("root/assets/exercises/obliquestretch.jpg"),
 //   },
 //   {
 //     name: "Spine extensor muscles stretch",
 //     details: "1x30 s",
-//     image: require("./assets/exercises/spinestretch.jpg"),
+//     image: require("root/assets/exercises/spinestretch.jpg"),
 //   },
 // ];
 
@@ -119,7 +119,7 @@ export default function WorkoutExercisesScreen() {
         style={styles.button}
         onPress={() => {
           navigation.navigate("BeginWorkout", {
-            exercises
+            exercises,
           });
         }}
       >

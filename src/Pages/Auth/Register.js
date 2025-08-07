@@ -9,14 +9,18 @@ import {
   StyleSheet,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import api from "@/Axios";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Register({ onSwitch, onAuth, auth }) {
+export default function Register({ onSwitch }) {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
+  const navigation = useNavigation();
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword) {
@@ -27,27 +31,44 @@ export default function Register({ onSwitch, onAuth, auth }) {
       Alert.alert("Error", "Passwords do not match.");
       return;
     }
-    try {
 
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      if (onAuth) onAuth(userCredential.user.email, password);
-      Alert.alert("Success", "Account created successfully!");
-    } catch (error) {
-      let message = "Registration failed.";
-      if (error.code === "auth/email-already-in-use") {
-        message = "Email already in use.";
-      } else if (error.code === "auth/invalid-email") {
-        message = "Invalid email address.";
-      } else if (error.code === "auth/weak-password") {
-        message = "Password should be at least 6 characters.";
+    try {
+      const response = await api.post("/api/auth/register", {
+        username,
+        email,
+        password,
+      });
+
+      if (response) {
+        console.log("Successfully created an account!");
+        navigation.navigate("Dashboard");
       }
-      Alert.alert("Error", error.message);
+    } catch (error) {
+      console.error(error.message);
     }
   };
 
   return (
     <View style={styles.innerContainer}>
       <Text style={styles.title}>Create Account</Text>
+      <View style={styles.inputWrapper}>
+        <MaterialIcons
+          name="account-circle"
+          size={24}
+          color="#4e8cff"
+          style={styles.inputIcon}
+        />
+        <TextInput
+          style={[styles.input, { paddingLeft: 50 }]}
+          placeholder="Username"
+          placeholderTextColor="#ccc"
+          autoCapitalize="none"
+          value={username}
+          onChangeText={setUsername}
+          autoComplete="username"
+          textContentType="username"
+        />
+      </View>
       <View style={styles.inputWrapper}>
         <MaterialIcons
           name="email"
@@ -97,7 +118,9 @@ export default function Register({ onSwitch, onAuth, auth }) {
           activeOpacity={0.7}
         >
           <MaterialIcons
-            name={showConfirmPassword ? "visibility" : "visibility-off"}
+            name={
+              showConfirmPassword ? "visibility" : "visibility-off"
+            }
             size={24}
             color="#4e8cff"
           />
@@ -123,7 +146,9 @@ export default function Register({ onSwitch, onAuth, auth }) {
         <Text style={styles.buttonText}>Sign Up</Text>
       </Pressable>
       <TouchableOpacity onPress={onSwitch} activeOpacity={0.7}>
-        <Text style={styles.toggleText}>Already have an account? Login</Text>
+        <Text style={styles.toggleText}>
+          Already have an account? Login
+        </Text>
       </TouchableOpacity>
     </View>
   );

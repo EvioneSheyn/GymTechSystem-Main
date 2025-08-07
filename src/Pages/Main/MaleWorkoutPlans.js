@@ -14,18 +14,39 @@ import { Ionicons } from "@expo/vector-icons";
 const screenWidth = Dimensions.get("window").width;
 
 const plans = [
-  { title: "GENERAL MUSCLE BUILDING", image: require("./assets/muscle.jpg") },
-  { title: "LARGE ARMS", image: require("./assets/arms.jpg") },
-  { title: "POWERFUL CHEST", image: require("./assets/chest.jpg") },
-  { title: "WIDE BACK", image: require("./assets/back.jpg") },
-  { title: "BIG SHOULDERS", image: require("./assets/shoulders.jpg") },
-  { title: "STRONG LEGS", image: require("./assets/legs.jpg") },
-  { title: "WEIGHT LOSS", image: require("./assets/weightloss.jpg") },
-  { title: "SCULPTED BODY", image: require("./assets/sculpted.jpg") },
-  { title: "6 PACK ABS", image: require("./assets/abs.jpg") },
-  { title: "POWERLIFTING", image: require("./assets/powerlifting.jpg") },
-  { title: "CROSSFIT", image: require("./assets/crossfit.jpg") },
-  { title: "FULL BODY IN 45 MINUTES", image: require("./assets/fullbody.jpg") },
+  {
+    title: "GENERAL MUSCLE BUILDING",
+    image: require("root/assets/muscle.jpg"),
+  },
+  { title: "LARGE ARMS", image: require("root/assets/arms.jpg") },
+  {
+    title: "POWERFUL CHEST",
+    image: require("root/assets/chest.jpg"),
+  },
+  { title: "WIDE BACK", image: require("root/assets/back.jpg") },
+  {
+    title: "BIG SHOULDERS",
+    image: require("root/assets/shoulders.jpg"),
+  },
+  { title: "STRONG LEGS", image: require("root/assets/legs.jpg") },
+  {
+    title: "WEIGHT LOSS",
+    image: require("root/assets/weightloss.jpg"),
+  },
+  {
+    title: "SCULPTED BODY",
+    image: require("root/assets/sculpted.jpg"),
+  },
+  { title: "6 PACK ABS", image: require("root/assets/abs.jpg") },
+  {
+    title: "POWERLIFTING",
+    image: require("root/assets/powerlifting.jpg"),
+  },
+  { title: "CROSSFIT", image: require("root/assets/crossfit.jpg") },
+  {
+    title: "FULL BODY IN 45 MINUTES",
+    image: require("root/assets/fullbody.jpg"),
+  },
 ];
 
 export default function MaleWorkoutPlans() {
@@ -74,7 +95,11 @@ export default function MaleWorkoutPlans() {
         {[
           { label: "Home", icon: "home", screen: "Dashboard" },
           { label: "Workout", icon: "barbell", screen: "Workout" },
-          { label: "Plans", icon: "fitness", screen: "MaleWorkoutPlans" },
+          {
+            label: "Plans",
+            icon: "fitness",
+            screen: "MaleWorkoutPlans",
+          },
         ].map((btn, index) => (
           <TouchableOpacity
             key={index}

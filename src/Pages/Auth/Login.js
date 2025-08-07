@@ -9,27 +9,44 @@ import {
   StyleSheet,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "@/Axios";
+import axios from "axios";
 
-export default function Login({ onSwitch, onAuth, auth }) {
+export default function Login({ onSwitch }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-const handleLogin = async () => {
+  const handleLogin = async () => {
     if (!email || !password) {
-        Alert.alert("Error", "Please enter both email and password.");
-        return;
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
     }
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        // Call onAuth with user info if needed
-        onAuth(userCredential.user);
-    } catch (error) {
-        Alert.alert("Login Failed", error.message);
-    }
-};
+
+    await api
+      .post("/api/auth/login", {
+        email,
+        password,
+      })
+      .then((response) => {})
+      .catch((error) => {
+        if (error.response) {
+          // Server responded with a status outside 2xx
+          console.log("API ERROR:", {
+            status: error.response.status,
+            data: error.response.data,
+            headers: error.response.headers,
+          });
+        } else if (error.request) {
+          // Request was made but no response
+          console.log("No response received:", error.request);
+        } else {
+          // Something else caused the error
+          console.log("Error setting up request:", error.message);
+        }
+      });
+  };
 
   return (
     <View style={styles.innerContainer}>
@@ -86,7 +103,9 @@ const handleLogin = async () => {
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
       <TouchableOpacity onPress={onSwitch} activeOpacity={0.7}>
-        <Text style={styles.toggleText}>Don't have an account? Sign Up</Text>
+        <Text style={styles.toggleText}>
+          Don't have an account? Sign Up
+        </Text>
       </TouchableOpacity>
     </View>
   );

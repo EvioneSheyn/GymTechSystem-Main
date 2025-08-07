@@ -7,17 +7,16 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "dev": "concurrently -n FRONTEND,BACKEND -c blue,green \"expo start\" \"cd ./backend && npm run dev\""
   },
   "dependencies": {
-    "@firebase/auth": "^1.10.6",
-    "@react-native-async-storage/async-storage": "^1.8.1",
+    "@react-native-async-storage/async-storage": "~2.1.2",
     "@react-navigation/native": "^7.1.9",
     "@react-navigation/native-stack": "^7.3.13",
     "axios": "^1.11.0",
     "expo": "~53.0.20",
     "expo-status-bar": "~2.2.3",
-    "firebase": "^11.7.3",
     "react": "19.0.0",
     "react-native": "0.79.5",
     "react-native-countdown-circle": "^3.0.1",
@@ -25,11 +24,13 @@
     "react-native-gesture-handler": "~2.24.0",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
-    "react-native-svg": "^15.12.1",
+    "react-native-svg": "~15.11.2",
     "react-native-vector-icons": "^10.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "concurrently": "^9.2.0"
   },
   "private": true
 }

@@ -14,7 +14,10 @@ export default function Workouts({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       {/* Back Button */}
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButton}
+      >
         <Ionicons name="chevron-back" size={28} color="#38bdf8" />
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
@@ -28,7 +31,10 @@ export default function Workouts({ navigation }) {
           style={styles.card}
           onPress={() => navigation.navigate("MaleWorkoutPlans")}
         >
-          <Image source={require("./assets/male.jpg")} style={styles.cardImage} />
+          <Image
+            source={require("root/assets/male.jpg")}
+            style={styles.cardImage}
+          />
           <View style={styles.overlay} />
           <Text style={styles.cardText}>Male</Text>
         </TouchableOpacity>
@@ -38,7 +44,10 @@ export default function Workouts({ navigation }) {
           style={styles.card}
           onPress={() => navigation.navigate("FemaleWorkoutPlans")}
         >
-          <Image source={require("./assets/female.jpg")} style={styles.cardImage} />
+          <Image
+            source={require("root/assets/female.jpg")}
+            style={styles.cardImage}
+          />
           <View style={styles.overlay} />
           <Text style={styles.cardText}>Female</Text>
         </TouchableOpacity>

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Exercises } from "./modules/Exercises";
+import { Exercises } from "../../../modules/Exercises";
 import { Alert } from "react-native";
 
 const largeArmsExercises = [...Exercises];

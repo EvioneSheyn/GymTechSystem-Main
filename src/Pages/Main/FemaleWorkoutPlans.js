@@ -13,15 +13,33 @@ import { Ionicons } from "@expo/vector-icons";
 const screenWidth = Dimensions.get("window").width;
 
 const plans = [
-  { title: "WEIGHT LOSS", image: require("./assets/weightloss1.jpg") },
-  { title: "SCULPTED BODY", image: require("./assets/sculpted1.jpg") },
-  { title: "PERFECT BUTT", image: require("./assets/butt1.jpg") },
-  { title: "6 PACK ABS", image: require("./assets/abs1.jpg") },
-  { title: "GENERAL MUSCLE BUILDING", image: require("./assets/muscle1.jpg") },
-  { title: "POWERLIFTING", image: require("./assets/powerlifting1.jpg") },
-  { title: "CROSSFIT", image: require("./assets/crossfit1.jpg") },
-  { title: "FULL BODY IN 45 MINUTES", image: require("./assets/fullbody1.jpg") },
-  { title: "POSTPARTUM RECOVERY", image: require("./assets/postpartum.jpg") },
+  {
+    title: "WEIGHT LOSS",
+    image: require("root/assets/weightloss1.jpg"),
+  },
+  {
+    title: "SCULPTED BODY",
+    image: require("root/assets/sculpted1.jpg"),
+  },
+  { title: "PERFECT BUTT", image: require("root/assets/butt1.jpg") },
+  { title: "6 PACK ABS", image: require("root/assets/abs1.jpg") },
+  {
+    title: "GENERAL MUSCLE BUILDING",
+    image: require("root/assets/muscle1.jpg"),
+  },
+  {
+    title: "POWERLIFTING",
+    image: require("root/assets/powerlifting1.jpg"),
+  },
+  { title: "CROSSFIT", image: require("root/assets/crossfit1.jpg") },
+  {
+    title: "FULL BODY IN 45 MINUTES",
+    image: require("root/assets/fullbody1.jpg"),
+  },
+  {
+    title: "POSTPARTUM RECOVERY",
+    image: require("root/assets/postpartum.jpg"),
+  },
 ];
 
 export default function FemaleWorkoutPlans({ navigation }) {
@@ -32,7 +50,10 @@ export default function FemaleWorkoutPlans({ navigation }) {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          >
             <Ionicons name="chevron-back" size={24} color="#38bdf8" />
           </TouchableOpacity>
           <Text style={styles.title}>Select your workout plan</Text>
@@ -67,7 +88,11 @@ export default function FemaleWorkoutPlans({ navigation }) {
         {[
           { label: "Home", icon: "home", screen: "Dashboard" },
           { label: "Workout", icon: "barbell", screen: "Workout" },
-          { label: "Plans", icon: "fitness", screen: "MaleWorkoutPlans" },
+          {
+            label: "Plans",
+            icon: "fitness",
+            screen: "MaleWorkoutPlans",
+          },
         ].map((btn, index) => (
           <TouchableOpacity
             key={index}
@@ -161,4 +186,3 @@ const styles = StyleSheet.create({
     fontFamily: "poppins",
   },
 });
-
