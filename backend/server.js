@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./config/db");
 const authRoutes = require("./routes/auth");
+const auth = require("./middleware/auth");
 
 dotenv.config();
 
@@ -15,6 +16,10 @@ app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "hello oips" });
+});
+
+app.get("/protected", auth, (req, res) => {
+  res.json({ message: "this is a protected route" });
 });
 
 // DB sync and server start

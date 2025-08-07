@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ onSwitch, onAuth, auth }) {
   const [email, setEmail] = useState("");
