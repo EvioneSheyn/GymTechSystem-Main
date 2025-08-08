@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/protected", auth, (req, res) => {
-  res.json({ message: "this is a protected route" });
+  res.json({ message: "this is a protected route", user: req.user });
 });
 
 // DB sync and server start

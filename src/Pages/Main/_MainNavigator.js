@@ -8,9 +8,25 @@ import WorkoutExercisesScreen from "@/Pages/Main/WorkoutExercisesScreen";
 import BeginWorkout from "@/Pages/Routines/BeginWorkout";
 import LargeArmsExercises from "@/Pages/Main/LargeArmsExercises";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"; // ✅ Added this
+import { useEffect } from "react";
+import api from "@/Axios";
+import { useNavigation } from "@react-navigation/native";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
+  const navigation = useNavigation();
+  useEffect(() => {
+    api
+      .get("/protected")
+      .then((response) => {
+        console.log("authenticated!");
+      })
+      .catch((error) => {
+        navigation.navigate("AuthNavigator", { screen: "Login" });
+        console.error(error);
+      });
+  });
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Dashboard" component={Dashboard} />
