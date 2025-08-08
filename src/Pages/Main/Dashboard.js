@@ -9,7 +9,11 @@ import {
   TouchableOpacity,
   LinearGradient,
 } from "react-native";
-import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  FontAwesome5,
+  Ionicons,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const user = {
@@ -35,46 +39,98 @@ const quickActions = [
 ];
 
 const todaysWorkouts = [
-  { id: "1", name: "Chest & Triceps", time: "08:00 AM", icon: "dumbbell" },
+  {
+    id: "1",
+    name: "Chest & Triceps",
+    time: "08:00 AM",
+    icon: "dumbbell",
+  },
   { id: "2", name: "HIIT Cardio", time: "10:00 AM", icon: "running" },
   { id: "3", name: "Yoga", time: "06:00 PM", icon: "spa" },
 ];
 
-export default function Dashboard({ logout }) {
+export default function Dashboard() {
   const navigation = useNavigation();
   const todayKey = new Date().toISOString().split("T")[0];
 
+  const handleLogout = () => {
+    // TODO add logout logic
+
+    navigation.navigate("AuthNavigator", { screen: "Login" });
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "#0f172a" }}>
-      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 120 }}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ paddingBottom: 120 }}
+      >
         <View style={styles.headerCard}>
           <View>
             <Text style={styles.greet}>Welcome back</Text>
             <Text style={styles.name}>{user.name}</Text>
           </View>
           <View style={styles.headerRight}>
-            <Image source={{ uri: user.avatar }} style={styles.avatar} />
-            <TouchableOpacity onPress={logout} style={styles.logoutBtn}>
-              <MaterialIcons name="logout" size={24} color="#F87171" />
+            <Image
+              source={{ uri: user.avatar }}
+              style={styles.avatar}
+            />
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={styles.logoutBtn}
+            >
+              <MaterialIcons
+                name="logout"
+                size={24}
+                color="#F87171"
+              />
             </TouchableOpacity>
           </View>
         </View>
 
         <Text style={styles.sectionTitle}>Schedule</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.dateRow}
+        >
           {days.map((item) => {
             const isToday = item.key === todayKey;
             return (
-              <View key={item.key} style={[styles.dateItem, isToday && styles.dateItemSelected]}>
-                <Text style={[styles.dateText, isToday && styles.dateTextSelected]}>{item.date}</Text>
-                <Text style={[styles.dayText, isToday && styles.dayTextSelected]}>{item.day}</Text>
+              <View
+                key={item.key}
+                style={[
+                  styles.dateItem,
+                  isToday && styles.dateItemSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.dateText,
+                    isToday && styles.dateTextSelected,
+                  ]}
+                >
+                  {item.date}
+                </Text>
+                <Text
+                  style={[
+                    styles.dayText,
+                    isToday && styles.dayTextSelected,
+                  ]}
+                >
+                  {item.day}
+                </Text>
               </View>
             );
           })}
         </ScrollView>
 
         <Text style={styles.sectionTitle}>Shortcuts</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.quickActions}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.quickActions}
+        >
           {quickActions.map((action) => (
             <TouchableOpacity
               key={action.label}
@@ -83,9 +139,16 @@ export default function Dashboard({ logout }) {
                   navigation.navigate("Workout");
                 }
               }}
-              style={[styles.actionCard, { borderColor: action.color + "AA" }]}
+              style={[
+                styles.actionCard,
+                { borderColor: action.color + "AA" },
+              ]}
             >
-              <Ionicons name={action.icon} size={28} color={action.color} />
+              <Ionicons
+                name={action.icon}
+                size={28}
+                color={action.color}
+              />
               <Text style={styles.actionLabel}>{action.label}</Text>
             </TouchableOpacity>
           ))}
@@ -97,7 +160,12 @@ export default function Dashboard({ logout }) {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.workoutCard}>
-              <FontAwesome5 name={item.icon} size={24} color="#38bdf8" style={{ marginRight: 16 }} />
+              <FontAwesome5
+                name={item.icon}
+                size={24}
+                color="#38bdf8"
+                style={{ marginRight: 16 }}
+              />
               <View>
                 <Text style={styles.workoutName}>{item.name}</Text>
                 <Text style={styles.workoutTime}>{item.time}</Text>
@@ -120,10 +188,15 @@ export default function Dashboard({ logout }) {
             key={index}
             style={styles.navItem}
             onPress={() => {
-              if (btn.screen !== "Dashboard") navigation.navigate(btn.screen);
+              if (btn.screen !== "Dashboard")
+                navigation.navigate(btn.screen);
             }}
           >
-            <MaterialIcons name={btn.icon} size={24} color="#38bdf8" />
+            <MaterialIcons
+              name={btn.icon}
+              size={24}
+              color="#38bdf8"
+            />
             <Text style={styles.navText}>{btn.label}</Text>
           </TouchableOpacity>
         ))}
@@ -277,4 +350,3 @@ const styles = StyleSheet.create({
     fontFamily: "poppins",
   },
 });
-

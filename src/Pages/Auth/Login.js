@@ -11,12 +11,14 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
-import axios from "axios";
+import AuthLayout from "@/Layouts/AuthLayout";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Login({ onSwitch }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -29,7 +31,11 @@ export default function Login({ onSwitch }) {
         email,
         password,
       })
-      .then((response) => {})
+      .then((response) => {
+        navigation.navigate("MainNavigator", {
+          screen: "Dashboard",
+        });
+      })
       .catch((error) => {
         if (error.response) {
           // Server responded with a status outside 2xx
@@ -49,65 +55,70 @@ export default function Login({ onSwitch }) {
   };
 
   return (
-    <View style={styles.innerContainer}>
-      <Text style={styles.title}>L O G I N</Text>
-      <View style={styles.inputWrapper}>
-        <MaterialIcons
-          name="email"
-          size={24}
-          color="#4e8cff"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, { paddingLeft: 50 }]}
-          placeholder="Email"
-          placeholderTextColor="#ccc"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-          autoComplete="email"
-          textContentType="emailAddress"
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <TouchableOpacity
-          onPress={() => setShowPassword(!showPassword)}
-          style={styles.eyeIconWrapper}
-          activeOpacity={0.7}
-        >
+    <AuthLayout>
+      <View style={styles.innerContainer}>
+        <Text style={styles.title}>L O G I N</Text>
+        <View style={styles.inputWrapper}>
           <MaterialIcons
-            name={showPassword ? "visibility" : "visibility-off"}
+            name="email"
             size={24}
             color="#4e8cff"
+            style={styles.inputIcon}
           />
+          <TextInput
+            style={[styles.input, { paddingLeft: 50 }]}
+            placeholder="Email"
+            placeholderTextColor="#ccc"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
+            autoComplete="email"
+            textContentType="emailAddress"
+          />
+        </View>
+        <View style={styles.inputWrapper}>
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.eyeIconWrapper}
+            activeOpacity={0.7}
+          >
+            <MaterialIcons
+              name={showPassword ? "visibility" : "visibility-off"}
+              size={24}
+              color="#4e8cff"
+            />
+          </TouchableOpacity>
+          <TextInput
+            style={[styles.input, { paddingLeft: 50 }]}
+            placeholder="Password"
+            placeholderTextColor="#ccc"
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+            autoComplete="password"
+            textContentType="password"
+          />
+        </View>
+        <Pressable
+          onPress={handleLogin}
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed,
+          ]}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Register")}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.toggleText}>
+            Don't have an account? Sign Up
+          </Text>
         </TouchableOpacity>
-        <TextInput
-          style={[styles.input, { paddingLeft: 50 }]}
-          placeholder="Password"
-          placeholderTextColor="#ccc"
-          secureTextEntry={!showPassword}
-          value={password}
-          onChangeText={setPassword}
-          autoComplete="password"
-          textContentType="password"
-        />
       </View>
-      <Pressable
-        onPress={handleLogin}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed,
-        ]}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </Pressable>
-      <TouchableOpacity onPress={onSwitch} activeOpacity={0.7}>
-        <Text style={styles.toggleText}>
-          Don't have an account? Sign Up
-        </Text>
-      </TouchableOpacity>
-    </View>
+    </AuthLayout>
   );
 }
 

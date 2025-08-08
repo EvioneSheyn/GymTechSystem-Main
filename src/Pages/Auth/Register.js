@@ -11,8 +11,9 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import api from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
+import AuthLayout from "@/Layouts/AuthLayout";
 
-export default function Register({ onSwitch }) {
+export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,126 +32,133 @@ export default function Register({ onSwitch }) {
       Alert.alert("Error", "Passwords do not match.");
       return;
     }
-
-    try {
-      const response = await api.post("/api/auth/register", {
+    await api
+      .post("/api/auth/register", {
         username,
         email,
         password,
+      })
+      .then((reponse) => {
+        console.log("Successfully created the account!");
+        navigation.navigate("MainNavigator", {
+          screen: "Dashboard",
+        });
+      })
+      .catch((error) => {
+        console.error("API ERROR:", error.message);
       });
-
-      if (response) {
-        console.log("Successfully created an account!");
-        navigation.navigate("Dashboard");
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
   };
 
   return (
-    <View style={styles.innerContainer}>
-      <Text style={styles.title}>Create Account</Text>
-      <View style={styles.inputWrapper}>
-        <MaterialIcons
-          name="account-circle"
-          size={24}
-          color="#4e8cff"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, { paddingLeft: 50 }]}
-          placeholder="Username"
-          placeholderTextColor="#ccc"
-          autoCapitalize="none"
-          value={username}
-          onChangeText={setUsername}
-          autoComplete="username"
-          textContentType="username"
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <MaterialIcons
-          name="email"
-          size={24}
-          color="#4e8cff"
-          style={styles.inputIcon}
-        />
-        <TextInput
-          style={[styles.input, { paddingLeft: 50 }]}
-          placeholder="Email"
-          placeholderTextColor="#ccc"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-          autoComplete="email"
-          textContentType="emailAddress"
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <TouchableOpacity
-          onPress={() => setShowPassword(!showPassword)}
-          style={styles.eyeIconWrapper}
-          activeOpacity={0.7}
-        >
+    <AuthLayout>
+      <View style={styles.innerContainer}>
+        <Text style={styles.title}>Create Account</Text>
+        <View style={styles.inputWrapper}>
           <MaterialIcons
-            name={showPassword ? "visibility" : "visibility-off"}
+            name="account-circle"
             size={24}
             color="#4e8cff"
+            style={styles.inputIcon}
           />
-        </TouchableOpacity>
-        <TextInput
-          style={[styles.input, { paddingLeft: 50 }]}
-          placeholder="Password"
-          placeholderTextColor="#ccc"
-          secureTextEntry={!showPassword}
-          value={password}
-          onChangeText={setPassword}
-          autoComplete="password"
-          textContentType="password"
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <TouchableOpacity
-          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-          style={styles.eyeIconWrapper}
-          activeOpacity={0.7}
-        >
+          <TextInput
+            style={[styles.input, { paddingLeft: 50 }]}
+            placeholder="Username"
+            placeholderTextColor="#ccc"
+            autoCapitalize="none"
+            value={username}
+            onChangeText={setUsername}
+            autoComplete="username"
+            textContentType="username"
+          />
+        </View>
+        <View style={styles.inputWrapper}>
           <MaterialIcons
-            name={
-              showConfirmPassword ? "visibility" : "visibility-off"
+            name="email"
+            size={24}
+            color="#4e8cff"
+            style={styles.inputIcon}
+          />
+          <TextInput
+            style={[styles.input, { paddingLeft: 50 }]}
+            placeholder="Email"
+            placeholderTextColor="#ccc"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
+            autoComplete="email"
+            textContentType="emailAddress"
+          />
+        </View>
+        <View style={styles.inputWrapper}>
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.eyeIconWrapper}
+            activeOpacity={0.7}
+          >
+            <MaterialIcons
+              name={showPassword ? "visibility" : "visibility-off"}
+              size={24}
+              color="#4e8cff"
+            />
+          </TouchableOpacity>
+          <TextInput
+            style={[styles.input, { paddingLeft: 50 }]}
+            placeholder="Password"
+            placeholderTextColor="#ccc"
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+            autoComplete="password"
+            textContentType="password"
+          />
+        </View>
+        <View style={styles.inputWrapper}>
+          <TouchableOpacity
+            onPress={() =>
+              setShowConfirmPassword(!showConfirmPassword)
             }
-            size={24}
-            color="#4e8cff"
+            style={styles.eyeIconWrapper}
+            activeOpacity={0.7}
+          >
+            <MaterialIcons
+              name={
+                showConfirmPassword ? "visibility" : "visibility-off"
+              }
+              size={24}
+              color="#4e8cff"
+            />
+          </TouchableOpacity>
+          <TextInput
+            style={[styles.input, { paddingLeft: 50 }]}
+            placeholder="Confirm Password"
+            placeholderTextColor="#ccc"
+            secureTextEntry={!showConfirmPassword}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            autoComplete="password"
+            textContentType="password"
           />
+        </View>
+        <Pressable
+          onPress={handleRegister}
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed,
+          ]}
+        >
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </Pressable>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Login")}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.toggleText}>
+            Already have an account? Login
+          </Text>
         </TouchableOpacity>
-        <TextInput
-          style={[styles.input, { paddingLeft: 50 }]}
-          placeholder="Confirm Password"
-          placeholderTextColor="#ccc"
-          secureTextEntry={!showConfirmPassword}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          autoComplete="password"
-          textContentType="password"
-        />
       </View>
-      <Pressable
-        onPress={handleRegister}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed,
-        ]}
-      >
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
-      <TouchableOpacity onPress={onSwitch} activeOpacity={0.7}>
-        <Text style={styles.toggleText}>
-          Already have an account? Login
-        </Text>
-      </TouchableOpacity>
-    </View>
+    </AuthLayout>
   );
 }
 

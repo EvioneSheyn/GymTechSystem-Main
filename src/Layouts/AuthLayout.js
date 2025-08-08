@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Login from "@/Pages/Auth/Login";
-import Register from "@/Pages/Auth/Register";
 import {
   ImageBackground,
   StyleSheet,
@@ -10,8 +8,7 @@ import {
   Platform,
 } from "react-native";
 
-export default function AuthTemplate() {
-  const [isSignUp, setIsSignUp] = useState(false);
+export default function AuthLayout({ children }) {
   const backgroundImage = require("root/assets/barbel.jpg");
 
   return (
@@ -31,11 +28,7 @@ export default function AuthTemplate() {
         <Text style={styles.welcomeTitle}>
           Welcome to <Text style={styles.wTitle}>GYMTECH</Text>
         </Text>
-        {isSignUp ? (
-          <Register onSwitch={() => setIsSignUp(false)} />
-        ) : (
-          <Login onSwitch={() => setIsSignUp(true)} />
-        )}
+        {children}
       </ImageBackground>
     </KeyboardAvoidingView>
   );
