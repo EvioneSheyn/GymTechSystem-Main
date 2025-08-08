@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,11 +15,7 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-const user = {
-  name: "Yvonne",
-  avatar: "https://cdn-icons-png.flaticon.com/512/2922/2922561.png",
-};
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -52,10 +48,29 @@ const todaysWorkouts = [
 export default function Dashboard() {
   const navigation = useNavigation();
   const todayKey = new Date().toISOString().split("T")[0];
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const userString = await AsyncStorage.getItem("user");
+        if (userString) {
+          setUser(JSON.parse(userString));
+        }
+
+        console.log(user);
+      } catch (error) {
+        console.error("Failed to load user", error.message);
+      }
+    };
+
+    loadUser();
+  }, []);
 
   const handleLogout = () => {
     // TODO add logout logic
 
+    AsyncStorage.removeItem("jwtToken");
     navigation.navigate("AuthNavigator", { screen: "Login" });
   };
 
@@ -68,11 +83,13 @@ export default function Dashboard() {
         <View style={styles.headerCard}>
           <View>
             <Text style={styles.greet}>Welcome back</Text>
-            <Text style={styles.name}>{user.name}</Text>
+            <Text style={styles.name}>{user?.username}</Text>
           </View>
           <View style={styles.headerRight}>
             <Image
-              source={{ uri: user.avatar }}
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/512/2922/2922561.png",
+              }} // TODO temporary, add profile soon
               style={styles.avatar}
             />
             <TouchableOpacity

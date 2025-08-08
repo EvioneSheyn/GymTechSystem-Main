@@ -32,6 +32,10 @@ export default function Login() {
         password,
       })
       .then((response) => {
+        const data = response.data;
+        AsyncStorage.setItem("jwtToken", data.token);
+        AsyncStorage.setItem("user", JSON.stringify(data.user));
+
         navigation.navigate("MainNavigator", {
           screen: "Dashboard",
         });
