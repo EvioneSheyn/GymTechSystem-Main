@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"; // 
 import { useEffect } from "react";
 import api from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
+import ExerciseInfo from "@/Pages/Main/ExerciseInfo";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
@@ -56,6 +57,7 @@ export default function MainNavigator() {
         component={LargeArmsExercises}
       />
       <Stack.Screen name="BeginWorkout" component={BeginWorkout} />
+      <Stack.Screen name="ExerciseInfo" component={ExerciseInfo} />
     </Stack.Navigator>
   );
 }

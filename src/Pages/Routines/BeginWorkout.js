@@ -7,8 +7,21 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import { FontAwesome5 } from "react-native-vector-icons";
 
 const REST_DURATION = 5; // seconds
+const REST_NOTES = [
+  "Rest helps your muscles recover and grow stronger.",
+  "Short breaks prevent injury by reducing strain on joints and ligaments.",
+  "Rest restores energy so you can push harder in the next set.",
+  "Taking a breather helps regulate your breathing and heart rate.",
+  "Recovery time allows your nervous system to reset for better coordination.",
+  "Proper rest improves workout performance and endurance.",
+  "Rest gives your body time to flush out lactic acid and reduce soreness.",
+  "Short pauses keep your form sharp and movements controlled.",
+  "Resting helps your body adapt to training, making you fitter over time.",
+  "Breaks give your mind a moment to focus and stay motivated.",
+];
 
 const BeginWorkout = ({ route, navigation }) => {
   const { exercises = [], onFinish } = route.params ?? [];
@@ -16,6 +29,7 @@ const BeginWorkout = ({ route, navigation }) => {
   const [timer, setTimer] = useState(null);
   const [resting, setResting] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [restNote, setRestNote] = useState("");
 
   const currentExercise = exercises[currentIdx];
 
@@ -28,9 +42,17 @@ const BeginWorkout = ({ route, navigation }) => {
     return exercise.duration; // assume seconds
   };
 
+  const getRandomRestNotes = () => {
+    let totalRestNotes = REST_NOTES.length;
+    let random_index = Math.floor(Math.random() * totalRestNotes);
+
+    return REST_NOTES[random_index];
+  };
+
   useEffect(() => {
     if (!currentExercise) return;
     if (resting) {
+      setRestNote(getRandomRestNotes());
       setTimer(REST_DURATION);
     } else if (currentExercise.type === "time") {
       setTimer(getDurationSeconds(currentExercise));
@@ -93,6 +115,7 @@ const BeginWorkout = ({ route, navigation }) => {
           <Text style={styles.subtitle}>
             Next: {exercises[currentIdx + 1]?.name || "Finish"}
           </Text>
+          <Text style={styles.restNote}>{restNote}</Text>
           <View style={styles.timerContainer}>
             <CountdownCircleTimer
               isPlaying
@@ -116,7 +139,31 @@ const BeginWorkout = ({ route, navigation }) => {
         </>
       ) : (
         <>
-          <Text style={styles.title}>{currentExercise.name}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 5,
+              marginBottom: 24,
+            }}
+          >
+            <Text style={styles.title}>{currentExercise.name}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("ExerciseInfo");
+              }}
+            >
+              <FontAwesome5
+                name="question-circle"
+                iconType="solid"
+                style={{
+                  fontSize: 22,
+                  color: "gray",
+                }}
+              />
+            </TouchableOpacity>
+          </View>
           <Image
             source={{
               uri:
@@ -173,6 +220,7 @@ export default BeginWorkout;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: 100,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -181,7 +229,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 24,
     color: "#222",
   },
   subtitle: {
@@ -208,8 +255,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#e67e22",
   },
+  restNote: {
+    fontSize: 14,
+    color: "gray",
+    fontWeight: "bold",
+    textAlign: "center",
+    opacity: 0.5,
+    marginBottom: 25,
+  },
   repsContainer: {
-    backgroundColor: "#f5f5f5",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
     padding: 16,
     borderRadius: 12,
     marginBottom: 32,

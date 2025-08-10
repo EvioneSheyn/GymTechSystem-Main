@@ -1,3 +1,18 @@
+const ExerciseImages = {
+  treadmill: require("root/assets/exercises/treadmill.jpg"),
+  arm_circles_back: require("root/assets/arm_circles_back.jpg"),
+  arm_circles_forward: require("root/assets/arm_circles_forward.jpg"),
+  leg_raise: require("root/assets/leg_raise.jpg"),
+  pec_fly: require("root/assets/pec_fly.jpg"),
+  dumbbell_press: require("root/assets/dumbbell_press.jpg"),
+  incline_press: require("root/assets/incline_press.jpg"),
+  pushups: require("root/assets/pushups.jpg"),
+  pulley_curl: require("root/assets/pulley_curl.jpg"),
+  elliptical: require("root/assets/elliptical.jpg"),
+  chest_stretch: require("root/assets/chest_stretch.jpg"),
+  shoulder_stretch: require("root/assets/shoulder_stretch.jpg"),
+};
+
 const Exercises = [
   {
     name: "Treadmill",
@@ -7,7 +22,16 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "5 min., 110-140bpm",
-    image: require("root/assets/exercises/treadmill.jpg"),
+    image: ExerciseImages.treadmill,
+    instruction: [
+      "Step onto the treadmill and attach the safety clip.",
+      "Set the desired speed and incline.",
+      "Walk or jog with an upright posture, swinging your arms naturally.",
+      "Maintain steady breathing and avoid leaning on the handles.",
+    ],
+    description:
+      "Improves cardiovascular endurance, burns calories, and strengthens lower body muscles while enhancing stamina.",
+    target: "Cardiovascular system, quadriceps, hamstrings, calves",
   },
   {
     name: "Arm circles back",
@@ -17,7 +41,16 @@ const Exercises = [
     reps: 20,
     sets: 1,
     details: "1x20",
-    image: require("root/assets/arm_circles_back.jpg"),
+    image: ExerciseImages.arm_circles_back,
+    instruction: [
+      "Stand with feet shoulder-width apart.",
+      "Extend arms straight out at shoulder height.",
+      "Rotate arms backward in small circles.",
+      "Gradually make the circles larger while maintaining control.",
+    ],
+    description:
+      "Enhances shoulder flexibility, warms up joints, and improves mobility.",
+    target: "Shoulders, deltoids",
   },
   {
     name: "Arm circles forward",
@@ -27,7 +60,16 @@ const Exercises = [
     reps: 20,
     sets: 1,
     details: "1x20",
-    image: require("root/assets/arm_circles_forward.jpg"),
+    image: ExerciseImages.arm_circles_forward,
+    instruction: [
+      "Stand upright with feet shoulder-width apart.",
+      "Extend arms straight out at shoulder height.",
+      "Rotate arms forward in small circles.",
+      "Gradually increase the size of the circles.",
+    ],
+    description:
+      "Increases blood flow to the shoulders, improves joint mobility, and prepares the upper body for workouts.",
+    target: "Shoulders, deltoids",
   },
   {
     name: "Hanging side leg raise",
@@ -37,7 +79,16 @@ const Exercises = [
     reps: 20,
     sets: 4,
     details: "4x20",
-    image: require("root/assets/leg_raise.jpg"),
+    image: ExerciseImages.leg_raise,
+    instruction: [
+      "Hang from a pull-up bar with arms fully extended.",
+      "Keep your core tight and legs straight.",
+      "Lift legs out to the side until they reach hip height.",
+      "Lower them back slowly without swinging.",
+    ],
+    description:
+      "Strengthens obliques, core stability, and improves grip strength.",
+    target: "Obliques, abdominal muscles, hip flexors",
   },
   {
     name: "Seated pec fly",
@@ -48,7 +99,16 @@ const Exercises = [
     sets: 4,
     weight: 20,
     details: "4x12x20 kg",
-    image: require("root/assets/pec_fly.jpg"),
+    image: ExerciseImages.pec_fly,
+    instruction: [
+      "Sit on the pec fly machine with your back against the pad.",
+      "Grasp the handles with elbows slightly bent.",
+      "Bring the handles together in front of your chest.",
+      "Slowly return to the starting position.",
+    ],
+    description:
+      "Targets chest muscles, improves posture, and strengthens pushing movements.",
+    target: "Pectorals, anterior deltoids",
   },
   {
     name: "Flat bench dumbbell chest press",
@@ -59,7 +119,16 @@ const Exercises = [
     sets: 4,
     weight: 10,
     details: "4x10x10 kg",
-    image: require("root/assets/dumbbell_press.jpg"),
+    image: ExerciseImages.dumbbell_press,
+    instruction: [
+      "Lie flat on a bench holding a dumbbell in each hand.",
+      "Position dumbbells at chest level with palms facing forward.",
+      "Press the dumbbells upward until arms are fully extended.",
+      "Lower slowly to the starting position.",
+    ],
+    description:
+      "Builds chest strength, improves arm power, and engages triceps.",
+    target: "Pectorals, triceps, anterior deltoids",
   },
   {
     name: "Machine incline chest press",
@@ -70,7 +139,16 @@ const Exercises = [
     sets: 4,
     weight: 20,
     details: "4x12x20 kg",
-    image: require("root/assets/incline_press.jpg"),
+    image: ExerciseImages.incline_press,
+    instruction: [
+      "Sit on the incline press machine with back supported.",
+      "Grip the handles with palms facing forward.",
+      "Push the handles upward and forward until arms are extended.",
+      "Slowly return to the starting position.",
+    ],
+    description:
+      "Focuses on the upper chest muscles for a fuller chest appearance.",
+    target: "Upper pectorals, triceps, anterior deltoids",
   },
   {
     name: "Chest to floor push-ups",
@@ -80,7 +158,16 @@ const Exercises = [
     reps: 12,
     sets: 4,
     details: "4x12",
-    image: require("root/assets/pushups.jpg"),
+    image: ExerciseImages.pushups,
+    instruction: [
+      "Start in a plank position with hands under shoulders.",
+      "Lower your body until your chest touches the floor.",
+      "Push back up to the starting position.",
+      "Keep core tight and body straight throughout.",
+    ],
+    description:
+      "Strengthens chest, shoulders, and triceps while improving core stability.",
+    target: "Pectorals, triceps, core",
   },
   {
     name: "High-pulley curl",
@@ -91,7 +178,15 @@ const Exercises = [
     sets: 4,
     weight: 15,
     details: "4x12x15 kg",
-    image: require("root/assets/pulley_curl.jpg"),
+    image: ExerciseImages.pulley_curl,
+    instruction: [
+      "Stand facing the high pulley machine.",
+      "Hold the bar with an underhand grip.",
+      "Curl the bar toward your forehead while keeping elbows stationary.",
+      "Lower slowly to starting position.",
+    ],
+    description: "Isolates biceps for muscle growth and definition.",
+    target: "Biceps",
   },
   {
     name: "Elliptical trainer",
@@ -101,7 +196,16 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "5 min., 110-140bpm",
-    image: require("root/assets/elliptical.jpg"),
+    image: ExerciseImages.elliptical,
+    instruction: [
+      "Step onto the pedals and hold the handles.",
+      "Begin pedaling in a forward motion.",
+      "Push and pull the handles for an upper-body workout.",
+      "Maintain a steady pace and posture.",
+    ],
+    description:
+      "Low-impact cardio that improves endurance and burns calories while engaging both upper and lower body.",
+    target: "Cardiovascular system, quads, hamstrings, glutes",
   },
   {
     name: "Chest muscles stretch",
@@ -111,7 +215,16 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "1x20 s",
-    image: require("root/assets/chest_stretch.jpg"),
+    image: ExerciseImages.chest_stretch,
+    instruction: [
+      "Stand beside a wall or doorway.",
+      "Place your forearm against the surface with elbow at shoulder height.",
+      "Gently turn your body away to feel a stretch in the chest.",
+      "Hold for the prescribed time.",
+    ],
+    description:
+      "Improves chest flexibility, aids recovery, and helps maintain posture.",
+    target: "Pectorals",
   },
   {
     name: "Hand and shoulder extensor stretch",
@@ -121,23 +234,18 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "1x20 s",
-    image: require("root/assets/shoulder_stretch.jpg"),
+    image: ExerciseImages.shoulder_stretch,
+    instruction: [
+      "Extend one arm straight in front of you, palm down.",
+      "Use the other hand to gently pull fingers back toward you.",
+      "Feel the stretch in your forearm and shoulder.",
+      "Hold for the prescribed time.",
+    ],
+    description:
+      "Enhances flexibility in forearms and shoulders, reducing injury risk.",
+    target: "Forearms, shoulders",
   },
 ];
 
-const ExercisesWithID = [
-  ...Exercises.map((exercise, index) => ({
-    id: index + 1,
-    ...exercise,
-  })),
-];
 
-const getExerciseById = (id) => {
-  let exercise = ExercisesWithID[id];
-};
-
-const getExerciseByName = (name) => {
-  return ExercisesWithID.find((exercise) => exercise.name === name);
-};
-
-export { Exercises, ExercisesWithID };
+export { Exercises };
