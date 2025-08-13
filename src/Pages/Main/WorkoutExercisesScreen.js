@@ -1,5 +1,5 @@
 // WorkoutExercisesScreen.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,11 +9,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import {
-  Exercises,
-  ExerciseImages,
-} from "../../../modules/Exercises";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { ExerciseImages } from "../../../modules/Exercises";
+import api from "../../Axios";
 
 // const exercises = [
 //   {
@@ -80,13 +78,27 @@ import {
 //   },
 // ];
 
-const exercises = [...Exercises];
-
 export default function WorkoutExercisesScreen() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { routineId } = route.params;
+  const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
-    // console.log("Exercises: ", exercises);
+    const fetchExerciseSets = async () => {
+      try {
+        const response = await api.get(
+          "/api/routine-sets/" + routineId
+        );
+
+        let exercises = response.data.sets;
+        setExercises(exercises);
+      } catch (error) {
+        console.error("Error fetching routine sets: ", error);
+      }
+    };
+
+    fetchExerciseSets();
   }, []);
 
   return (
@@ -108,13 +120,16 @@ export default function WorkoutExercisesScreen() {
         {exercises.map((item, index) => (
           <View key={index} style={styles.exerciseItem}>
             <Image
-              source={ExerciseImages[item.image]}
+              source={ExerciseImages[item.exercise.image]}
               style={styles.exerciseImage}
             />
             <View style={styles.exerciseText}>
-              <Text style={styles.exerciseName}>{item.name}</Text>
+              <Text style={styles.exerciseName}>
+                {item.exercise.name}
+              </Text>
               <Text style={styles.exerciseDetails}>
-                {item.details}
+                {item.count} Sets x {item.value}{" "}
+                {item.type === "Reps" ? "reps" : "secs"}
               </Text>
             </View>
           </View>

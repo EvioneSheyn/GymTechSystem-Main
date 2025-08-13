@@ -11,10 +11,18 @@ const Set = sequelize.define("Set", {
   },
   value: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   type: {
     type: DataTypes.ENUM(["Secs", "Reps"]),
+    allowNull: false,
+  },
+  routineId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  exerciseId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });

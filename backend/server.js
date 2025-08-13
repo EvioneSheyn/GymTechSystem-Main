@@ -4,6 +4,7 @@ const sequelize = require("./config/db");
 const authRoutes = require("./routes/auth");
 const apiRoutes = require("./routes/api");
 const auth = require("./middleware/auth");
+require("./models/_Relationship");
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.get("/protected", auth, (req, res) => {
 // DB sync and server start
 sequelize
   .sync()
+  // .sync({ force: true })
   .then(() => {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);

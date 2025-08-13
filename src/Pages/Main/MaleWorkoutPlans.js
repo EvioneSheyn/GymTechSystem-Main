@@ -96,7 +96,7 @@ export default function MaleWorkoutPlans() {
               style={styles.card}
               onPress={() =>
                 navigation.navigate("PlanOverview", {
-                  planId: 1,
+                  planId: plan.id,
                 })
               }
             >
