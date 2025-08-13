@@ -43,6 +43,8 @@ export default function Login() {
       .catch((error) => {
         if (error.response) {
           // Server responded with a status outside 2xx
+
+          alert(error.response.data.message);
           console.log("API ERROR:", {
             status: error.response.status,
             data: error.response.data,

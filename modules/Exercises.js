@@ -12,6 +12,7 @@ const ExerciseImages = {
   chest_stretch: require("root/assets/chest_stretch.jpg"),
   shoulder_stretch: require("root/assets/shoulder_stretch.jpg"),
   // NOTE below are plans images
+  
   general_muscle_building: require("root/assets/muscle.jpg"),
   large_arms: require("root/assets/arms.jpg"),
   wide_back: require("root/assets/back.jpg"),

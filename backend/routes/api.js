@@ -60,6 +60,9 @@ router.post("/create-plan", async (req, res) => {
   try {
     let planEntry = await Plan.create({
       title: plan.title,
+      description: plan.description,
+      details: plan.details,
+      image: plan.image,
     });
 
     console.log("created plan");
@@ -95,9 +98,46 @@ router.post("/create-plan", async (req, res) => {
   }
 });
 
+router.get("/plans", async (req, res) => {
+  try {
+    const plans = await Plan.findAll();
+
+    res.status(200).json({
+      message: "Successfully retrieved all plans!",
+      plans: plans,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong when retrieving plans!",
+    });
+  }
+});
+
+router.get("/plan/:id", async (req, res) => {
+  try {
+    const planId = req.params.id;
+    const plan = await Plan.findOne({ where: { id: planId } });
+
+    if (plan) {
+      res.status(200).json({
+        message: "Successfully retrieved plan",
+        plan: plan,
+      });
+    } else {
+      res.status(404).json({
+        message: "Plan not found!",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong when retrieving plan!",
+    });
+  }
+});
+
 router.post("/delete-exercises", async (req, res) => {
   try {
-    Exercise.truncate();
+    await Exercise.truncate();
     res
       .status(200)
       .json({ nessage: "Successfully deleted all exercises!" });

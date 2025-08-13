@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
   Exercises,
   ExerciseImages,
 } from "../../../modules/Exercises";
-import Plan from "../../../backend/models/Plan";
+import api from "@/Axios";
 
 const largeArmsExercises = [...Exercises];
 
@@ -21,10 +21,27 @@ export default function PlanOverview() {
   const navigation = useNavigation();
   const route = useRoute();
   const { planId } = route.params;
-  const [plan, setPlan] = useState(null);
+  const [plan, setPlan] = useState({});
+  const [details, setDetails] = useState([]);
 
   useEffect(() => {
-    let plan = Plan.findOne({ where: { id: planId } });
+    const fetchPlan = async () => {
+      try {
+        const response = await api.get(`api/plan/${planId}`);
+
+        let plan = response.data.plan;
+        setPlan(plan);
+
+        let details = JSON.parse(plan.details)
+          .map((item) => `- ${item}`)
+          .join("\n");
+        setDetails(details);
+      } catch (error) {
+        console.error("Error retrieivng plan: ", error);
+      }
+    };
+
+    fetchPlan();
   }, []);
 
   const handleStartWorkout = () => {
@@ -42,13 +59,16 @@ export default function PlanOverview() {
 
       <Text style={styles.header}>Workout Plan</Text>
 
-      <Image source={plan.image} style={styles.image} />
+      <Image
+        source={ExerciseImages[plan.image]}
+        style={styles.image}
+      />
       <View style={styles.textOverlay}>
         <Text style={styles.planTitle}>{plan.title}</Text>
       </View>
 
       <View style={styles.detailsBox}>
-        <Text style={styles.details}>{plan.details}</Text>
+        <Text style={styles.details}>{details}</Text>
 
         <TouchableOpacity
           style={styles.addButton}

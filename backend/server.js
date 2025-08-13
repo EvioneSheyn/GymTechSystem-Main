@@ -26,7 +26,7 @@ app.get("/protected", auth, (req, res) => {
 
 // DB sync and server start
 sequelize
-  .sync({ alter: true })
+  .sync()
   .then(() => {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);

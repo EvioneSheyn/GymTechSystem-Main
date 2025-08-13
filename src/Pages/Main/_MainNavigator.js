@@ -13,6 +13,7 @@ import api from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 import ExerciseInfo from "@/Pages/Main/ExerciseInfo";
 import PlanOverview from "./PlanOverview";
+import PlanRoutineOverview from "./PlanRoutineOverview";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
@@ -62,7 +63,7 @@ export default function MainNavigator() {
       <Stack.Screen name="PlanOverview" component={PlanOverview} />
       <Stack.Screen
         name="PlanRoutineOverview"
-        component={ExerciseInfo}
+        component={PlanRoutineOverview}
       />
     </Stack.Navigator>
   );

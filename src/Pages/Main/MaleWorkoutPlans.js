@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,47 +10,66 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import api from "@/Axios";
+import { ExerciseImages } from "../../../modules/Exercises";
 
 const screenWidth = Dimensions.get("window").width;
 
-const plans = [
-  {
-    title: "GENERAL MUSCLE BUILDING",
-    image: require("root/assets/muscle.jpg"),
-  },
-  { title: "LARGE ARMS", image: require("root/assets/arms.jpg") },
-  {
-    title: "POWERFUL CHEST",
-    image: require("root/assets/chest.jpg"),
-  },
-  { title: "WIDE BACK", image: require("root/assets/back.jpg") },
-  {
-    title: "BIG SHOULDERS",
-    image: require("root/assets/shoulders.jpg"),
-  },
-  { title: "STRONG LEGS", image: require("root/assets/legs.jpg") },
-  {
-    title: "WEIGHT LOSS",
-    image: require("root/assets/weightloss.jpg"),
-  },
-  {
-    title: "SCULPTED BODY",
-    image: require("root/assets/sculpted.jpg"),
-  },
-  { title: "6 PACK ABS", image: require("root/assets/abs.jpg") },
-  {
-    title: "POWERLIFTING",
-    image: require("root/assets/powerlifting.jpg"),
-  },
-  { title: "CROSSFIT", image: require("root/assets/crossfit.jpg") },
-  {
-    title: "FULL BODY IN 45 MINUTES",
-    image: require("root/assets/fullbody.jpg"),
-  },
-];
+// const plans = [
+//   {
+//     title: "GENERAL MUSCLE BUILDING",
+//     image: require("root/assets/muscle.jpg"),
+//   },
+//   { title: "LARGE ARMS", image: require("root/assets/arms.jpg") },
+//   {
+//     title: "POWERFUL CHEST",
+//     image: require("root/assets/chest.jpg"),
+//   },
+//   { title: "WIDE BACK", image: require("root/assets/back.jpg") },
+//   {
+//     title: "BIG SHOULDERS",
+//     image: require("root/assets/shoulders.jpg"),
+//   },
+//   { title: "STRONG LEGS", image: require("root/assets/legs.jpg") },
+//   {
+//     title: "WEIGHT LOSS",
+//     image: require("root/assets/weightloss.jpg"),
+//   },
+//   {
+//     title: "SCULPTED BODY",
+//     image: require("root/assets/sculpted.jpg"),
+//   },
+//   { title: "6 PACK ABS", image: require("root/assets/abs.jpg") },
+//   {
+//     title: "POWERLIFTING",
+//     image: require("root/assets/powerlifting.jpg"),
+//   },
+//   { title: "CROSSFIT", image: require("root/assets/crossfit.jpg") },
+//   {
+//     title: "FULL BODY IN 45 MINUTES",
+//     image: require("root/assets/fullbody.jpg"),
+//   },
+// ];
 
 export default function MaleWorkoutPlans() {
   const navigation = useNavigation();
+
+  const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await api.get("/api/plans");
+
+        console.log("Plans:", response.data.plans[0].image);
+        setPlans(response.data.plans);
+      } catch (error) {
+        console.error("Fetch workout plans error: ", error);
+      }
+    };
+
+    fetchPlans();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -81,7 +100,10 @@ export default function MaleWorkoutPlans() {
                 })
               }
             >
-              <Image source={plan.image} style={styles.cardImage} />
+              <Image
+                source={ExerciseImages[plan.image]}
+                style={styles.cardImage}
+              />
               <View style={styles.overlay} />
               <Text style={styles.cardText}>{plan.title}</Text>
             </TouchableOpacity>

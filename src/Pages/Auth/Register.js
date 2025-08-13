@@ -45,6 +45,7 @@ export default function Register() {
         });
       })
       .catch((error) => {
+        alert(error.response.data.message);
         console.error("API ERROR:", error.message);
       });
   };
