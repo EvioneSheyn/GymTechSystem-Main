@@ -11,6 +11,18 @@ const ExerciseImages = {
   elliptical: require("root/assets/elliptical.jpg"),
   chest_stretch: require("root/assets/chest_stretch.jpg"),
   shoulder_stretch: require("root/assets/shoulder_stretch.jpg"),
+  // NOTE below are plans images
+  general_muscle_building: require("root/assets/muscle.jpg"),
+  large_arms: require("root/assets/arms.jpg"),
+  wide_back: require("root/assets/back.jpg"),
+  big_shoulders: require("root/assets/shoulders.jpg"),
+  strong_legs: require("root/assets/legs.jpg"),
+  weight_loss: require("root/assets/weightloss.jpg"),
+  sculpted_body: require("root/assets/sculpted.jpg"),
+  "6_pack_abs": require("root/assets/abs.jpg"),
+  powerlifting: require("root/assets/powerlifting.jpg"),
+  crossfit: require("root/assets/crossfit.jpg"),
+  fullbody: require("root/assets/fullbody.jpg"),
 };
 
 const Exercises = [
@@ -22,7 +34,7 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "5 min., 110-140bpm",
-    image: ExerciseImages.treadmill,
+    image: "treadmill",
     instruction: [
       "Step onto the treadmill and attach the safety clip.",
       "Set the desired speed and incline.",
@@ -31,7 +43,12 @@ const Exercises = [
     ],
     description:
       "Improves cardiovascular endurance, burns calories, and strengthens lower body muscles while enhancing stamina.",
-    target: "Cardiovascular system, quadriceps, hamstrings, calves",
+    target: [
+      "Cardiovascular system",
+      "Quadriceps",
+      "Hamstrings",
+      "Calves",
+    ],
   },
   {
     name: "Arm circles back",
@@ -41,7 +58,7 @@ const Exercises = [
     reps: 20,
     sets: 1,
     details: "1x20",
-    image: ExerciseImages.arm_circles_back,
+    image: "arm_circles_back",
     instruction: [
       "Stand with feet shoulder-width apart.",
       "Extend arms straight out at shoulder height.",
@@ -50,7 +67,7 @@ const Exercises = [
     ],
     description:
       "Enhances shoulder flexibility, warms up joints, and improves mobility.",
-    target: "Shoulders, deltoids",
+    target: ["Shoulders", "Deltoids"],
   },
   {
     name: "Arm circles forward",
@@ -60,7 +77,7 @@ const Exercises = [
     reps: 20,
     sets: 1,
     details: "1x20",
-    image: ExerciseImages.arm_circles_forward,
+    image: "arm_circles_forward",
     instruction: [
       "Stand upright with feet shoulder-width apart.",
       "Extend arms straight out at shoulder height.",
@@ -69,7 +86,7 @@ const Exercises = [
     ],
     description:
       "Increases blood flow to the shoulders, improves joint mobility, and prepares the upper body for workouts.",
-    target: "Shoulders, deltoids",
+    target: ["Shoulders", "Deltoids"],
   },
   {
     name: "Hanging side leg raise",
@@ -79,7 +96,7 @@ const Exercises = [
     reps: 20,
     sets: 4,
     details: "4x20",
-    image: ExerciseImages.leg_raise,
+    image: "leg_raise",
     instruction: [
       "Hang from a pull-up bar with arms fully extended.",
       "Keep your core tight and legs straight.",
@@ -88,7 +105,7 @@ const Exercises = [
     ],
     description:
       "Strengthens obliques, core stability, and improves grip strength.",
-    target: "Obliques, abdominal muscles, hip flexors",
+    target: ["Obliques", "Abdominal muscles", "Hip flexors"],
   },
   {
     name: "Seated pec fly",
@@ -99,7 +116,7 @@ const Exercises = [
     sets: 4,
     weight: 20,
     details: "4x12x20 kg",
-    image: ExerciseImages.pec_fly,
+    image: "pec_fly",
     instruction: [
       "Sit on the pec fly machine with your back against the pad.",
       "Grasp the handles with elbows slightly bent.",
@@ -108,7 +125,7 @@ const Exercises = [
     ],
     description:
       "Targets chest muscles, improves posture, and strengthens pushing movements.",
-    target: "Pectorals, anterior deltoids",
+    target: ["Pectorals", "Anterior deltoids"],
   },
   {
     name: "Flat bench dumbbell chest press",
@@ -119,7 +136,7 @@ const Exercises = [
     sets: 4,
     weight: 10,
     details: "4x10x10 kg",
-    image: ExerciseImages.dumbbell_press,
+    image: "dumbbell_press",
     instruction: [
       "Lie flat on a bench holding a dumbbell in each hand.",
       "Position dumbbells at chest level with palms facing forward.",
@@ -128,7 +145,7 @@ const Exercises = [
     ],
     description:
       "Builds chest strength, improves arm power, and engages triceps.",
-    target: "Pectorals, triceps, anterior deltoids",
+    target: ["Pectorals", "Triceps", "Anterior deltoids"],
   },
   {
     name: "Machine incline chest press",
@@ -139,7 +156,7 @@ const Exercises = [
     sets: 4,
     weight: 20,
     details: "4x12x20 kg",
-    image: ExerciseImages.incline_press,
+    image: "incline_press",
     instruction: [
       "Sit on the incline press machine with back supported.",
       "Grip the handles with palms facing forward.",
@@ -148,7 +165,7 @@ const Exercises = [
     ],
     description:
       "Focuses on the upper chest muscles for a fuller chest appearance.",
-    target: "Upper pectorals, triceps, anterior deltoids",
+    target: ["Upper pectorals", "Triceps", "Anterior deltoids"],
   },
   {
     name: "Chest to floor push-ups",
@@ -158,7 +175,7 @@ const Exercises = [
     reps: 12,
     sets: 4,
     details: "4x12",
-    image: ExerciseImages.pushups,
+    image: "pushups",
     instruction: [
       "Start in a plank position with hands under shoulders.",
       "Lower your body until your chest touches the floor.",
@@ -167,7 +184,7 @@ const Exercises = [
     ],
     description:
       "Strengthens chest, shoulders, and triceps while improving core stability.",
-    target: "Pectorals, triceps, core",
+    target: ["Pectorals", "Triceps", "Core"],
   },
   {
     name: "High-pulley curl",
@@ -178,7 +195,7 @@ const Exercises = [
     sets: 4,
     weight: 15,
     details: "4x12x15 kg",
-    image: ExerciseImages.pulley_curl,
+    image: "pulley_curl",
     instruction: [
       "Stand facing the high pulley machine.",
       "Hold the bar with an underhand grip.",
@@ -186,7 +203,7 @@ const Exercises = [
       "Lower slowly to starting position.",
     ],
     description: "Isolates biceps for muscle growth and definition.",
-    target: "Biceps",
+    target: ["Biceps"],
   },
   {
     name: "Elliptical trainer",
@@ -196,7 +213,7 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "5 min., 110-140bpm",
-    image: ExerciseImages.elliptical,
+    image: "elliptical",
     instruction: [
       "Step onto the pedals and hold the handles.",
       "Begin pedaling in a forward motion.",
@@ -205,7 +222,12 @@ const Exercises = [
     ],
     description:
       "Low-impact cardio that improves endurance and burns calories while engaging both upper and lower body.",
-    target: "Cardiovascular system, quads, hamstrings, glutes",
+    target: [
+      "Cardiovascular system",
+      "Quads",
+      "Hamstrings",
+      "Glutes",
+    ],
   },
   {
     name: "Chest muscles stretch",
@@ -215,7 +237,7 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "1x20 s",
-    image: ExerciseImages.chest_stretch,
+    image: "chest_stretch",
     instruction: [
       "Stand beside a wall or doorway.",
       "Place your forearm against the surface with elbow at shoulder height.",
@@ -224,7 +246,7 @@ const Exercises = [
     ],
     description:
       "Improves chest flexibility, aids recovery, and helps maintain posture.",
-    target: "Pectorals",
+    target: ["Pectorals"],
   },
   {
     name: "Hand and shoulder extensor stretch",
@@ -234,7 +256,7 @@ const Exercises = [
     reps: 1,
     sets: 1,
     details: "1x20 s",
-    image: ExerciseImages.shoulder_stretch,
+    image: "shoulder_stretch",
     instruction: [
       "Extend one arm straight in front of you, palm down.",
       "Use the other hand to gently pull fingers back toward you.",
@@ -243,9 +265,8 @@ const Exercises = [
     ],
     description:
       "Enhances flexibility in forearms and shoulders, reducing injury risk.",
-    target: "Forearms, shoulders",
+    target: ["Forearms", "Shoulders"],
   },
 ];
 
-
-export { Exercises };
+export { Exercises, ExerciseImages };

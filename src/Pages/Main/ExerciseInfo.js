@@ -93,6 +93,7 @@ const ExerciseInfo = () => {
             style={{
               paddingHorizontal: 10,
             }}
+            key={index}
           >
             - {item}
           </Text>

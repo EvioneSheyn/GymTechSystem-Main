@@ -12,21 +12,22 @@ import { useEffect } from "react";
 import api from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 import ExerciseInfo from "@/Pages/Main/ExerciseInfo";
+import PlanOverview from "./PlanOverview";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
   const navigation = useNavigation();
   useEffect(() => {
-    api
-      .get("/protected")
-      .then((response) => {
-        console.log("authenticated!");
-      })
-      .catch((error) => {
-        navigation.navigate("AuthNavigator", { screen: "Login" });
-        console.error(error);
-      });
-  });
+    //   api
+    //     .get("/protected")
+    //     .then((response) => {
+    //       console.log("authenticated!");
+    //     })
+    //     .catch((error) => {
+    //       navigation.navigate("AuthNavigator", { screen: "Login" });
+    //       console.error(error);
+    //     });
+  }, []);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -58,6 +59,11 @@ export default function MainNavigator() {
       />
       <Stack.Screen name="BeginWorkout" component={BeginWorkout} />
       <Stack.Screen name="ExerciseInfo" component={ExerciseInfo} />
+      <Stack.Screen name="PlanOverview" component={PlanOverview} />
+      <Stack.Screen
+        name="PlanRoutineOverview"
+        component={ExerciseInfo}
+      />
     </Stack.Navigator>
   );
 }

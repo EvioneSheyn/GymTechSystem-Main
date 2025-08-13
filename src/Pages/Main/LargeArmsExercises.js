@@ -10,7 +10,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Exercises } from "../../../modules/Exercises";
+import {
+  Exercises,
+  ExerciseImages,
+} from "../../../modules/Exercises";
 import { Alert } from "react-native";
 
 const largeArmsExercises = [...Exercises];
@@ -33,7 +36,7 @@ export default function LargeArmsExercises() {
         <View key={index} style={styles.exerciseContainer}>
           {exercise.image && (
             <Image
-              source={exercise.image}
+              source={ExerciseImages[exercise.image]}
               style={styles.exerciseImage}
             />
           )}

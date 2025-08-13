@@ -10,7 +10,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Exercises } from "../../../modules/Exercises";
+import {
+  Exercises,
+  ExerciseImages,
+} from "../../../modules/Exercises";
 
 // const exercises = [
 //   {
@@ -104,7 +107,10 @@ export default function WorkoutExercisesScreen() {
       <ScrollView style={styles.scroll}>
         {exercises.map((item, index) => (
           <View key={index} style={styles.exerciseItem}>
-            <Image source={item.image} style={styles.exerciseImage} />
+            <Image
+              source={ExerciseImages[item.image]}
+              style={styles.exerciseImage}
+            />
             <View style={styles.exerciseText}>
               <Text style={styles.exerciseName}>{item.name}</Text>
               <Text style={styles.exerciseDetails}>

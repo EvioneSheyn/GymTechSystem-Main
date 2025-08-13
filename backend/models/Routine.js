@@ -1,6 +1,4 @@
-import { DataTypes } from "sequelize";
-import User from "./User";
-import Plan from "./Plan";
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const Routine = sequelize.define("Routine", {
@@ -16,31 +14,16 @@ const Routine = sequelize.define("Routine", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-});
-
-User.hasMany(Routine, {
-  foreignKey: "routineableId",
-  constraints: false,
-  scope: { routineableType: "User" },
-});
-
-Plan.hasMany(Routine, {
-  foreignKey: "routineableId",
-  constraints: false,
-  scope: { routineableType: "Plan" },
-});
-
-Routine.belongsTo(User, {
-  foreignKey: "routineableId",
-  constraints: false,
-});
-Routine.belongsTo(Plan, {
-  foreignKey: "routineableId",
-  constraints: false,
-});
-
-Routine.hasMany(Set, {
-  foreignKey: "exerciseId",
+  isRest: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  isFinished: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 });
 
 module.exports = Routine;

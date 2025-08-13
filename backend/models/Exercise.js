@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const Exercise = sequelize.define("Exercise", {
@@ -8,7 +8,7 @@ const Exercise = sequelize.define("Exercise", {
     allowNull: false,
   },
   type: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM(["time", "reps"]),
     allowNull: false,
   },
   target: {
@@ -32,7 +32,5 @@ const Exercise = sequelize.define("Exercise", {
     allowNull: true,
   },
 });
-
-Exercise.hasMany(Set, { foreignKey: "exerciseId" });
 
 module.exports = Exercise;

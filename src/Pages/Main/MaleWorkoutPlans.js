@@ -76,9 +76,8 @@ export default function MaleWorkoutPlans() {
               key={index}
               style={styles.card}
               onPress={() =>
-                navigation.navigate("WorkoutDetails", {
-                  title: plan.title,
-                  image: plan.image,
+                navigation.navigate("PlanOverview", {
+                  planId: 1,
                 })
               }
             >
