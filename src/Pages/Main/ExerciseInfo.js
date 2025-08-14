@@ -8,12 +8,15 @@ import {
 import { FontAwesome5 } from "react-native-vector-icons";
 import React, { useRef, useState } from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const ExerciseInfo = () => {
   const playerRef = useRef(null);
   const [videoId, setVideoId] = useState("catFklsra18");
   const navigation = useNavigation();
+  const route = useRoute();
+  const { exercise } = route.params;
+
   const instructions = [
     "Extend one arm straight in front of you, palm down.",
     "Use the other hand to gently pull fingers back toward you.",

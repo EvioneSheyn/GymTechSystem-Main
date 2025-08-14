@@ -4,10 +4,12 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { FontAwesome5 } from "react-native-vector-icons";
+import { ExerciseImages } from "../../../modules/Exercises";
 
 const REST_DURATION = 5; // seconds
 const REST_NOTES = [
@@ -26,21 +28,12 @@ const REST_NOTES = [
 const BeginWorkout = ({ route, navigation }) => {
   const { exercises = [], onFinish } = route.params ?? [];
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [timer, setTimer] = useState(null);
+  const [isDone, setDone] = useState(false);
   const [resting, setResting] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [restNote, setRestNote] = useState("");
 
   const currentExercise = exercises[currentIdx];
-
-  // Helper to get duration in seconds
-  const getDurationSeconds = (exercise) => {
-    if (!exercise || !exercise.duration) return 0;
-    if (exercise.durationType === "minutes") {
-      return exercise.duration * 60;
-    }
-    return exercise.duration; // assume seconds
-  };
 
   const getRandomRestNotes = () => {
     let totalRestNotes = REST_NOTES.length;
@@ -53,28 +46,20 @@ const BeginWorkout = ({ route, navigation }) => {
     if (!currentExercise) return;
     if (resting) {
       setRestNote(getRandomRestNotes());
-      setTimer(REST_DURATION);
-    } else if (currentExercise.type === "time") {
-      setTimer(getDurationSeconds(currentExercise));
-    } else {
-      setTimer(null);
     }
+
+    setDone(false);
   }, [currentIdx, resting]);
 
   useEffect(() => {
-    if (timer === null || timer <= 0) return;
-    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
-
-  useEffect(() => {
-    if (timer === 0 && resting) {
+    if (isDone && resting) {
       handleNext();
     }
-  }, [timer, resting]);
+  }, [isDone, resting]);
 
   const handleDone = () => {
-    if (currentExercise.type === "time" && timer > 0) return;
+    if (currentExercise.exercise.type === "time" && !isDone) return;
+    setDone(false);
     setResting(true);
   };
 
@@ -86,6 +71,21 @@ const BeginWorkout = ({ route, navigation }) => {
       setCompleted(true);
       if (onFinish) onFinish();
     }
+  };
+
+  const handleQuitting = () => {
+    Alert.alert("Leaving", "Do you really wish to quit?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Leave", onPress: () => navigation.goBack() },
+    ]);
+  };
+
+  const getMinuteFormat = (time) => {
+    if (time < 60) return `${time}`;
+
+    const minute = Math.floor(time / 60);
+    const seconds = `${time % 60}`.padStart(2, "0");
+    return `${minute}:${seconds}`;
   };
 
   if (completed) {
@@ -109,11 +109,27 @@ const BeginWorkout = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={handleQuitting}
+        style={{
+          position: "absolute",
+          left: 30,
+          top: 50,
+        }}
+      >
+        <FontAwesome5
+          name="arrow-left"
+          style={{
+            fontSize: 24,
+          }}
+        />
+      </TouchableOpacity>
       {resting ? (
         <>
           <Text style={styles.title}>Rest</Text>
           <Text style={styles.subtitle}>
-            Next: {exercises[currentIdx + 1]?.name || "Finish"}
+            Next:{" "}
+            {exercises[currentIdx + 1]?.exercise.name || "Finish"}
           </Text>
           <Text style={styles.restNote}>{restNote}</Text>
           <View style={styles.timerContainer}>
@@ -122,7 +138,11 @@ const BeginWorkout = ({ route, navigation }) => {
               duration={REST_DURATION}
               colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[7, 5, 2, 0]}
-              onComplete={handleNext}
+              onComplete={() => {
+                setDone(true);
+                handleNext();
+              }}
+              //NOTE Rest timer circle
             >
               {({ remainingTime }) => (
                 <Text
@@ -130,11 +150,10 @@ const BeginWorkout = ({ route, navigation }) => {
                     fontSize: 56,
                   }}
                 >
-                  {remainingTime}
+                  {getMinuteFormat(remainingTime)}
                 </Text>
               )}
             </CountdownCircleTimer>
-            {/* <Text style={styles.timerText}>{timer}s</Text> */}
           </View>
         </>
       ) : (
@@ -148,7 +167,9 @@ const BeginWorkout = ({ route, navigation }) => {
               marginBottom: 24,
             }}
           >
-            <Text style={styles.title}>{currentExercise.name}</Text>
+            <Text style={styles.title}>
+              {currentExercise.exercise.name}
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("ExerciseInfo");
@@ -165,20 +186,20 @@ const BeginWorkout = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
           <Image
-            source={{
-              uri:
-                currentExercise.gif ??
-                "https://mir-s3-cdn-cf.behance.net/project_modules/source/a258b2108677535.5fc364926e4a7.gif",
-            }}
+            source={ExerciseImages[currentExercise.exercise.image]}
             style={styles.gif}
           />
-          {currentExercise.type === "time" ? (
+          {currentExercise.exercise.type === "time" ? (
             <View style={styles.timerContainer}>
               <CountdownCircleTimer
                 isPlaying
-                duration={getDurationSeconds(currentExercise)}
+                duration={currentExercise.value}
                 colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                 colorsTime={[7, 5, 2, 0]}
+                onComplete={() => {
+                  setDone(true);
+                  handleDone();
+                }}
               >
                 {({ remainingTime }) => (
                   <Text
@@ -186,7 +207,7 @@ const BeginWorkout = ({ route, navigation }) => {
                       fontSize: 56,
                     }}
                   >
-                    {remainingTime}
+                    {getMinuteFormat(remainingTime)}
                   </Text>
                 )}
               </CountdownCircleTimer>
@@ -194,17 +215,20 @@ const BeginWorkout = ({ route, navigation }) => {
           ) : (
             <View style={styles.repsContainer}>
               <Text style={styles.repsText}>
-                {currentExercise.reps} reps
+                {currentExercise.value}{" "}
+                {`${currentExercise.type}`.toLowerCase()}
               </Text>
             </View>
           )}
           <TouchableOpacity
             style={styles.nextButton}
             onPress={handleDone}
-            disabled={currentExercise.type === "time" && timer > 0}
+            disabled={
+              currentExercise.exercise.type === "time" && !isDone
+            }
           >
             <Text style={styles.nextButtonText}>
-              {currentExercise.type === "time" && timer > 0
+              {currentExercise.exercise.type === "time" && !isDone
                 ? "Wait..."
                 : "Done"}
             </Text>
@@ -220,7 +244,7 @@ export default BeginWorkout;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 100,
+    paddingVertical: 70,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -241,7 +265,7 @@ const styles = StyleSheet.create({
     height: 250,
     borderRadius: 16,
     marginBottom: 32,
-    backgroundColor: "#eee",
+    objectFit: "contain",
   },
   timerContainer: {
     padding: 16,
