@@ -9,6 +9,7 @@ require("./models/_Relationship");
 dotenv.config();
 
 const PORT = process.env.PORT;
+const SECRET = process.env.JWT_SECRET;
 
 const app = express();
 app.use(express.json());
@@ -21,8 +22,17 @@ app.get("/", (req, res) => {
   res.json({ message: "hello oips" });
 });
 
-app.get("/protected", auth, (req, res) => {
-  res.json({ message: "this is a protected route", user: req.user });
+app.get("/validate", auth, (req, res) => {
+  try {
+    const decoded = jwt.verify(token, SECRET); // throws if invalid or expired
+    return { valid: true, expired: false, decoded };
+  } catch (err) {
+    return {
+      valid: false,
+      expired: err.name === "TokenExpiredError",
+      decoded: null,
+    };
+  }
 });
 
 // DB sync and server start

@@ -28,10 +28,30 @@ const days = Array.from({ length: 7 }, (_, i) => {
 });
 
 const quickActions = [
-  { label: "Workouts", icon: "play-circle", color: "#3B82F6" },
-  { label: "Track Meal", icon: "restaurant", color: "#F97316" },
-  { label: "Progress", icon: "bar-chart", color: "#10B981" },
-  { label: "Goals", icon: "target", color: "#8B5CF6" },
+  {
+    label: "Workouts",
+    icon: "play-circle",
+    color: "#3B82F6",
+    screen: "Workout",
+  },
+  {
+    label: "Track Meal",
+    icon: "restaurant",
+    color: "#F97316",
+    screen: "TrackMeal",
+  },
+  {
+    label: "Progress",
+    icon: "bar-chart",
+    color: "#10B981",
+    screen: "Progress",
+  },
+  {
+    label: "Goals",
+    icon: "target",
+    color: "#8B5CF6",
+    screen: "Goal",
+  },
 ];
 
 const todaysWorkouts = [
@@ -161,9 +181,7 @@ export default function Dashboard() {
             <TouchableOpacity
               key={action.label}
               onPress={() => {
-                if (action.label === "Workouts") {
-                  navigation.navigate("Workout");
-                }
+                navigation.navigate(action.screen);
               }}
               style={[
                 styles.actionCard,
