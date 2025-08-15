@@ -117,28 +117,6 @@ const Calendar = () => {
           );
         }}
       />
-
-      {/* <TouchableOpacity
-        style={{
-          marginTop: 24,
-        }}
-        onPress={async () => {
-          try {
-            const response = await api.post("/api/finish-exercise", {
-              routineId: 4,
-              caloriesBurned: 1234,
-              duration: 555,
-            });
-          } catch (error) {
-            console.log(
-              "Error recording workout: ",
-              error.response.data
-            );
-          }
-        }}
-      >
-        <Text style={{ color: "white" }}>Test Button</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

@@ -141,6 +141,7 @@ export default function WorkoutExercisesScreen() {
         onPress={() => {
           navigation.navigate("BeginWorkout", {
             exercises,
+            routineId,
           });
         }}
       >

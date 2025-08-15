@@ -26,7 +26,7 @@ const REST_NOTES = [
 ];
 
 const BeginWorkout = ({ route, navigation }) => {
-  const { exercises = [] } = route.params ?? [];
+  const { exercises = [], routineId } = route.params ?? [];
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isDone, setDone] = useState(false);
   const [resting, setResting] = useState(false);
@@ -96,11 +96,26 @@ const BeginWorkout = ({ route, navigation }) => {
     const minutes = Math.floor(elapsedSeconds / 60);
     const seconds = `${elapsedSeconds % 60}`.padStart(2, "0");
 
-    return `${minutes}:${seconds}`;
+    return {
+      raw: elapsedSeconds,
+      formatted: `${minutes}:${seconds}`,
+    };
   };
 
-  const handleOnFinish = () => {
-    
+  const calculateCaloriesBurned = () => {
+    // TODO  add calculation to consider user weight, time finished the workout session, as well as
+  };
+
+  const handleOnFinish = async () => {
+    try {
+      const response = await api.post("/api/finish-exercise", {
+        routineId: routineId,
+        caloriesBurned: 1234,
+        duration: getElapsedTime().raw,
+      });
+    } catch (error) {
+      console.log("Error recording workout: ", error.response.data);
+    }
   };
 
   if (completed) {
