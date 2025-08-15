@@ -26,12 +26,13 @@ const REST_NOTES = [
 ];
 
 const BeginWorkout = ({ route, navigation }) => {
-  const { exercises = [], onFinish } = route.params ?? [];
+  const { exercises = [] } = route.params ?? [];
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isDone, setDone] = useState(false);
   const [resting, setResting] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [restNote, setRestNote] = useState("");
+  const [startTime] = useState(Date.now());
 
   const currentExercise = exercises[currentIdx];
 
@@ -69,7 +70,7 @@ const BeginWorkout = ({ route, navigation }) => {
       setResting(false);
     } else {
       setCompleted(true);
-      if (onFinish) onFinish();
+      handleOnFinish();
     }
   };
 
@@ -86,6 +87,20 @@ const BeginWorkout = ({ route, navigation }) => {
     const minute = Math.floor(time / 60);
     const seconds = `${time % 60}`.padStart(2, "0");
     return `${minute}:${seconds}`;
+  };
+
+  const getElapsedTime = () => {
+    const now = Date.now();
+    const elapsedSeconds = Math.ceil((now - startTime) / 1000); // in seconds
+
+    const minutes = Math.floor(elapsedSeconds / 60);
+    const seconds = `${elapsedSeconds % 60}`.padStart(2, "0");
+
+    return `${minutes}:${seconds}`;
+  };
+
+  const handleOnFinish = () => {
+    
   };
 
   if (completed) {

@@ -19,11 +19,6 @@ const Routine = sequelize.define("Routine", {
     allowNull: false,
     defaultValue: false,
   },
-  isFinished: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
 });
 
 module.exports = Routine;

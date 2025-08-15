@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import ExerciseInfo from "@/Pages/Main/ExerciseInfo";
 import PlanOverview from "./PlanOverview";
 import PlanRoutineOverview from "./PlanRoutineOverview";
+import CalendarPage from "./Calendar";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
@@ -65,6 +66,7 @@ export default function MainNavigator() {
         name="PlanRoutineOverview"
         component={PlanRoutineOverview}
       />
+      <Stack.Screen name="Calendar" component={CalendarPage} />
     </Stack.Navigator>
   );
 }

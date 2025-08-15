@@ -105,7 +105,16 @@ export default function Dashboard() {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>Schedule</Text>
+        <View style={styles.rowBetween}>
+          <Text style={styles.sectionTitle}>Schedule</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Calendar")}
+          >
+            <Text style={{ color: "white", fontSize: 12 }}>
+              View Calendar
+            </Text>
+          </TouchableOpacity>
+        </View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -365,5 +374,10 @@ const styles = StyleSheet.create({
     color: "#38bdf8",
     marginTop: 4,
     fontFamily: "poppins",
+  },
+  rowBetween: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

@@ -4,9 +4,53 @@ const Exercise = require("../models/Exercise");
 const Plan = require("../models/Plan");
 const Routine = require("../models/Routine");
 const Set = require("../models/Set");
+const WorkoutSession = require("../models/WorkoutSession");
+const auth = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
+});
+
+router.post("/finish-exercise", auth, async (req, res) => {
+  try {
+    const { routineId, caloriesBurned, duration } = req.body;
+    const userId = req.user.userId;
+
+    console.log(userId, routineId, caloriesBurned, duration);
+    const session = await WorkoutSession.create({
+      userId: userId,
+      routineId: routineId,
+      caloriesBurned: caloriesBurned,
+      duration: duration,
+    });
+
+    return res
+      .status(200)
+      .json({ message: "Workout recording complete!" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong: {" + error });
+  }
+});
+
+router.get("/workout-sessions", auth, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const sessions = await WorkoutSession.findAll({
+      where: { userId: userId },
+    });
+
+    return res.status(200).json({
+      message: "Succesfully retrieved workout sessions",
+      sessions: sessions,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong: {" + error });
+  }
 });
 
 router.post("/create-exercises", async (req, res) => {

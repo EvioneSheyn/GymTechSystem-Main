@@ -3,12 +3,24 @@ const Plan = require("./Plan");
 const Set = require("./Set");
 const Routine = require("./Routine");
 const Exercise = require("./Exercise");
+const WorkoutSession = require("./WorkoutSession");
 
 User.hasMany(Routine, {
   foreignKey: "routineableId",
   constraints: false,
   scope: { routineableType: "User" },
   as: "routines",
+});
+
+User.hasMany(WorkoutSession, {
+  foreignKey: "userId",
+  constraints: false,
+  as: "sessions",
+});
+
+WorkoutSession.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
 });
 
 Plan.hasMany(Routine, {
