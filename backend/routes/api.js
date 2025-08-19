@@ -6,6 +6,7 @@ const Routine = require("../models/Routine");
 const Set = require("../models/Set");
 const WorkoutSession = require("../models/WorkoutSession");
 const auth = require("../middleware/auth");
+const Profile = require("../models/Profile");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
@@ -27,6 +28,55 @@ router.post("/finish-exercise", auth, async (req, res) => {
     return res
       .status(200)
       .json({ message: "Workout recording complete!" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong: {" + error });
+  }
+});
+
+router.post("/create-profile", auth, async (req, res) => {
+  const { dateOfBirth, height, weight, gender } = req.body;
+  const userId = req.user.userId;
+
+  try {
+    const profile = await Profile.create({
+      userId: userId,
+      dateOfBirth: dateOfBirth,
+      height: height,
+      weight: weight,
+    });
+
+    return res.status(200).json({
+      message: "Profile created successfully!",
+      profile: profile,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when creating profile: " + error,
+    });
+  }
+});
+
+router.get("/profile", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const userProfile = await Profile.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+
+    if (userProfile) {
+      return res.status(200).json({
+        profile: userProfile,
+        message: "Succesfully retrieved user profile!",
+      });
+    } else {
+      return res.status(404).json({
+        message: "User profile not found!",
+      });
+    }
   } catch (error) {
     return res
       .status(500)

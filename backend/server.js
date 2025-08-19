@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const apiRoutes = require("./routes/api");
 const auth = require("./middleware/auth");
 require("./models/_Relationship");
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 
@@ -22,16 +23,21 @@ app.get("/", (req, res) => {
   res.json({ message: "hello oips" });
 });
 
-app.get("/validate", auth, (req, res) => {
+app.post("/validate", (req, res) => {
+  const { token } = req.body;
+
   try {
     const decoded = jwt.verify(token, SECRET); // throws if invalid or expired
-    return { valid: true, expired: false, decoded };
+    return res
+      .status(200)
+      .json({ valid: true, expired: false, decoded });
   } catch (err) {
-    return {
+    return res.status(401).json({
       valid: false,
       expired: err.name === "TokenExpiredError",
       decoded: null,
-    };
+      message: err.name + ": " + err.message,
+    });
   }
 });
 

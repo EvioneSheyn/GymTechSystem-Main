@@ -16,12 +16,14 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "@/Axios";
+import Profile from "@/Components/Profile";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
-  date.setDate(date.getDate() + i);
+  date.setDate(date.getDate() - date.getDay() + i);
   return {
-    key: date.toISOString().split("T")[0],
+    key: date.getDate() - date.getDay() + i,
     day: date.toLocaleDateString("en-US", { weekday: "short" }),
     date: date.getDate().toString().padStart(2, "0"),
   };
@@ -67,8 +69,9 @@ const todaysWorkouts = [
 
 export default function Dashboard() {
   const navigation = useNavigation();
-  const todayKey = new Date().toISOString().split("T")[0];
+  const todayKey = new Date();
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -77,14 +80,29 @@ export default function Dashboard() {
         if (userString) {
           setUser(JSON.parse(userString));
         }
-
-        console.log(user);
       } catch (error) {
         console.error("Failed to load user", error.message);
       }
     };
 
+    const getProfile = async () => {
+      try {
+        const response = await api.get("/profile");
+        if (response.data.profile) {
+          let profile = response.data.profile;
+          setProfile(profile);
+          await AsyncStorage.setItem("profile", profile);
+        }
+      } catch (error) {
+        console.log(
+          "Failed to fetch profile",
+          error.response.data.message
+        );
+      }
+    };
+
     loadUser();
+    getProfile();
   }, []);
 
   const handleLogout = () => {
@@ -93,6 +111,10 @@ export default function Dashboard() {
     AsyncStorage.removeItem("jwtToken");
     navigation.navigate("AuthNavigator", { screen: "Login" });
   };
+
+  if (!profile) {
+    return <Profile></Profile>;
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#0f172a" }}>
@@ -141,7 +163,7 @@ export default function Dashboard() {
           contentContainerStyle={styles.dateRow}
         >
           {days.map((item) => {
-            const isToday = item.key === todayKey;
+            const isToday = item.key === todayKey.getDate();
             return (
               <View
                 key={item.key}
@@ -302,7 +324,7 @@ const styles = StyleSheet.create({
   },
   dateRow: {
     flexDirection: "row",
-    gap: 10,
+    gap: 8,
     paddingBottom: 16,
   },
   dateItem: {

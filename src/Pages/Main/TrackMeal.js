@@ -6,22 +6,8 @@ const TrackMeal = () => {
   return (
     <PagesLayout>
       <View>
-        <Text
-          style={{
-            color: "#aaa",
-          }}
-        >
-          Details of
-        </Text>
-        <Text
-          style={{
-            color: "white",
-            fontSize: 22,
-            fontWeight: "bold",
-          }}
-        >
-          Caloric Balance
-        </Text>
+        <Text style={styles.subHeader}>Details of</Text>
+        <Text style={styles.mainHeader}>Caloric Balance</Text>
       </View>
     </PagesLayout>
   );
@@ -29,4 +15,13 @@ const TrackMeal = () => {
 
 export default TrackMeal;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  mainHeader: {
+    color: "white",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  subHeader: {
+    color: "#aaa",
+  },
+});

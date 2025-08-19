@@ -38,8 +38,11 @@ export default function Register() {
         email,
         password,
       })
-      .then((reponse) => {
+      .then((response) => {
         console.log("Successfully created the account!");
+        const data = response.data;
+        AsyncStorage.setItem("jwtToken", data.token);
+        AsyncStorage.setItem("user", JSON.stringify(data.user));
         navigation.navigate("MainNavigator", {
           screen: "Dashboard",
         });

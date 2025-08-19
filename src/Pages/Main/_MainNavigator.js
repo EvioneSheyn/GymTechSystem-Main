@@ -21,19 +21,6 @@ import GoalPage from "./GoalPage";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
-  const navigation = useNavigation();
-  useEffect(() => {
-    //   api
-    //     .get("/protected")
-    //     .then((response) => {
-    //       console.log("authenticated!");
-    //     })
-    //     .catch((error) => {
-    //       navigation.navigate("AuthNavigator", { screen: "Login" });
-    //       console.error(error);
-    //     });
-  }, []);
-
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Dashboard" component={Dashboard} />
