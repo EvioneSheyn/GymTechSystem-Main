@@ -87,17 +87,17 @@ export default function Dashboard() {
 
     const getProfile = async () => {
       try {
-        const response = await api.get("/profile");
+        const response = await api.get("/api/profile");
         if (response.data.profile) {
           let profile = response.data.profile;
           setProfile(profile);
-          await AsyncStorage.setItem("profile", profile);
+          await AsyncStorage.setItem(
+            "profile",
+            JSON.stringify(profile)
+          );
         }
       } catch (error) {
-        console.log(
-          "Failed to fetch profile",
-          error.response.data.message
-        );
+        console.log("Failed to fetch profile", error.message);
       }
     };
 
@@ -113,7 +113,7 @@ export default function Dashboard() {
   };
 
   if (!profile) {
-    return <Profile></Profile>;
+    return <Profile profile={(setProfile, profile)} />;
   }
 
   return (

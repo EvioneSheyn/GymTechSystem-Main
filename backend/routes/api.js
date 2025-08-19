@@ -7,6 +7,7 @@ const Set = require("../models/Set");
 const WorkoutSession = require("../models/WorkoutSession");
 const auth = require("../middleware/auth");
 const Profile = require("../models/Profile");
+const { body, validationResult } = require("express-validator");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
@@ -35,41 +36,75 @@ router.post("/finish-exercise", auth, async (req, res) => {
   }
 });
 
-router.post("/create-profile", auth, async (req, res) => {
-  const { dateOfBirth, height, weight, gender } = req.body;
-  const userId = req.user.userId;
+router.post(
+  "/create-profile",
+  auth,
+  [
+    body("dateOfBirth")
+      .isISO8601()
+      .withMessage("Date of birth must be a valid date (YYYY-MM-DD)"),
+    body("height")
+      .isFloat({ min: 50, max: 300 })
+      .withMessage("Height must be between 50cm and 300cm"),
+    body("weight")
+      .isFloat({ min: 20, max: 500 })
+      .withMessage("Weight must be between 20kg and 500kg"),
+    body("gender")
+      .isIn(["Male", "Female"])
+      .withMessage("Gender must be Male or Female"),
+  ],
+  async (req, res) => {
+    const { dateOfBirth, height, weight, gender } = req.body;
+    const userId = req.user.userId;
+    const errors = validationResult(req);
 
-  try {
-    const profile = await Profile.create({
-      userId: userId,
-      dateOfBirth: dateOfBirth,
-      height: height,
-      weight: weight,
-    });
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-    return res.status(200).json({
-      message: "Profile created successfully!",
-      profile: profile,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: "Something went wrong when creating profile: " + error,
-    });
+    try {
+      const profile = await Profile.create({
+        userId: userId,
+        dateOfBirth: dateOfBirth,
+        height: height,
+        weight: weight,
+        gender: gender,
+      });
+
+      return res.status(200).json({
+        message: "Profile created successfully!",
+        profile: profile,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message:
+          "Something went wrong when creating profile: " + error,
+      });
+    }
   }
-});
+);
 
 router.get("/profile", auth, async (req, res) => {
   const userId = req.user.userId;
   try {
+    console.log(userId);
     const userProfile = await Profile.findOne({
       where: {
         userId: userId,
       },
     });
 
+    const dob = new Date(userProfile.dateOfBirth);
+    const diffMs = Date.now() - dob.getTime();
+    const age = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365.25));
+
+    const profile = {
+      ...userProfile,
+      age: age,
+    };
     if (userProfile) {
       return res.status(200).json({
-        profile: userProfile,
+        profile: profile,
         message: "Succesfully retrieved user profile!",
       });
     } else {

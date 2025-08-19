@@ -4,6 +4,7 @@ const Set = require("./Set");
 const Routine = require("./Routine");
 const Exercise = require("./Exercise");
 const WorkoutSession = require("./WorkoutSession");
+const Profile = require("./Profile");
 
 User.hasMany(Routine, {
   foreignKey: "routineableId",
@@ -52,3 +53,6 @@ Exercise.hasMany(Set, {
 
 Set.belongsTo(Exercise, { foreignKey: "exerciseId", as: "exercise" });
 Set.belongsTo(Routine, { foreignKey: "routineId", as: "routine" });
+
+Profile.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasOne(Profile, { foreignKey: "userId", as: "profile" });
