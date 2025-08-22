@@ -63,6 +63,20 @@ router.post(
     }
 
     try {
+      const userProfile = await Profile.findOne({
+        where: {
+          userId: userId,
+        },
+      });
+
+      if (userProfile) {
+        return res.status(400).json({
+          message: "Profile already exists for this user!",
+        });
+      }
+
+      console.log("No profile found, creating..");
+
       const profile = await Profile.create({
         userId: userId,
         dateOfBirth: dateOfBirth,

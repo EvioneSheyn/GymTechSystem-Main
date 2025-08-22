@@ -6,7 +6,7 @@ import { Keyboard } from "react-native";
 import api from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 
-const Profile = ({ profile }) => {
+const Profile = ({ setProfile }) => {
   const defaultForm = {
     height: "",
     weight: "",
@@ -47,11 +47,7 @@ const Profile = ({ profile }) => {
 
       if (response.status === 200) {
         alert("Profile created successfully!");
-        navigation.navigate("MainNavigator", {
-          screen: "Dashboard",
-        });
-
-        profile.setProfile(response.data.profile);
+        setProfile(response.data.profile);
       }
     } catch (error) {
       const errors = error.response.data.errors;

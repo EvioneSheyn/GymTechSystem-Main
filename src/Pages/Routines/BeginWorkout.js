@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { FontAwesome5 } from "react-native-vector-icons";
-import { ExerciseImages } from "../../../modules/Exercises";
+import { ExerciseImages } from "../../../sample-data/Exercises";
 
 const REST_DURATION = 5; // seconds
 const REST_NOTES = [

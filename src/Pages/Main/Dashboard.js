@@ -3,12 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   ScrollView,
   FlatList,
   TouchableOpacity,
   LinearGradient,
 } from "react-native";
+import { Image } from "expo-image";
 import {
   MaterialIcons,
   FontAwesome5,
@@ -113,7 +113,7 @@ export default function Dashboard() {
   };
 
   if (!profile) {
-    return <Profile profile={(setProfile, profile)} />;
+    return <Profile setProfile={setProfile} />;
   }
 
   return (

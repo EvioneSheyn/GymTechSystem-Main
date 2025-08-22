@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import {
   Exercises,
   ExerciseImages,
-} from "../../../modules/Exercises";
+} from "../../../sample-data/Exercises";
 import { Alert } from "react-native";
 
 const largeArmsExercises = [...Exercises];

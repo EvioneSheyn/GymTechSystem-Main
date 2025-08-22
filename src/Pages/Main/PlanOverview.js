@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ExerciseImages } from "../../../modules/Exercises";
+import { ExerciseImages } from "../../../sample-data/Exercises";
 import api from "@/Axios";
 
 export default function PlanOverview() {
