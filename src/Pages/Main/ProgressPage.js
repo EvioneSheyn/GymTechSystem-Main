@@ -6,18 +6,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
-
-const RadioButton = ({ selected, onPress, label, style, color }) => (
-  <TouchableOpacity
-    style={[styles.container, style]}
-    onPress={onPress}
-  >
-    <View style={[styles.circle, selected && styles.selectedCircle]}>
-      {selected && <View style={styles.innerCircle} />}
-    </View>
-    <Text style={[styles.label, { color: color }]}>{label}</Text>
-  </TouchableOpacity>
-);
+import { RadioButton } from "@/Components/RadioButton";
 
 const WhiteText = ({ children, style }) => (
   <Text style={[{ color: "white" }, style]}>{children}</Text>
@@ -142,7 +131,7 @@ const ProgressPage = () => {
 
 export default ProgressPage;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   mainHeader: {
     color: "white",
     fontSize: 22,

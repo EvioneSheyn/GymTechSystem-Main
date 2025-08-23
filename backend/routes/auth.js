@@ -2,13 +2,17 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { Op } = require("sequelize");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const existing = await User.findOne({ where: { email } });
+    const existing = await User.findOne({
+      where: { [Op.or]: [{ email: email }, { username: username }] },
+    });
+
     if (existing)
       return res.status(400).json({ message: "User already exist" });
 
@@ -21,9 +25,16 @@ router.post("/register", async (req, res) => {
       password: hashed,
     });
 
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "20h" }
+    );
+
     res.status(201).json({
       message: "User created",
       user: { id: user.id, username, email },
+      token: token,
     });
   } catch (err) {
     res.status(500).getHeaderNames({

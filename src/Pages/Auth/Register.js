@@ -12,6 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import api from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 import AuthLayout from "@/Layouts/AuthLayout";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -49,7 +50,6 @@ export default function Register() {
       })
       .catch((error) => {
         alert(error.response.data.message);
-        console.error("API ERROR:", error.message);
       });
   };
 

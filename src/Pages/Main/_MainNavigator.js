@@ -8,9 +8,6 @@ import WorkoutExercisesScreen from "@/Pages/Main/WorkoutExercisesScreen";
 import BeginWorkout from "@/Pages/Routines/BeginWorkout";
 import LargeArmsExercises from "@/Pages/Main/LargeArmsExercises";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"; // ✅ Added this
-import { useEffect } from "react";
-import api from "@/Axios";
-import { useNavigation } from "@react-navigation/native";
 import ExerciseInfo from "@/Pages/Main/ExerciseInfo";
 import PlanOverview from "./PlanOverview";
 import ProgressPage from "./ProgressPage";
@@ -18,6 +15,8 @@ import TrackMeal from "./TrackMeal";
 import PlanRoutineOverview from "./PlanRoutineOverview";
 import CalendarPage from "./Calendar";
 import GoalPage from "./GoalPage";
+import ReportPage from "./ReportPage";
+import SettingsPage from "./SettingsPage";
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
@@ -60,6 +59,8 @@ export default function MainNavigator() {
       <Stack.Screen name="Progress" component={ProgressPage} />
       <Stack.Screen name="TrackMeal" component={TrackMeal} />
       <Stack.Screen name="Goal" component={GoalPage} />
+      <Stack.Screen name="Report" component={ReportPage} />
+      <Stack.Screen name="Settings" component={SettingsPage} />
     </Stack.Navigator>
   );
 }

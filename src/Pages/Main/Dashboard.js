@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
 import Profile from "@/Components/Profile";
+import MainNav from "@/Components/MainNav";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -71,7 +72,9 @@ export default function Dashboard() {
   const navigation = useNavigation();
   const todayKey = new Date();
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(
+    AsyncStorage.getItem("profile")
+  );
 
   useEffect(() => {
     const loadUser = async () => {
@@ -242,31 +245,7 @@ export default function Dashboard() {
         />
       </ScrollView>
 
-      <View style={styles.bottomNav}>
-        {[
-          { label: "Home", icon: "home", screen: "Dashboard" },
-          { label: "Features", icon: "star", screen: "Features" },
-          { label: "Pages", icon: "file-copy", screen: "Pages" },
-          { label: "Search", icon: "search", screen: "Search" },
-          { label: "Settings", icon: "settings", screen: "Settings" },
-        ].map((btn, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.navItem}
-            onPress={() => {
-              if (btn.screen !== "Dashboard")
-                navigation.navigate(btn.screen);
-            }}
-          >
-            <MaterialIcons
-              name={btn.icon}
-              size={24}
-              color="#38bdf8"
-            />
-            <Text style={styles.navText}>{btn.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <MainNav navigation={navigation} />
     </View>
   );
 }
@@ -326,11 +305,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     paddingBottom: 16,
+    alignItems: "center",
+    justifyContent: "center",
   },
   dateItem: {
-    width: 54,
-    height: 70,
-    borderRadius: 14,
+    width: 38,
+    height: 50,
+    borderRadius: 12,
     backgroundColor: "#334155",
     justifyContent: "center",
     alignItems: "center",
@@ -339,7 +320,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#38bdf8",
   },
   dateText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: "#f1f5f9",
   },
@@ -347,9 +328,8 @@ const styles = StyleSheet.create({
     color: "#0f172a",
   },
   dayText: {
-    fontSize: 12,
+    fontSize: 10,
     color: "#94a3b8",
-    marginTop: 4,
   },
   dayTextSelected: {
     color: "#0f172a",
