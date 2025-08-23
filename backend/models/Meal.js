@@ -2,8 +2,8 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const Meal = sequelize.define("Meal", {
-  name: {
-    type: DataTypes.STRING,
+  userId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   mealType: {
@@ -13,7 +13,7 @@ const Meal = sequelize.define("Meal", {
   date: {
     type: DataTypes.DATEONLY,
     allowNull: false,
-  }
+  },
 });
 
 module.exports = Meal;

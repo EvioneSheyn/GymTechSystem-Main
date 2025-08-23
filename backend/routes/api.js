@@ -9,6 +9,9 @@ const auth = require("../middleware/auth");
 const Profile = require("../models/Profile");
 const { body, validationResult } = require("express-validator");
 const Food = require("../models/Food");
+const Meal = require("../models/Meal");
+const MealFood = require("../models/MealFood");
+const { EagerLoadingError } = require("sequelize");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
@@ -373,7 +376,136 @@ router.post("/add-foods", async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong when deleting exercises!",
+      message:
+        "Something went wrong when adding foods: " + error.message,
+    });
+  }
+});
+
+router.get("/foods", async (req, res) => {
+  try {
+    const foods = await Food.findAll();
+
+    return res.status(200).json({
+      message: "Successfully retrieved foods!",
+      foods: foods,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when retrieving foods!",
+      error: error,
+    });
+  }
+});
+
+router.post("/add-meal", auth, async (req, res) => {
+  const { foodId, quantity, mealType } = req.body;
+  const userId = req.user.userId;
+  try {
+    const today = new Date().toISOString().split("T")[0];
+
+    let meal = await Meal.findOne({
+      where: { userId, mealType, date: today },
+    });
+
+    if (!meal) {
+      meal = await Meal.create({ userId, mealType, date: today });
+    }
+
+    const food = await Food.findOne({ where: { id: foodId } });
+
+    console.log("Food: ", food);
+
+    const mealFood = await MealFood.create({
+      mealId: meal.id,
+      foodId,
+      quantity,
+      totalCalories: food.calories * quantity,
+    });
+
+    return res.status(200).json({
+      message: "Successfully added food to meal!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when retrieving foods!",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/meal", auth, async (req, res) => {
+  const { mealType } = req.body;
+  const userId = req.user.userId;
+  try {
+    const today = new Date().toISOString().split("T")[0];
+
+    let meal = await Meal.findOne({
+      where: { userId, mealType, date: today },
+    });
+
+    console.log("Meal: ", meal);
+
+    if (!meal) {
+      return res.status(404).json({
+        message: "No meal yet!",
+      });
+    }
+
+    const foods = await MealFood.findAll({
+      where: { mealId: meal.id },
+      include: {
+        model: Food,
+        as: "food",
+      },
+    });
+
+    return res.status(200).json({
+      message: "Successfully retrieved food from meal!",
+      foods: foods,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        "Something went wrong when retrieving foods!" + error.message,
+    });
+  }
+});
+
+router.get("/total-meal", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const today = new Date().toISOString().split("T")[0];
+
+    let meals = await Meal.findAll({
+      where: { userId, date: today },
+      include: {
+        model: MealFood,
+        as: "mealFoods",
+        include: {
+          model: Food,
+          as: "food",
+        },
+      },
+    });
+
+    let totalCalories = 0;
+
+    meals.forEach((meal) => {
+      meal.mealFoods.forEach((mealFood) => {
+        totalCalories += mealFood.totalCalories;
+      });
+    });
+
+    return res.status(200).json({
+      message: "Successfully retrieved food from meal!",
+      meals: meals,
+      totalCalories: totalCalories,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        "Something went wrong when retrieving foods!" + error.message,
     });
   }
 });

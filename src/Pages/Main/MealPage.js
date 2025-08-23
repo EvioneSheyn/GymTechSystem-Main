@@ -12,32 +12,56 @@ import { WhiteText } from "@/Components/WhiteText";
 import RadioSet from "../../Components/RadioSet";
 import { Image } from "expo-image";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import api from "@/Axios";
 
 const MealPage = () => {
   const options = ["Breakfast", "Lunch", "Dinner", "Snacks"];
-
-  const [mealStatus, setMealStatus] = useState("");
+  const navigation = useNavigation();
 
   const getMealStatus = () => {
-    const date = new Date();
-    date.toLocaleString("en-US", { timeZone: "Asia/Manila" });
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Manila",
+      hour: "numeric",
+      hour12: false,
+    });
 
-    switch (true) {
-      case date.getHours() < 12:
-        setMealStatus("Breakfast");
-        break;
-      case date.getHours() < 18:
-        setMealStatus("Lunch");
-        break;
-      case date.getHours() >= 18:
-        setMealStatus("Dinner");
-        break;
-    }
+    const hours = Number(formatter.format(new Date()));
+
+    if (hours < 12) return "Breakfast";
+    if (hours < 18) return "Lunch";
+    return "Dinner";
   };
 
+  const startMealType = getMealStatus();
+  const [mealType, setMealType] = useState(startMealType);
+  const [foods, setFoods] = useState([]);
+
   useEffect(() => {
-    getMealStatus();
-  }, []);
+    const fetchMealFoods = async () => {
+      try {
+        const response = await api.post("/api/meal", {
+          mealType: mealType,
+        });
+
+        if (response.status === 200) {
+          console.log(response.data);
+          setFoods(response.data.foods);
+        }
+      } catch (error) {
+        console.log(
+          "Fetch meal foods error: ",
+          error.response.data.message
+        );
+
+        if (error.status === 404) {
+          setFoods([]);
+        }
+      }
+    };
+
+    fetchMealFoods();
+  }, [mealType]);
 
   return (
     <View style={{ flexGrow: 1 }}>
@@ -58,81 +82,63 @@ const MealPage = () => {
                 paddingHorizontal: 16,
                 paddingVertical: 8,
                 backgroundColor:
-                  mealStatus === item ? "#94a3b8" : "transparent",
+                  mealType === item ? "#94a3b8" : "transparent",
                 borderRadius: 24,
               }}
               color={"white"}
               label={item}
               key={index}
-              selected={mealStatus === item}
-              onPress={() => setMealStatus(item)}
+              selected={mealType === item}
+              onPress={() => setMealType(item)}
             />
           ))}
         </RadioSet>
-        <ScrollView style={{ marginTop: 12 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              height: 65,
-              width: "100%",
-              backgroundColor: "#1e293b",
-              borderRadius: 24,
-              alignItems: "center",
-              padding: 12,
-              gap: 12,
-              flexGrow: 1,
-            }}
-          >
-            <Image
-              source={{
-                uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
-              }}
-              height={40}
-              width={40}
-              borderRadius={12}
-            />
-            <View style={{ flexGrow: 1 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+        <ScrollView style={{ marginTop: 18 }}>
+          {foods.map((food, index) => (
+            <View style={styles.foodContainer} key={index}>
+              <Image
+                source={{
+                  uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
                 }}
-              >
-                <WhiteText style={{ fontWeight: "800" }}>
-                  Chicken Inasal
-                </WhiteText>
-                <WhiteText style={{ fontSize: 12, fontWeight: 600 }}>
-                  🍗 512 kcal
+                height={40}
+                width={40}
+                borderRadius={12}
+              />
+              <View style={{ flexGrow: 1 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <WhiteText style={{ fontWeight: "800" }}>
+                    {food.food.name}
+                  </WhiteText>
+                  <WhiteText
+                    style={{ fontSize: 12, fontWeight: 600 }}
+                  >
+                    🍗 {food.totalCalories} kcal
+                  </WhiteText>
+                </View>
+                <WhiteText
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 500,
+                    color: "#ddd",
+                  }}
+                >
+                  {food.quantity} {food.food.unit}
                 </WhiteText>
               </View>
-              <WhiteText
-                style={{
-                  fontSize: 10,
-                  fontWeight: 500,
-                  color: "#ddd",
-                }}
-              >
-                1.5 servings
-              </WhiteText>
             </View>
-          </View>
+          ))}
         </ScrollView>
       </PagesLayout>
-      <View
-        style={{
-          flexDireciton: "row",
-          alignItems: "flex-end",
-          marginTop: 12,
-          position: "absolute",
-          bottom: 100,
-          right: 20,
-        }}
-      >
+      <View style={styles.absoluteAddButtonContainer}>
         <TouchableOpacity
-          style={{
-            padding: 10,
-            borderRadius: 12,
-            backgroundColor: "#5bce7eff",
+          style={styles.addButton}
+          onPress={() => {
+            navigation.navigate("Food", { mealType: mealType });
           }}
         >
           <MaterialIcons
@@ -147,4 +153,30 @@ const MealPage = () => {
 
 export default MealPage;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  foodContainer: {
+    flexDirection: "row",
+    height: 65,
+    width: "100%",
+    backgroundColor: "#1e293b",
+    borderRadius: 24,
+    alignItems: "center",
+    padding: 12,
+    gap: 12,
+    flexGrow: 1,
+    marginBottom: 8,
+  },
+  absoluteAddButtonContainer: {
+    flexDireciton: "row",
+    alignItems: "flex-end",
+    marginTop: 12,
+    position: "absolute",
+    bottom: 100,
+    right: 20,
+  },
+  addButton: {
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: "#5bce7eff",
+  },
+});

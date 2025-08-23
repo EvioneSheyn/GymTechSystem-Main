@@ -19,6 +19,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 24,
-    marginTop: 16,
   },
 });

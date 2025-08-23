@@ -47,6 +47,7 @@ export default function Register() {
         navigation.navigate("MainNavigator", {
           screen: "Dashboard",
         });
+        console.log("abot last");
       })
       .catch((error) => {
         alert(error.response.data.message);

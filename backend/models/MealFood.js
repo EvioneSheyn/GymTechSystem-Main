@@ -7,7 +7,11 @@ const MealFood = sequelize.define("MealFood", {
   quantity: {
     type: DataTypes.FLOAT,
     allowNull: false, // e.g., 1.5 servings
-  }
+  },
+  totalCalories: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
 });
 
 // Relations

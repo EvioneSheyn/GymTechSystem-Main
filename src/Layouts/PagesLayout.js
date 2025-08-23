@@ -54,7 +54,7 @@ export default PagesLayout;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#0f172a",
     paddingTop: 50,
     paddingHorizontal: 20,

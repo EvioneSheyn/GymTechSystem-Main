@@ -60,5 +60,25 @@ Set.belongsTo(Routine, { foreignKey: "routineId", as: "routine" });
 Profile.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasOne(Profile, { foreignKey: "userId", as: "profile" });
 
-Meal.belongsToMany(Food, { through: MealFood });
-Food.belongsToMany(Meal, { through: MealFood });
+Meal.belongsToMany(Food, {
+  through: MealFood,
+  foreignKey: "mealId",
+  otherKey: "foodId",
+  as: "foods",
+});
+
+Food.belongsToMany(Meal, {
+  through: MealFood,
+  foreignKey: "foodId",
+  otherKey: "mealId",
+  as: "meals",
+});
+
+MealFood.belongsTo(Meal, { foreignKey: "mealId", as: "meal" });
+Meal.hasMany(MealFood, { foreignKey: "mealId", as: "mealFoods" });
+
+MealFood.belongsTo(Food, { foreignKey: "foodId", as: "food" });
+Food.hasMany(MealFood, { foreignKey: "foodId", as: "mealFoods" });
+
+Meal.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Meal, { foreignKey: "userId", as: "meals" });

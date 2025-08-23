@@ -4,11 +4,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { RadioButton } from "@/Components/RadioButton";
 import { useNavigation } from "@react-navigation/native";
 import { WhiteText } from "@/Components/WhiteText";
+import api from "@/Axios";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -35,6 +36,24 @@ const TrackMeal = () => {
   const [selectedValue, setSelectedValue] = useState("Day");
   const options = ["Day", "Week", "Month", "Year"];
   const navigation = useNavigation();
+
+  const [totalCalories, setTotalCalories] = useState("0");
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      try {
+        const response = await api.get("/api/total-meal");
+
+        if (response.status === 200) {
+          setTotalCalories(response.data.totalCalories);
+        }
+      } catch (error) {
+        alert(error.response.data.message);
+      }
+    };
+
+    fetchMeals();
+  }, [totalCalories]);
 
   return (
     <PagesLayout>
@@ -65,7 +84,13 @@ const TrackMeal = () => {
       >
         <TouchableOpacity style={styles.orangeBox}>
           <Text>🔥</Text>
-          <Text style={styles.statText}>390</Text>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            style={styles.statText}
+          >
+            390
+          </Text>
           <Text style={{ color: "#777" }}>Burn</Text>
         </TouchableOpacity>
         <View></View>
@@ -78,7 +103,13 @@ const TrackMeal = () => {
           }}
         >
           <Text>🍽️</Text>
-          <Text style={styles.statText}>536</Text>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            style={styles.statText}
+          >
+            {totalCalories}
+          </Text>
           <Text style={{ color: "#777" }}>Eaten</Text>
         </TouchableOpacity>
       </View>
@@ -132,20 +163,23 @@ const styles = StyleSheet.create({
   greenBox: {
     alignItems: "center",
     backgroundColor: "#d0f1bcff",
-    padding: 8,
+    height: 70,
     width: 60,
     borderRadius: 12,
+    padding: 5,
   },
   orangeBox: {
     alignItems: "center",
     backgroundColor: "#eeb696ff",
-    padding: 8,
+    height: 70,
+    padding: 5,
     borderRadius: 12,
     width: 60,
   },
   statText: {
     fontSize: 18,
     fontWeight: "500",
+    flexGrow: 1,
   },
   optionsContainer: {
     backgroundColor: "#1e293b",
