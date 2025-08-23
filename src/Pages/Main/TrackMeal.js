@@ -1,7 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { RadioButton } from "@/Components/RadioButton";
+import { useNavigation } from "@react-navigation/native";
+import { WhiteText } from "@/Components/WhiteText";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -12,10 +19,6 @@ const days = Array.from({ length: 7 }, (_, i) => {
     date: date.getDate().toString().padStart(2, "0"),
   };
 });
-
-const WhiteText = ({ children, style }) => (
-  <Text style={[{ color: "white" }, style]}>{children}</Text>
-);
 
 const DateComponent = ({ day, dayOfWeek }) => (
   <View style={styles.dateComponent}>
@@ -31,6 +34,7 @@ const DateComponent = ({ day, dayOfWeek }) => (
 const TrackMeal = () => {
   const [selectedValue, setSelectedValue] = useState("Day");
   const options = ["Day", "Week", "Month", "Year"];
+  const navigation = useNavigation();
 
   return (
     <PagesLayout>
@@ -59,17 +63,24 @@ const TrackMeal = () => {
           justifyContent: "space-around",
         }}
       >
-        <View style={styles.orangeBox}>
+        <TouchableOpacity style={styles.orangeBox}>
           <Text>🔥</Text>
           <Text style={styles.statText}>390</Text>
           <Text style={{ color: "#777" }}>Burn</Text>
-        </View>
+        </TouchableOpacity>
         <View></View>
-        <View style={styles.greenBox}>
+        <TouchableOpacity
+          style={styles.greenBox}
+          onPress={() => {
+            navigation.navigate("MainNavigator", {
+              screen: "Meal",
+            });
+          }}
+        >
           <Text>🍽️</Text>
           <Text style={styles.statText}>536</Text>
           <Text style={{ color: "#777" }}>Eaten</Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.optionsContainer}>
         {options.map((item, index) => (

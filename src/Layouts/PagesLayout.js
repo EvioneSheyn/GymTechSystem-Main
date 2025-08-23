@@ -3,24 +3,45 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MainNav from "../Components/MainNav";
 
-const PagesLayout = ({ children }) => {
+const PagesLayout = ({ children, style }) => {
   const navigation = useNavigation();
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
+      <ScrollView style={[styles.container, style]}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 12,
+          }}
         >
-          <Ionicons name="chevron-back" size={28} color="#38bdf8" />
-          <Text style={styles.backText}>Back</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          >
+            <Ionicons name="chevron-back" size={28} color="#38bdf8" />
+            <Text style={styles.backText}>Back</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              //TODO add information page?
+            }}
+          >
+            <Ionicons
+              style={{ fontSize: 24, color: "#ddd" }}
+              name="information-circle-outline"
+            />
+          </TouchableOpacity>
+        </View>
 
         {children}
       </ScrollView>
@@ -41,7 +62,6 @@ const styles = StyleSheet.create({
   backButton: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
   },
   backText: {
     fontSize: 16,

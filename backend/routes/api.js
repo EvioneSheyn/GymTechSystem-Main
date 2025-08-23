@@ -8,6 +8,7 @@ const WorkoutSession = require("../models/WorkoutSession");
 const auth = require("../middleware/auth");
 const Profile = require("../models/Profile");
 const { body, validationResult } = require("express-validator");
+const Food = require("../models/Food");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
@@ -355,6 +356,21 @@ router.post("/delete-exercises", async (req, res) => {
     res
       .status(200)
       .json({ message: "Successfully deleted all exercises!" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when deleting exercises!",
+    });
+  }
+});
+
+router.post("/add-foods", async (req, res) => {
+  const { foods } = req.body;
+  try {
+    Food.bulkCreate(foods);
+
+    return res.status(200).json({
+      message: "Successfully added foods",
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Something went wrong when deleting exercises!",

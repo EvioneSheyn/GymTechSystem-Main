@@ -17,7 +17,11 @@ import CalendarPage from "./Calendar";
 import GoalPage from "./GoalPage";
 import ReportPage from "./ReportPage";
 import SettingsPage from "./SettingsPage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MealPage from "./MealPage";
+import FoodPage from "./FoodPage";
 const Stack = createNativeStackNavigator();
+// const Tabs = createBottomTabNavigator(); //TODO refactor to tabs, too many stacks
 
 export default function MainNavigator() {
   return (
@@ -55,6 +59,10 @@ export default function MainNavigator() {
         name="PlanRoutineOverview"
         component={PlanRoutineOverview}
       />
+
+      <Stack.Screen name="Meal" component={MealPage} />
+      <Stack.Screen name="Food" component={FoodPage} />
+
       <Stack.Screen name="Calendar" component={CalendarPage} />
       <Stack.Screen name="Progress" component={ProgressPage} />
       <Stack.Screen name="TrackMeal" component={TrackMeal} />

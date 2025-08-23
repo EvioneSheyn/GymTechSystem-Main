@@ -2,140 +2,140 @@
       {
         "name": "Garlic Rice (Sinangag)",
         "calories": 250,
-        "unit": "per cup",
+        "unit": "cup",
         "category": "side",
         "imageUrl": "https://i.imgur.com/EU8bXv5.jpg"
       },
       {
         "name": "Plain Steamed Rice",
         "calories": 200,
-        "unit": "per cup",
+        "unit": "cup",
         "category": "side",
         "imageUrl": "https://i.imgur.com/TIhSDeM.jpg"
       },
       {
         "name": "Chicken Adobo",
         "calories": 320,
-        "unit": "per serving",
+        "unit": "serving",
         "category": "main",
         "imageUrl": "https://i.imgur.com/7zGk0sE.jpg"
       },
       {
         "name": "Pork Adobo",
         "calories": 400,
-        "unit": "per serving",
+        "unit": "serving",
         "category": "main",
         "imageUrl": "https://i.imgur.com/1wYyW3f.jpg"
       },
       {
         "name": "Beef Tapa",
         "calories": 380,
-        "unit": "per serving",
+        "unit": "serving",
         "category": "main",
         "imageUrl": "https://i.imgur.com/MOaHnQp.jpg"
       },
       {
         "name": "Pork Sinigang",
         "calories": 350,
-        "unit": "per bowl",
+        "unit": "bowl",
         "category": "main",
         "imageUrl": "https://i.imgur.com/EfXoXoA.jpg"
       },
       {
         "name": "Kare-Kare",
         "calories": 480,
-        "unit": "per bowl",
+        "unit": "bowl",
         "category": "main",
         "imageUrl": "https://i.imgur.com/lUw0hjL.jpg"
       },
       {
         "name": "Lechon Kawali",
         "calories": 500,
-        "unit": "per serving",
+        "unit": "serving",
         "category": "main",
         "imageUrl": "https://i.imgur.com/4C3F7rI.jpg"
       },
       {
         "name": "Chicken Inasal",
         "calories": 300,
-        "unit": "per piece",
+        "unit": "piece",
         "category": "main",
         "imageUrl": "https://i.imgur.com/t7iFjaC.jpg"
       },
       {
         "name": "Bangus Sisig",
         "calories": 350,
-        "unit": "per serving",
+        "unit": "serving",
         "category": "main",
         "imageUrl": "https://i.imgur.com/8CrQqse.jpg"
       },
       {
         "name": "Lumpiang Shanghai",
         "calories": 100,
-        "unit": "per piece",
+        "unit": "piece",
         "category": "appetizer",
         "imageUrl": "https://i.imgur.com/nS1wxA4.jpg"
       },
       {
         "name": "Ukoy (Shrimp Fritter)",
         "calories": 180,
-        "unit": "per piece",
+        "unit": "piece",
         "category": "appetizer",
         "imageUrl": "https://i.imgur.com/erQdVOV.jpg"
       },
       {
         "name": "Pancit Canton",
         "calories": 320,
-        "unit": "per plate",
+        "unit": "plate",
         "category": "main",
         "imageUrl": "https://i.imgur.com/ZvdCoP0.jpg"
       },
       {
         "name": "Palabok",
         "calories": 400,
-        "unit": "per plate",
+        "unit": "plate",
         "category": "main",
         "imageUrl": "https://i.imgur.com/vuHLoIL.jpg"
       },
       {
         "name": "Halo-Halo",
         "calories": 380,
-        "unit": "per glass",
+        "unit": "glass",
         "category": "dessert",
         "imageUrl": "https://i.imgur.com/THA9JTy.jpg"
       },
       {
         "name": "Leche Flan",
         "calories": 250,
-        "unit": "per slice",
+        "unit": "slice",
         "category": "dessert",
         "imageUrl": "https://i.imgur.com/dqpDhzG.jpg"
       },
       {
         "name": "Turon (Banana Lumpia)",
         "calories": 180,
-        "unit": "per piece",
+        "unit": "piece",
         "category": "dessert",
         "imageUrl": "https://i.imgur.com/8FuRZ5M.jpg"
       },
       {
         "name": "Bibingka",
         "calories": 300,
-        "unit": "per piece",
+        "unit": "piece",
         "category": "dessert",
         "imageUrl": "https://i.imgur.com/gFb2oGq.jpg"
       },
       {
         "name": "Puto (Steamed Rice Cake)",
         "calories": 120,
-        "unit": "per piece",
+        "unit": "piece",
         "category": "dessert",
         "imageUrl": "https://i.imgur.com/t3gFSTX.jpg"
       },
       {
         "name": "Buko Pandan",
         "calories": 260,
-        "unit": "per cup",
+        "unit": "cup",
         "category": "dessert",
         "imageUrl": "https://i.imgur.com/zMb4K9P.jpg"
       }
