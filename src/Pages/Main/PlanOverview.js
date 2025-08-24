@@ -32,7 +32,10 @@ export default function PlanOverview() {
           .join("\n");
         setDetails(details);
       } catch (error) {
-        console.error("Error retrieivng plan: ", error);
+        console.error(
+          "Error retrieivng plan: ",
+          error.response.data.message
+        );
       }
     };
 

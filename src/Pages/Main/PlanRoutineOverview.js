@@ -36,8 +36,8 @@ const PlanRoutineOverview = () => {
     fetchRoutines();
   }, []);
 
-  const handleStartRoutine = (planId) => {
-    navigation.navigate("WorkoutExercises", { routineId: planId });
+  const handleStartRoutine = (routineId) => {
+    navigation.navigate("WorkoutExercises", { routineId: routineId });
   };
 
   const getTitle = (rawTitle) => {

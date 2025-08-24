@@ -94,7 +94,10 @@ export default function WorkoutExercisesScreen() {
         let exercises = response.data.sets;
         setExercises(exercises);
       } catch (error) {
-        console.error("Error fetching routine sets: ", error);
+        console.error(
+          "Error fetching routine sets: ",
+          error.response.data.message
+        );
       }
     };
 

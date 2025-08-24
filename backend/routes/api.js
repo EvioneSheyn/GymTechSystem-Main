@@ -117,7 +117,7 @@ router.get("/profile", auth, async (req, res) => {
         message: "User profile not found!",
       });
     }
-    
+
     const dob = new Date(userProfile.dateOfBirth);
     const diffMs = Date.now() - dob.getTime();
     const age = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365.25));
@@ -350,7 +350,9 @@ router.get("/routine-sets/:id", async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong when retrieving routine sets!",
+      message:
+        "Something went wrong when retrieving routine sets! " +
+        error.message,
     });
   }
 });

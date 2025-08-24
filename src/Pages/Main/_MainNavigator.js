@@ -5,7 +5,7 @@ import FemaleWorkoutPlans from "@/Pages/Main/FemaleWorkoutPlans";
 import WorkoutDetails from "@/Pages/Main/WorkoutDetails";
 import WorkoutDetailsFemale from "@/Pages/Main/WorkoutDetailsFemale";
 import WorkoutExercisesScreen from "@/Pages/Main/WorkoutExercisesScreen";
-import BeginWorkout from "@/Pages/Routines/BeginWorkout";
+import BeginWorkout from "@/Pages/Main/BeginWorkout";
 import LargeArmsExercises from "@/Pages/Main/LargeArmsExercises";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"; // ✅ Added this
 import ExerciseInfo from "@/Pages/Main/ExerciseInfo";
