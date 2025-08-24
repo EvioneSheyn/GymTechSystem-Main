@@ -100,7 +100,11 @@ export default function Dashboard() {
           );
         }
       } catch (error) {
-        console.log("Failed to fetch profile", error.message);
+        console.log(
+          "Failed to fetch profile",
+          error.response.data.message
+        );
+        setProfile(null);
       }
     };
 

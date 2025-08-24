@@ -112,6 +112,12 @@ router.get("/profile", auth, async (req, res) => {
       },
     });
 
+    if (!userProfile) {
+      return res.status(404).json({
+        message: "User profile not found!",
+      });
+    }
+    
     const dob = new Date(userProfile.dateOfBirth);
     const diffMs = Date.now() - dob.getTime();
     const age = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365.25));
@@ -120,16 +126,11 @@ router.get("/profile", auth, async (req, res) => {
       ...userProfile,
       age: age,
     };
-    if (userProfile) {
-      return res.status(200).json({
-        profile: profile,
-        message: "Succesfully retrieved user profile!",
-      });
-    } else {
-      return res.status(404).json({
-        message: "User profile not found!",
-      });
-    }
+
+    return res.status(200).json({
+      profile: profile,
+      message: "Succesfully retrieved user profile!",
+    });
   } catch (error) {
     return res
       .status(500)
@@ -169,6 +170,7 @@ router.post("/create-exercises", async (req, res) => {
         description: exercise.description,
         instruction: JSON.stringify(exercise.instruction),
         image: exercise.image,
+        variantUnit: exercise.variantUnit,
       });
     });
 
@@ -233,7 +235,7 @@ router.post("/create-plan", async (req, res) => {
               routineId: routineEntry.id,
               count: set.set_count,
               value: set.target.value,
-              type: set.target.unit,
+              unit: set.target.unit,
             });
             console.log("created set");
           } catch (error) {
