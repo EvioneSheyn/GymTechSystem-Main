@@ -5,13 +5,15 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import { FontAwesome5 } from "react-native-vector-icons";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { ExerciseImages } from "../../../sample-data/Exercises";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "@/Axios";
 
-const REST_DURATION = 5; // seconds
 const REST_NOTES = [
   "Rest helps your muscles recover and grow stronger.",
   "Short breaks prevent injury by reducing strain on joints and ligaments.",
@@ -28,11 +30,17 @@ const REST_NOTES = [
 const BeginWorkout = ({ route, navigation }) => {
   const { exercises = [], routineId } = route.params ?? [];
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [isDone, setDone] = useState(false);
+  const [isDone, setDone] = useState(true);
   const [resting, setResting] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [restNote, setRestNote] = useState("");
   const [startTime] = useState(Date.now());
+  const [timer, setTimer] = useState("0:00");
+  const [profile, setProfile] = useState();
+  const [SetCount, setSetCount] = useState(0);
+  const [initialStart, setInitialStart] = useState(false);
+  const [status, setStatus] = useState();
+  const [duration, setDuration] = useState(1);
 
   const currentExercise = exercises[currentIdx];
 
@@ -44,33 +52,74 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    if (!currentExercise) return;
-    if (resting) {
-      setRestNote(getRandomRestNotes());
-    }
+    const fetchProfile = async () => {
+      const storedProfile = await AsyncStorage.getItem("profile");
 
-    setDone(false);
-  }, [currentIdx, resting]);
+      setProfile(JSON.parse(storedProfile));
+    };
+
+    fetchProfile();
+  }, []);
 
   useEffect(() => {
-    if (isDone && resting) {
-      handleNext();
+    if (!initialStart) return;
+    const generalDuration = getDuration();
+    setDuration(generalDuration);
+
+    if (status === "working") {
+      setResting(false);
+      setDone(true); // secures that manual are not automatically starts the resting time
+    } else if (status === "resting") {
+      incrementSet();
+
+      setDuration(generalDuration);
+      setResting(true);
+      setDone(false);
     }
-  }, [isDone, resting]);
+
+    if (currentExercise.exercise.type === "time") {
+      setDone(false);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    console.log(currentExercise.unit);
+    if (SetCount >= currentExercise.count) {
+      setDone(true);
+      setTimeout(() => {
+        resetSet();
+        handleNext();
+        setDone(false);
+      }, 1000);
+    }
+  }, [SetCount]);
+
+  useEffect(() => {
+    //NOTE timer
+    setTimeout(() => {
+      setTimer(getElapsedTime().formatted);
+    }, 1000);
+  }, [timer]);
 
   const handleDone = () => {
-    if (currentExercise.exercise.type === "time" && !isDone) return;
-    setDone(false);
-    setResting(true);
+    setStatus("resting");
+  };
+
+  const incrementSet = () => {
+    setSetCount((prev) => prev + 1);
+  };
+
+  const resetSet = () => {
+    setSetCount(0);
   };
 
   const handleNext = () => {
     if (currentIdx + 1 < exercises.length) {
       setCurrentIdx(currentIdx + 1);
-      setResting(false);
     } else {
       setCompleted(true);
       handleOnFinish();
+      console.log("naabot dirid");
     }
   };
 
@@ -102,19 +151,46 @@ const BeginWorkout = ({ route, navigation }) => {
     };
   };
 
+  const getDuration = () => {
+    const REST_DURATION = 5;
+
+    if (currentExercise.unit === "mins") {
+      // return currentExercise.value * 60;
+      return 10;
+    } else if (currentExercise.unit === "secs") {
+      return currentExercise.value;
+    } else {
+      return REST_DURATION;
+    }
+  };
+
   const calculateCaloriesBurned = () => {
-    // TODO  add calculation to consider user weight, time finished the workout session, as well as
+    const MET = 4; //TODO fixed for now but can vary
+    // TODO separate MET for resting and actively working out.
+    const durationHour = getElapsedTime().raw / 3600;
+    return (MET * profile.weight * durationHour).toFixed(2);
   };
 
   const handleOnFinish = async () => {
+    const caloriesBurned = calculateCaloriesBurned();
+
+    console.log(caloriesBurned);
     try {
       const response = await api.post("/api/finish-exercise", {
         routineId: routineId,
-        caloriesBurned: 1234,
+        caloriesBurned: caloriesBurned,
         duration: getElapsedTime().raw,
       });
+
+      if (response.status === 200) {
+        alert("Congratulations bossing!");
+        navigation.navigate("Dashboard");
+      }
     } catch (error) {
-      console.log("Error recording workout: ", error.response.data);
+      console.log(
+        "Error recording workout: ",
+        error.response.data.message
+      );
     }
   };
 
@@ -139,132 +215,196 @@ const BeginWorkout = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={handleQuitting}
+      <View
         style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
           position: "absolute",
           left: 30,
           top: 50,
         }}
       >
-        <FontAwesome5
-          name="arrow-left"
-          style={{
-            fontSize: 24,
-          }}
-        />
-      </TouchableOpacity>
-      {resting ? (
-        <>
-          <Text style={styles.title}>Rest</Text>
-          <Text style={styles.subtitle}>
-            Next:{" "}
-            {exercises[currentIdx + 1]?.exercise.name || "Finish"}
+        <TouchableOpacity onPress={handleQuitting}>
+          <FontAwesome5
+            name="arrow-left"
+            style={{
+              fontSize: 24,
+            }}
+          />
+        </TouchableOpacity>
+        <Text>{timer}</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 5,
+          marginBottom: 24,
+        }}
+      >
+        <View>
+          <Text
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+            style={styles.title}
+          >
+            {currentIdx + 1} / {exercises.length} -{" "}
+            {JSON.parse(currentExercise.exercise.target)[0]}
           </Text>
-          <Text style={styles.restNote}>{restNote}</Text>
-          <View style={styles.timerContainer}>
-            <CountdownCircleTimer
-              isPlaying
-              duration={REST_DURATION}
-              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-              colorsTime={[7, 5, 2, 0]}
-              onComplete={() => {
-                setDone(true);
-                handleNext();
-              }}
-              //NOTE Rest timer circle
-            >
-              {({ remainingTime }) => (
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("ExerciseInfo", {
+              exercise: currentExercise.exercise,
+            });
+          }}
+        >
+          <FontAwesome5
+            name="question-circle"
+            iconType="solid"
+            style={{
+              fontSize: 22,
+              color: "gray",
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+      <Image
+        source={ExerciseImages[currentExercise.exercise.image]}
+        style={styles.gif}
+      />
+      <View
+        style={{
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          width: "100%",
+          marginBottom: 12,
+        }}
+      >
+        <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+          {currentExercise.exercise.name}
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          gap: 45,
+          width: "100%",
+          marginBottom: 24,
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.greenCircle}>
+            <Text style={{ fontSize: 18, fontWeight: 700 }}>
+              {currentExercise.value > 1 &&
+              currentExercise.unit === "reps"
+                ? currentExercise.value
+                : "No"}
+            </Text>
+          </View>
+          <Text>Repeats required</Text>
+        </View>
+        <View style={[styles.centeredView]}>
+          <CountdownCircleTimer
+            key={`${currentIdx}-${duration}-${SetCount}-${status}`}
+            isPlaying={!isDone}
+            duration={duration}
+            colors={"#61B1C3"}
+            onComplete={() => {
+              if (status === "resting") {
+                setStatus("working");
+              } else {
+                setStatus("resting");
+              }
+            }}
+            size={120}
+            strokeWidth={6}
+          >
+            {({ remainingTime }) =>
+              !initialStart ? (
+                <TouchableOpacity
+                  style={styles.centeredView}
+                  onPress={() => {
+                    setInitialStart(true);
+                    setStatus("working");
+                  }}
+                >
+                  <Text style={styles.initialStartText}>START</Text>
+                  <MaterialIcons
+                    name={"play-arrow"}
+                    style={{
+                      color: "#61B1C3",
+                      fontSize: 52,
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : (
                 <Text
                   style={{
-                    fontSize: 56,
+                    fontSize: 24,
                   }}
                 >
                   {getMinuteFormat(remainingTime)}
                 </Text>
-              )}
-            </CountdownCircleTimer>
-          </View>
-        </>
-      ) : (
-        <>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 5,
-              marginBottom: 24,
-            }}
-          >
-            <Text style={styles.title}>
-              {currentExercise.exercise.name}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("ExerciseInfo");
-              }}
-            >
-              <FontAwesome5
-                name="question-circle"
-                iconType="solid"
-                style={{
-                  fontSize: 22,
-                  color: "gray",
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-          <Image
-            source={ExerciseImages[currentExercise.exercise.image]}
-            style={styles.gif}
-          />
-          {currentExercise.exercise.type === "time" ? (
-            <View style={styles.timerContainer}>
-              <CountdownCircleTimer
-                isPlaying
-                duration={currentExercise.value}
-                colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-                colorsTime={[7, 5, 2, 0]}
-                onComplete={() => {
-                  setDone(true);
-                  handleDone();
-                }}
-              >
-                {({ remainingTime }) => (
-                  <Text
-                    style={{
-                      fontSize: 56,
-                    }}
-                  >
-                    {getMinuteFormat(remainingTime)}
-                  </Text>
-                )}
-              </CountdownCircleTimer>
-            </View>
-          ) : (
-            <View style={styles.repsContainer}>
-              <Text style={styles.repsText}>
-                {currentExercise.value}{" "}
-                {`${currentExercise.type}`.toLowerCase()}
-              </Text>
-            </View>
-          )}
-          <TouchableOpacity
-            style={styles.nextButton}
-            onPress={handleDone}
-            disabled={
-              currentExercise.exercise.type === "time" && !isDone
+              )
             }
-          >
-            <Text style={styles.nextButtonText}>
-              {currentExercise.exercise.type === "time" && !isDone
-                ? "Wait..."
-                : "Done"}
+          </CountdownCircleTimer>
+          <Text>
+            {currentExercise.exercise.type === "time" &&
+            status === "working"
+              ? "Timer"
+              : "Rest"}
+          </Text>
+        </View>
+        <View style={styles.centeredView}>
+          <View style={styles.orangeCircle}>
+            <Text style={{ fontSize: 18, fontWeight: 700 }}>
+              {SetCount}/{currentExercise.count}
             </Text>
-          </TouchableOpacity>
-        </>
-      )}
+          </View>
+          <Text>Sets done</Text>
+        </View>
+      </View>
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: "#ddd",
+            borderRadius: 12,
+            alignItems: "center",
+            justifyContent: "center",
+            flexGrow: 1,
+          }}
+        >
+          <TextInput
+            keyboardType="numeric"
+            placeholder="Enter KG"
+            style={{
+              width: "100%",
+              paddingHorizontal: 12,
+            }}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.nextButton}
+          onPress={handleDone}
+          disabled={
+            currentExercise.exercise.type === "time" && !isDone
+          }
+        >
+          <Text style={styles.nextButtonText}>Record</Text>
+          <MaterialIcons
+            name={"add-circle-outline"}
+            style={{ color: "white", fontSize: 24 }}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -281,7 +421,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   title: {
-    fontSize: 28,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#222",
   },
@@ -296,13 +436,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 32,
     objectFit: "contain",
-  },
-  timerContainer: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 32,
-    minWidth: 100,
-    alignItems: "center",
   },
   timerText: {
     fontSize: 36,
@@ -333,16 +466,47 @@ const styles = StyleSheet.create({
     color: "#3498db",
   },
   nextButton: {
-    backgroundColor: "#06b6d4",
-    paddingVertical: 16,
-    paddingHorizontal: 48,
-    borderRadius: 24,
+    flexDirection: "row",
+    gap: 4,
+    alignItems: "center",
+    backgroundColor: "#7FDFDF",
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 10,
     alignItems: "center",
     opacity: 1,
   },
   nextButtonText: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
+  },
+  centeredView: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 65,
+  },
+  orangeCircle: {
+    borderRadius: 99999,
+    borderWidth: 5,
+    borderColor: "#E8BB7D",
+    height: 65,
+    width: 65,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  greenCircle: {
+    borderRadius: 99999,
+    borderWidth: 5,
+    borderColor: "#61C399",
+    height: 65,
+    width: 65,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  initialStartText: {
+    color: "#61B1C3",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });

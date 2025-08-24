@@ -92,7 +92,7 @@ export default function Dashboard() {
       try {
         const response = await api.get("/api/profile");
         if (response.data.profile) {
-          let profile = response.data.profile;
+          let profile = response.data.profile.dataValues;
           setProfile(profile);
           await AsyncStorage.setItem(
             "profile",

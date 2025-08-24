@@ -12,7 +12,7 @@ const MainNav = ({ navigation }) => {
     <View style={styles.bottomNav}>
       {[
         { label: "Home", icon: "home", screen: "Dashboard" },
-        { label: "Meal", icon: "local-dining", screen: "TrackMeal" },
+        { label: "Meal", icon: "local-dining", screen: "Meal" },
         { label: "Progress", icon: "timeline", screen: "Progress" },
         { label: "Report", icon: "equalizer", screen: "Report" },
         { label: "Settings", icon: "settings", screen: "Settings" },

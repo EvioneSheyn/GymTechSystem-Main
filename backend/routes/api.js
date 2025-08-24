@@ -18,10 +18,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/finish-exercise", auth, async (req, res) => {
+  const { routineId, caloriesBurned, duration } = req.body;
+  const userId = req.user.userId;
+  
   try {
-    const { routineId, caloriesBurned, duration } = req.body;
-    const userId = req.user.userId;
-
     console.log(userId, routineId, caloriesBurned, duration);
     const session = await WorkoutSession.create({
       userId: userId,
@@ -36,7 +36,7 @@ router.post("/finish-exercise", auth, async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Something went wrong: {" + error });
+      .json({ message: "Something went wrong: {" + error.message });
   }
 });
 
