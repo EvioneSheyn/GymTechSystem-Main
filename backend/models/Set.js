@@ -13,8 +13,8 @@ const Set = sequelize.define("Set", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  type: {
-    type: DataTypes.ENUM(["Secs", "Reps"]),
+  unit: {
+    type: DataTypes.ENUM(["reps", "secs", "mins"]),
     allowNull: false,
   },
   routineId: {

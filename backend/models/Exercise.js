@@ -15,6 +15,10 @@ const Exercise = sequelize.define("Exercise", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  variantUnit: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   description: {
     type: DataTypes.TEXT,
     allowNull: true,

@@ -9,6 +9,7 @@
       "sets": 1,
       "details": "5 min., 110-140bpm",
       "image": "treadmill",
+      "variantUnit": "kmph",
       "instruction": [
         "Step onto the treadmill and attach the safety clip.",
         "Set the desired speed and incline.",
@@ -17,7 +18,7 @@
       ],
       "description": "Improves cardiovascular endurance, burns calories, and strengthens lower body muscles while enhancing stamina.",
       "target": [
-        "Cardiovascular system",
+        "Cardio",
         "Quadriceps",
         "Hamstrings",
         "Calves"
@@ -32,6 +33,7 @@
       "sets": 1,
       "details": "1x20",
       "image": "arm_circles_back",
+      "variantUnit": "bodyweight",
       "instruction": [
         "Stand with feet shoulder-width apart.",
         "Extend arms straight out at shoulder height.",
@@ -53,6 +55,7 @@
       "sets": 1,
       "details": "1x20",
       "image": "arm_circles_forward",
+      "variantUnit": "bodyweight",
       "instruction": [
         "Stand upright with feet shoulder-width apart.",
         "Extend arms straight out at shoulder height.",
@@ -74,6 +77,7 @@
       "sets": 4,
       "details": "4x20",
       "image": "leg_raise",
+      "variantUnit": "bodyweight",
       "instruction": [
         "Hang from a pull-up bar with arms fully extended.",
         "Keep your core tight and legs straight.",
@@ -97,6 +101,7 @@
       "weight": 20,
       "details": "4x12x20 kg",
       "image": "pec_fly",
+      "variantUnit": "kg",
       "instruction": [
         "Sit on the pec fly machine with your back against the pad.",
         "Grasp the handles with elbows slightly bent.",
@@ -119,6 +124,7 @@
       "weight": 10,
       "details": "4x10x10 kg",
       "image": "dumbbell_press",
+      "variantUnit": "kg",
       "instruction": [
         "Lie flat on a bench holding a dumbbell in each hand.",
         "Position dumbbells at chest level with palms facing forward.",
@@ -142,6 +148,7 @@
       "weight": 20,
       "details": "4x12x20 kg",
       "image": "incline_press",
+      "variantUnit": "kg",
       "instruction": [
         "Sit on the incline press machine with back supported.",
         "Grip the handles with palms facing forward.",
@@ -164,6 +171,7 @@
       "sets": 4,
       "details": "4x12",
       "image": "pushups",
+      "variantUnit": "bodyweight",
       "instruction": [
         "Start in a plank position with hands under shoulders.",
         "Lower your body until your chest touches the floor.",
@@ -187,6 +195,7 @@
       "weight": 15,
       "details": "4x12x15 kg",
       "image": "pulley_curl",
+      "variantUnit": "kg",
       "instruction": [
         "Stand facing the high pulley machine.",
         "Hold the bar with an underhand grip.",
@@ -207,6 +216,7 @@
       "sets": 1,
       "details": "5 min., 110-140bpm",
       "image": "elliptical",
+      "variantUnit": "level",
       "instruction": [
         "Step onto the pedals and hold the handles.",
         "Begin pedaling in a forward motion.",
@@ -215,7 +225,7 @@
       ],
       "description": "Low-impact cardio that improves endurance and burns calories while engaging both upper and lower body.",
       "target": [
-        "Cardiovascular system",
+        "Cardio",
         "Quads",
         "Hamstrings",
         "Glutes"
@@ -230,6 +240,7 @@
       "sets": 1,
       "details": "1x20 s",
       "image": "chest_stretch",
+      "variantUnit": "seconds",
       "instruction": [
         "Stand beside a wall or doorway.",
         "Place your forearm against the surface with elbow at shoulder height.",
@@ -250,6 +261,7 @@
       "sets": 1,
       "details": "1x20 s",
       "image": "shoulder_stretch",
+      "variantUnit": "seconds",
       "instruction": [
         "Extend one arm straight in front of you, palm down.",
         "Use the other hand to gently pull fingers back toward you.",

@@ -26,6 +26,7 @@
     "react-native": "0.79.5",
     "react-native-calendars": "^1.1313.0",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-circular-progress": "^1.4.1",
     "react-native-countdown-circle": "^3.0.1",
     "react-native-countdown-circle-timer": "^3.2.1",
     "react-native-date-picker": "^5.0.13",
@@ -35,7 +36,7 @@
     "react-native-picker": "^4.3.7",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
-    "react-native-svg": "15.11.2",
+    "react-native-svg": "^15.11.2",
     "react-native-vector-icons": "^10.3.0",
     "react-native-webview": "~13.13.5",
     "react-native-youtube-iframe": "^2.4.1"

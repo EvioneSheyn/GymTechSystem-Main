@@ -49,7 +49,9 @@ export default function WorkoutDetailsFemale({ route, navigation }) {
         </Text>
         <Text style={styles.info}>
           Categories:{" "}
-          <Text style={styles.bold}>for women, for the gym, beginner</Text>
+          <Text style={styles.bold}>
+            for women, for the gym, beginner
+          </Text>
         </Text>
       </View>
 
@@ -59,10 +61,11 @@ export default function WorkoutDetailsFemale({ route, navigation }) {
 
       {/* Description */}
       <Text style={styles.description}>
-        When you see a woman with a beautiful body, it’s not magic—it’s
-        discipline, planning, and consistent effort. This program is designed to
-        reshape your body while supporting your wellness through meal guidance,
-        structured workouts, and a motivational path to your goal.
+        When you see a woman with a beautiful body, it’s not
+        magic—it’s discipline, planning, and consistent effort. This
+        program is designed to reshape your body while supporting your
+        wellness through meal guidance, structured workouts, and a
+        motivational path to your goal.
       </Text>
     </ScrollView>
   );

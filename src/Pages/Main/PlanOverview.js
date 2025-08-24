@@ -40,7 +40,7 @@ export default function PlanOverview() {
   }, []);
 
   const handleStartWorkout = () => {
-    navigation.navigate("PlanRoutineOverview", { planId: planId });
+    navigation.navigate("PlanRoutineOverview", { plan: plan });
   };
 
   return (

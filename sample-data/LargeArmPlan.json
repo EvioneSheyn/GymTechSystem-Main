@@ -8,44 +8,44 @@
       {
         "title": "Day 1 - Biceps Focus",
         "sets": [
-          { "exercise": 10, "set_count": 1, "target": { "value": 300, "unit": "Secs" } },
-          { "exercise": 9, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 8, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 3, "set_count": 1, "target": { "value": 20, "unit": "Reps" } },
-          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "Secs" } }
+          { "exercise": 10, "set_count": 1, "target": { "value": 8, "unit": "mins" } },
+          { "exercise": 9, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 8, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 3, "set_count": 1, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
         ]
       },
       { "title": "Day 2 - Rest", "sets": [] },
       {
         "title": "Day 3 - Chest & Triceps",
         "sets": [
-          { "exercise": 1, "set_count": 1, "target": { "value": 60, "unit": "Secs" } },
-          { "exercise": 7, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 6, "set_count": 4, "target": { "value": 10, "unit": "Reps" } },
-          { "exercise": 5, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "Secs" } }
+          { "exercise": 1, "set_count": 1, "target": { "value": 60, "unit": "secs" } },
+          { "exercise": 7, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 6, "set_count": 4, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 5, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
         ]
       },
       { "title": "Day 4 - Rest", "sets": [] },
       {
         "title": "Day 5 - Arm Endurance",
         "sets": [
-          { "exercise": 2, "set_count": 1, "target": { "value": 20, "unit": "Reps" } },
-          { "exercise": 9, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 8, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 4, "set_count": 4, "target": { "value": 20, "unit": "Reps" } },
-          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "Secs" } }
+          { "exercise": 2, "set_count": 1, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 9, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 8, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 4, "set_count": 4, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
         ]
       },
       { "title": "Day 6 - Rest", "sets": [] },
       {
         "title": "Day 7 - Upper Body Power",
         "sets": [
-          { "exercise": 10, "set_count": 1, "target": { "value": 300, "unit": "Secs" } },
-          { "exercise": 7, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 6, "set_count": 4, "target": { "value": 10, "unit": "Reps" } },
-          { "exercise": 5, "set_count": 4, "target": { "value": 12, "unit": "Reps" } },
-          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "Secs" } }
+          { "exercise": 10, "set_count": 1, "target": { "value": 300, "unit": "secs" } },
+          { "exercise": 7, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 6, "set_count": 4, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 5, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
         ]
       }
     ]
