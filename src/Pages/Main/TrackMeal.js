@@ -3,6 +3,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
@@ -10,34 +11,96 @@ import { RadioButton } from "@/Components/RadioButton";
 import { useNavigation } from "@react-navigation/native";
 import { WhiteText } from "@/Components/WhiteText";
 import api from "@/Axios";
+import { PieChart } from "react-native-gifted-charts";
+import { LineChart } from "react-native-chart-kit";
+
+const today = new Date();
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+  backgroundGradientFrom: "#1e2229ff",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#080a13ff",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(37, 146, 219, ${opacity})`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: true, // optional
+};
+
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      color: (opacity = 1) => `rgba(237, 73, 73, ${opacity})`, // line color
+      strokeWidth: 5,
+    },
+    {
+      data: [30, 65, 2, 80, 59, 73],
+      color: (opacity = 1) => `rgba(0, 96, 252, ${opacity})`, // line color
+      strokeWidth: 5,
+    },
+  ],
+  legend: ["Calorie Burned", "Calorie Eaten"],
+};
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
   date.setDate(date.getDate() - date.getDay() + i);
+
+  const isoDate = date.toISOString().split("T")[0];
+
   return {
-    key: date.getDate() - date.getDay() + i,
+    key: isoDate,
     day: date.toLocaleDateString("en-US", { weekday: "short" }),
     date: date.getDate().toString().padStart(2, "0"),
   };
 });
 
-const DateComponent = ({ day, dayOfWeek }) => (
-  <View style={styles.dateComponent}>
-    <WhiteText style={{ fontWeight: "500", fontSize: 14 }}>
+const DateComponent = ({
+  day,
+  dayOfWeek,
+  selected = false,
+  onPress,
+}) => (
+  <TouchableOpacity
+    style={[
+      styles.dateComponent,
+      selected && { backgroundColor: "#38bdf8" },
+    ]}
+    onPress={onPress}
+  >
+    <WhiteText
+      style={{
+        fontWeight: "500",
+        fontSize: 14,
+        color: selected ? "black" : "white",
+      }}
+    >
       {day}
     </WhiteText>
-    <WhiteText style={{ color: "gray", fontSize: 10 }}>
+    <WhiteText
+      style={{
+        color: "gray",
+        fontSize: 10,
+        color: selected ? "#333" : "white",
+      }}
+    >
       {dayOfWeek}
     </WhiteText>
-  </View>
+  </TouchableOpacity>
 );
 
 const TrackMeal = () => {
   const [selectedValue, setSelectedValue] = useState("Day");
+  const [selectedDate, setSelectedDate] = useState(
+    today.toISOString().split("T")[0]
+  );
   const options = ["Day", "Week", "Month", "Year"];
   const navigation = useNavigation();
 
   const [totalCalories, setTotalCalories] = useState("0");
+  const [totalCaloriesBurned, setTotalCaloriesBurned] = useState("0");
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -55,6 +118,41 @@ const TrackMeal = () => {
     fetchMeals();
   }, [totalCalories]);
 
+  useEffect(() => {
+    const fetchCaloriesBurned = async () => {
+      try {
+        const response = await api.get("/api/workout-sessions");
+
+        if (response.status === 200) {
+          console.log("Choy: ", response.data.sessions);
+          setTotalCaloriesBurned(response.data.caloriesBurned);
+        }
+      } catch (error) {
+        alert(error.response.data.message);
+      }
+    };
+
+    fetchCaloriesBurned();
+  }, [totalCaloriesBurned]);
+
+  const handleSelect = (isodate) => {
+    setSelectedDate(isodate);
+
+    // fetchCalorieReport();
+  };
+
+  const fetchCalorieReport = async () => {
+    try {
+      const response = await api.get("/");
+      // TODO add meal
+    } catch (error) {
+      console.log(
+        "Date filter selection error: ",
+        error.response.data.message
+      );
+    }
+  };
+
   return (
     <PagesLayout>
       <View>
@@ -67,6 +165,8 @@ const TrackMeal = () => {
             day={day.date}
             dayOfWeek={day.day}
             key={day.key}
+            selected={selectedDate === day.key}
+            onPress={() => handleSelect(day.key)}
           />
         ))}
       </View>
@@ -89,11 +189,28 @@ const TrackMeal = () => {
             numberOfLines={1}
             style={styles.statText}
           >
-            390
+            {totalCaloriesBurned}
           </Text>
           <Text style={{ color: "#777" }}>Burn</Text>
         </TouchableOpacity>
-        <View></View>
+        <View>
+          <PieChart
+            data={[
+              {
+                value: Number(totalCalories),
+                color: "#7bee77ff",
+              },
+              {
+                value: Number(totalCaloriesBurned),
+                color: "#f15353ff",
+              },
+            ]}
+            innerRadius={40}
+            innerCircleColor={"#242936ff"}
+            radius={55}
+            donut
+          />
+        </View>
         <TouchableOpacity
           style={styles.greenBox}
           onPress={() => {
@@ -130,6 +247,22 @@ const TrackMeal = () => {
             onPress={() => setSelectedValue(item)}
           />
         ))}
+      </View>
+      <View
+        style={{
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <LineChart
+          data={data}
+          width={screenWidth}
+          height={256}
+          verticalLabelRotation={30}
+          chartConfig={chartConfig}
+          bezier
+        />
       </View>
     </PagesLayout>
   );

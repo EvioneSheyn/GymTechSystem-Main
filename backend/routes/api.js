@@ -11,7 +11,8 @@ const { body, validationResult } = require("express-validator");
 const Food = require("../models/Food");
 const Meal = require("../models/Meal");
 const MealFood = require("../models/MealFood");
-const { EagerLoadingError } = require("sequelize");
+const { Op } = require("sequelize");
+const { startOfDay, endOfDay } = require("date-fns");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
 router.post("/finish-exercise", auth, async (req, res) => {
   const { routineId, caloriesBurned, duration } = req.body;
   const userId = req.user.userId;
-  
+
   try {
     console.log(userId, routineId, caloriesBurned, duration);
     const session = await WorkoutSession.create({
@@ -138,7 +139,7 @@ router.get("/profile", auth, async (req, res) => {
   }
 });
 
-router.get("/workout-sessions", auth, async (req, res) => {
+router.get("/all-workout-sessions", auth, async (req, res) => {
   const userId = req.user.userId;
 
   try {
@@ -510,6 +511,43 @@ router.get("/total-meal", auth, async (req, res) => {
     return res.status(500).json({
       message:
         "Something went wrong when retrieving foods!" + error.message,
+    });
+  }
+});
+
+router.get("/workout-sessions", auth, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const now = new Date();
+    const start = startOfDay(now);
+    const end = endOfDay(now);
+
+    const workoutSessions = await WorkoutSession.findAll({
+      where: {
+        userId: userId,
+        createdAt: {
+          [Op.between]: [start, end],
+        },
+      },
+    });
+
+    let totalCaloriesBurned = 0;
+
+    workoutSessions.forEach((item) => {
+      totalCaloriesBurned += item.caloriesBurned;
+    });
+
+    return res.status(200).json({
+      message: "Successfully retrieved calories-burned record!",
+      sessions: workoutSessions,
+      caloriesBurned: totalCaloriesBurned,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        "Something went wrong when retrieving calories burned!" +
+        error.message,
     });
   }
 });

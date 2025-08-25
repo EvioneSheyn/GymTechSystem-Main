@@ -3,10 +3,37 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { RadioButton } from "@/Components/RadioButton";
+import { LineChart } from "react-native-chart-kit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+  backgroundGradientFrom: "#1e2229ff",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#080a13ff",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(37, 146, 219, ${opacity})`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: true, // optional
+};
+
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [70, 65, 63, 60, 59, 56],
+      color: (opacity = 1) => `rgba(0, 96, 252, ${opacity})`, // line color
+      strokeWidth: 5,
+    },
+  ],
+  legend: ["Weight"],
+};
 
 const WhiteText = ({ children, style }) => (
   <Text style={[{ color: "white" }, style]}>{children}</Text>
@@ -14,8 +41,19 @@ const WhiteText = ({ children, style }) => (
 
 const ProgressPage = () => {
   const [selectedValue, setSelectedValue] = useState("Week");
+  const [profile, setProfile] = useState();
 
   const options = ["Week", "Month", "Year", "All"];
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const storedProfile = await AsyncStorage.getItem("profile");
+
+      setProfile(JSON.parse(storedProfile));
+    };
+
+    fetchProfile();
+  }, []);
 
   return (
     <PagesLayout>
@@ -49,7 +87,16 @@ const ProgressPage = () => {
           borderRadius: 16,
           marginTop: 16,
         }}
-      ></View>
+      >
+        <LineChart
+          data={data}
+          width={320}
+          height={220}
+          verticalLabelRotation={20}
+          chartConfig={chartConfig}
+          bezier
+        />
+      </View>
       <View style={{ marginTop: 16 }}>
         <View
           style={{
@@ -106,7 +153,9 @@ const ProgressPage = () => {
             </Text>
           </View>
           <WhiteText style={{ color: "#aaa", fontSize: 32 }}>
-            <WhiteText style={{ fontWeight: "bold" }}>60</WhiteText>{" "}
+            <WhiteText style={{ fontWeight: "bold" }}>
+              {profile?.weight}
+            </WhiteText>{" "}
             Kg
           </WhiteText>
         </View>
