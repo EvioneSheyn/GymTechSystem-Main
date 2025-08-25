@@ -139,25 +139,6 @@ router.get("/profile", auth, async (req, res) => {
   }
 });
 
-router.get("/all-workout-sessions", auth, async (req, res) => {
-  const userId = req.user.userId;
-
-  try {
-    const sessions = await WorkoutSession.findAll({
-      where: { userId: userId },
-    });
-
-    return res.status(200).json({
-      message: "Succesfully retrieved workout sessions",
-      sessions: sessions,
-    });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Something went wrong: {" + error });
-  }
-});
-
 router.post("/create-exercises", async (req, res) => {
   const { exercises } = req.body;
   // name, type, target, description, instruction, image, video.
@@ -304,6 +285,10 @@ router.get("/plan-routines/:id", async (req, res) => {
       include: {
         model: Routine,
         as: "routines",
+        include: {
+          model: Set,
+          as: "sets",
+        },
       },
     });
 
@@ -512,6 +497,25 @@ router.get("/total-meal", auth, async (req, res) => {
       message:
         "Something went wrong when retrieving foods!" + error.message,
     });
+  }
+});
+
+router.get("/all-workout-sessions", auth, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const sessions = await WorkoutSession.findAll({
+      where: { userId: userId },
+    });
+
+    return res.status(200).json({
+      message: "Succesfully retrieved workout sessions",
+      sessions: sessions,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong: {" + error.message });
   }
 });
 

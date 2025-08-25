@@ -9,7 +9,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MainNav from "../Components/MainNav";
 
-const PagesLayout = ({ children, style }) => {
+const PagesLayout = ({
+  children,
+  style,
+  modal,
+  showModal = false,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -46,6 +51,7 @@ const PagesLayout = ({ children, style }) => {
         {children}
       </ScrollView>
       <MainNav navigation={navigation} />
+      {showModal && modal}
     </>
   );
 };

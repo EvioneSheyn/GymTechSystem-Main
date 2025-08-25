@@ -18,6 +18,9 @@ const PlanRoutineOverview = () => {
   const route = useRoute();
   const { plan } = route.params;
   const [routines, setRoutines] = useState([]);
+  const [levelIndex, setLevelIndex] = useState(0);
+
+  const [workoutSessions, setWorkoutSessions] = useState();
 
   useEffect(() => {
     const fetchRoutines = async () => {
@@ -27,6 +30,24 @@ const PlanRoutineOverview = () => {
         );
 
         let routines = response.data.routines;
+
+        routines.forEach((routine) => {
+          routine.duration = 0;
+          routine.sets.forEach((set) => {
+            switch (set.unit) {
+              case "secs":
+                routine.duration += set.value * set.count;
+                break;
+              case "mins":
+                routine.duration += set.value * 60 * set.count;
+                break;
+              case "reps":
+                routine.duration += set.value * 3 * set.count;
+                break;
+            }
+          });
+          console.log(routine.duration);
+        });
         setRoutines(routines);
       } catch (error) {
         console.error("Error fetching routines: ", error);
@@ -35,6 +56,64 @@ const PlanRoutineOverview = () => {
 
     fetchRoutines();
   }, []);
+
+  useEffect(() => {
+    const fetchWorkoutSessions = async () => {
+      try {
+        const response = await api.get("/api/all-workout-sessions");
+
+        if (response.status === 200) {
+          setWorkoutSessions(response.data.sessions);
+        }
+      } catch (error) {
+        console.error("Error fetching workout sessions: ", error);
+      }
+    };
+
+    fetchWorkoutSessions();
+  }, []);
+
+  useEffect(() => {
+    getLevelIndex();
+  }, [routines]);
+
+  useEffect(() => {
+    console.log("Level Index: ", levelIndex);
+  }, [levelIndex]);
+
+  const checkCompletion = (routineIdToCheck) => {
+    return workoutSessions?.some(
+      (s) => s.routineId === routineIdToCheck
+    );
+  };
+
+  const getMinuteFormat = (timeInSeconds) => {
+    const minute = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+
+    return `${minute}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const getLevelIndex = () => {
+    let lastRoutineId = routines[0]?.id;
+    workoutSessions?.forEach((session, index) => {
+      if (session.routineId > lastRoutineId) {
+        lastRoutineId = session.routineId;
+      }
+    });
+    routines?.forEach((routine, index) => {
+      if (lastRoutineId == routine.id) {
+        const nextIndex =
+          index + 1 >= routines.length ? routines.length : index + 1;
+
+        if (routines[nextIndex]?.isRest) {
+          setLevelIndex(nextIndex + 1);
+        } else {
+          setLevelIndex(nextIndex);
+        }
+      }
+    });
+  };
 
   const handleStartRoutine = (routineId) => {
     navigation.navigate("WorkoutExercises", { routineId: routineId });
@@ -111,17 +190,19 @@ const PlanRoutineOverview = () => {
                         style={styles.timeIcon}
                       />
                       <Text style={{ fontWeight: 500, fontSize: 12 }}>
-                        09:33
+                        {getMinuteFormat(routine.duration)}
                       </Text>
                     </View>
                   )}
                 </View>
                 <View>
-                  {index === 0 ? (
+                  {index === 0 ||
+                  (checkCompletion(routines[index - 2]?.id) &&
+                    !routine.isRest) ? (
                     <AnimatedCircularProgress
                       size={50}
                       width={3}
-                      fill={0}
+                      fill={checkCompletion(routine.id) ? 100 : 0}
                       tintColor="#00e0ff"
                       backgroundColor="#9b9b9bff"
                     >
@@ -154,7 +235,7 @@ const PlanRoutineOverview = () => {
                   )}
                 </View>
               </View>
-              {index === 0 && (
+              {levelIndex === index && (
                 <TouchableOpacity
                   style={styles.startButton}
                   onPress={() => handleStartRoutine(routine.id)}

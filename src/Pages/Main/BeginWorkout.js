@@ -41,6 +41,7 @@ const BeginWorkout = ({ route, navigation }) => {
   const [initialStart, setInitialStart] = useState(false);
   const [status, setStatus] = useState();
   const [duration, setDuration] = useState(1);
+  const [variantUnitValue, setVariantUnitValue] = useState();
 
   const currentExercise = exercises[currentIdx];
 
@@ -52,6 +53,11 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    console.log(
+      "variantUnit: ",
+      currentExercise.exercise.variantUnit
+    );
+
     const fetchProfile = async () => {
       const storedProfile = await AsyncStorage.getItem("profile");
 
@@ -102,6 +108,15 @@ const BeginWorkout = ({ route, navigation }) => {
   }, [timer]);
 
   const handleDone = () => {
+    if (
+      (currentExercise.exercise.variantUnit === "kg" &&
+        !variantUnitValue) ||
+      variantUnitValue <= 0
+    ) {
+      alert("Invalid input, change to appropriate weights");
+
+      return;
+    }
     setStatus("resting");
   };
 
@@ -370,41 +385,39 @@ const BeginWorkout = ({ route, navigation }) => {
           <Text>Sets done</Text>
         </View>
       </View>
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "#ddd",
-            borderRadius: 12,
-            alignItems: "center",
-            justifyContent: "center",
-            flexGrow: 1,
-          }}
-        >
-          <TextInput
-            keyboardType="numeric"
-            placeholder="Enter KG"
-            style={{
-              width: "100%",
-              paddingHorizontal: 12,
-            }}
-          />
-        </View>
+      {currentExercise.exercise.variantUnit === "kg" && (
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <View style={styles.variableInput}>
+            <TextInput
+              defaultValue={Math.floor(profile.weight * 0.1)}
+              value={variantUnitValue}
+              keyboardType="numeric"
+              placeholder="Enter KG"
+              style={{
+                width: "100%",
+                paddingHorizontal: 12,
+              }}
+              onChangeText={(text) =>
+                setVariantUnitValue(Number(text))
+              }
+            />
+          </View>
 
-        <TouchableOpacity
-          style={styles.nextButton}
-          onPress={handleDone}
-          disabled={
-            currentExercise.exercise.type === "time" && !isDone
-          }
-        >
-          <Text style={styles.nextButtonText}>Record</Text>
-          <MaterialIcons
-            name={"add-circle-outline"}
-            style={{ color: "white", fontSize: 24 }}
-          />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={styles.nextButton}
+            onPress={handleDone}
+            disabled={
+              currentExercise.exercise.type === "time" && !isDone
+            }
+          >
+            <Text style={styles.nextButtonText}>Record</Text>
+            <MaterialIcons
+              name={"add-circle-outline"}
+              style={{ color: "white", fontSize: 24 }}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -508,5 +521,13 @@ const styles = StyleSheet.create({
     color: "#61B1C3",
     fontWeight: "bold",
     fontSize: 14,
+  },
+  variableInput: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
   },
 });

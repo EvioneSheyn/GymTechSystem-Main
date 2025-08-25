@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
@@ -42,6 +43,7 @@ const WhiteText = ({ children, style }) => (
 const ProgressPage = () => {
   const [selectedValue, setSelectedValue] = useState("Week");
   const [profile, setProfile] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   const options = ["Week", "Month", "Year", "All"];
 
@@ -56,7 +58,50 @@ const ProgressPage = () => {
   }, []);
 
   return (
-    <PagesLayout>
+    <PagesLayout
+      showModal={showModal}
+      modal={
+        <View style={styles.modalBaseView}>
+          <TouchableOpacity
+            onPress={() => setShowModal(false)}
+            style={styles.modalBackdropView}
+          />
+          <View style={styles.modalCenterView}>
+            <Text style={styles.modalTitleText}>
+              Enter new weight:
+            </Text>
+            <Text style={styles.modalSubText}>
+              Updating your weight allows us to see your weight
+              progress
+            </Text>
+            <View style={styles.modalInputView}>
+              <TextInput
+                keyboardType="numeric"
+                style={{ flexGrow: 1 }}
+              />
+              <Text style={{ borderLeftWidth: 1, paddingLeft: 12 }}>
+                Kg
+              </Text>
+            </View>
+            <View style={styles.modalButtonGroupView}>
+              <TouchableOpacity style={styles.modalSaveButton}>
+                <WhiteText style={{ fontWeight: "bold" }}>
+                  Save
+                </WhiteText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalCancelButton}
+                onPress={() => setShowModal(false)}
+              >
+                <WhiteText style={{ fontWeight: "bold" }}>
+                  Cancel
+                </WhiteText>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      }
+    >
       <View>
         <Text style={styles.subHeader}>Details of</Text>
         <Text style={styles.mainHeader}>Weight Progress</Text>
@@ -162,13 +207,8 @@ const ProgressPage = () => {
         <View style={styles.goalContainer}></View>
       </View>
       <TouchableOpacity
-        style={{
-          backgroundColor: "#222",
-          borderRadius: 24,
-          padding: 16,
-          width: "100%",
-          marginTop: 16,
-        }}
+        style={styles.addCurrentWeighButton}
+        onPress={() => setShowModal(true)}
       >
         <Text style={{ color: "white", textAlign: "center" }}>
           Add Current Weight
@@ -216,5 +256,74 @@ export const styles = StyleSheet.create({
     width: "50%",
     height: "100%",
     borderRadius: 24,
+  },
+  modalBaseView: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  },
+  modalBackdropView: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#00000057",
+    zIndex: 9,
+  },
+  modalCenterView: {
+    backgroundColor: "white",
+    height: 200,
+    width: 300,
+    zIndex: 11,
+    borderRadius: 12,
+    padding: 14,
+  },
+  modalSubText: {
+    fontWeight: 600,
+    color: "#6e6e6ede",
+    fontSize: 12,
+  },
+  modalTitleText: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  modalInputView: {
+    flexDirection: "row",
+    paddingHorizontal: 12,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#160c0cff",
+    borderRadius: 12,
+    marginVertical: 12,
+  },
+  modalButtonGroupView: {
+    flexDirection: "row",
+    flexGrow: 1,
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    gap: 6,
+  },
+  modalSaveButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#3ad",
+    borderRadius: 12,
+  },
+  modalCancelButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "rgba(221,81,81,1)",
+    borderRadius: 12,
+  },
+  addCurrentWeighButton: {
+    backgroundColor: "#222",
+    borderRadius: 24,
+    padding: 16,
+    width: "100%",
+    marginTop: 16,
   },
 });
