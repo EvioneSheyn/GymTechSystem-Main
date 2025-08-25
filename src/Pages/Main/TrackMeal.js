@@ -98,58 +98,49 @@ const TrackMeal = () => {
   );
   const options = ["Day", "Week", "Month", "Year"];
   const navigation = useNavigation();
-
-  const [totalCalories, setTotalCalories] = useState("0");
-  const [totalCaloriesBurned, setTotalCaloriesBurned] = useState("0");
+  const [totalCalories, setTotalCalories] = useState(0);
+  const [totalCaloriesBurned, setTotalCaloriesBurned] = useState(0);
 
   useEffect(() => {
-    const fetchMeals = async () => {
-      try {
-        const response = await api.get("/api/total-meal");
-
-        if (response.status === 200) {
-          setTotalCalories(response.data.totalCalories);
-        }
-      } catch (error) {
-        alert(error.response.data.message);
-      }
-    };
-
     fetchMeals();
-  }, [totalCalories]);
-
-  useEffect(() => {
-    const fetchCaloriesBurned = async () => {
-      try {
-        const response = await api.get("/api/workout-sessions");
-
-        if (response.status === 200) {
-          console.log("Choy: ", response.data.sessions);
-          setTotalCaloriesBurned(response.data.caloriesBurned);
-        }
-      } catch (error) {
-        alert(error.response.data.message);
-      }
-    };
-
     fetchCaloriesBurned();
-  }, [totalCaloriesBurned]);
+  }, [selectedDate]);
 
   const handleSelect = (isodate) => {
     setSelectedDate(isodate);
-
-    // fetchCalorieReport();
   };
 
-  const fetchCalorieReport = async () => {
+  const fetchMeals = async () => {
     try {
-      const response = await api.get("/");
-      // TODO add meal
+      const response = await api.post("/api/total-meal", {
+        date: selectedDate,
+      });
+
+      if (response.status === 200) {
+        setTotalCalories(Number(response.data.totalCalories) || 0);
+      }
     } catch (error) {
-      console.log(
-        "Date filter selection error: ",
-        error.response.data.message
+      alert(error.response?.data?.message || "Failed to fetch meals");
+      setTotalCalories(0); // fallback
+    }
+  };
+
+  const fetchCaloriesBurned = async () => {
+    try {
+      const response = await api.post("/api/workout-sessions", {
+        date: new Date(`${selectedDate}T00:00:00`),
+      });
+
+      if (response.status === 200) {
+        setTotalCaloriesBurned(
+          Number(response.data.caloriesBurned) || 0
+        );
+      }
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Failed to fetch workouts"
       );
+      setTotalCaloriesBurned(0); // fallback
     }
   };
 
@@ -196,15 +187,20 @@ const TrackMeal = () => {
         <View>
           <PieChart
             data={[
-              {
-                value: Number(totalCalories),
+              totalCalories > 0 && {
+                value: totalCalories,
                 color: "#7bee77ff",
               },
-              {
-                value: Number(totalCaloriesBurned),
+              totalCaloriesBurned > 0 && {
+                value: totalCaloriesBurned,
                 color: "#f15353ff",
               },
-            ]}
+              totalCalories <= 0 &&
+                totalCaloriesBurned <= 0 && {
+                  value: 100,
+                  color: "#838383ff",
+                },
+            ].filter(Boolean)}
             innerRadius={40}
             innerCircleColor={"#242936ff"}
             radius={55}

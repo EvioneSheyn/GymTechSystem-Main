@@ -19,7 +19,7 @@ const Calendar = () => {
   useEffect(() => {
     const fetchWorkoutSessions = async () => {
       try {
-        const response = await api.get("/api/workout-sessions");
+        const response = await api.get("/api/all-workout-sessions");
 
         const sessions = response.data.sessions;
         let dates = sessions.map(

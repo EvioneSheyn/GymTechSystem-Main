@@ -522,13 +522,12 @@ router.post("/meal", auth, async (req, res) => {
   }
 });
 
-router.get("/total-meal", auth, async (req, res) => {
+router.post("/total-meal", auth, async (req, res) => {
   const userId = req.user.userId;
+  const { date } = req.body;
   try {
-    const today = new Date().toISOString().split("T")[0];
-
     let meals = await Meal.findAll({
-      where: { userId, date: today },
+      where: { userId, date: date },
       include: {
         model: MealFood,
         as: "mealFoods",
@@ -543,7 +542,7 @@ router.get("/total-meal", auth, async (req, res) => {
 
     meals.forEach((meal) => {
       meal.mealFoods.forEach((mealFood) => {
-        totalCalories += mealFood.totalCalories;
+        totalCalories += Number(mealFood.totalCalories) || 0;
       });
     });
 
@@ -579,13 +578,13 @@ router.get("/all-workout-sessions", auth, async (req, res) => {
   }
 });
 
-router.get("/workout-sessions", auth, async (req, res) => {
+router.post("/workout-sessions", auth, async (req, res) => {
   const userId = req.user.userId;
+  const { date } = req.body;
 
   try {
-    const now = new Date();
-    const start = startOfDay(now);
-    const end = endOfDay(now);
+    const start = startOfDay(date);
+    const end = endOfDay(date);
 
     const workoutSessions = await WorkoutSession.findAll({
       where: {
@@ -599,7 +598,7 @@ router.get("/workout-sessions", auth, async (req, res) => {
     let totalCaloriesBurned = 0;
 
     workoutSessions.forEach((item) => {
-      totalCaloriesBurned += item.caloriesBurned;
+      totalCaloriesBurned += Number(item.caloriesBurned) || 0;
     });
 
     return res.status(200).json({
