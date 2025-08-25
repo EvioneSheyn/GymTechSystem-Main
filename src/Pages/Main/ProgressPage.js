@@ -11,6 +11,7 @@ import PagesLayout from "../../Layouts/PagesLayout";
 import { RadioButton } from "@/Components/RadioButton";
 import { LineChart } from "react-native-chart-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "@/Axios";
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -44,6 +45,7 @@ const ProgressPage = () => {
   const [selectedValue, setSelectedValue] = useState("Week");
   const [profile, setProfile] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [newWeight, setNewWeight] = useState(0);
 
   const options = ["Week", "Month", "Year", "All"];
 
@@ -56,6 +58,30 @@ const ProgressPage = () => {
 
     fetchProfile();
   }, []);
+
+  const handleUpdateWeight = async () => {
+    try {
+      const response = await api.post("/api/update-weight", {
+        newWeight: newWeight,
+      });
+
+      if (response.status === 200) {
+        profile.weight = newWeight;
+        await AsyncStorage.setItem(
+          "profile",
+          JSON.stringify(profile)
+        );
+        setProfile(profile);
+        alert("Succesfully recorded new weight!");
+        setShowModal(false);
+      }
+    } catch (error) {
+      console.log(
+        "Error updating weight: ",
+        error.response.data.message
+      );
+    }
+  };
 
   return (
     <PagesLayout
@@ -78,13 +104,18 @@ const ProgressPage = () => {
               <TextInput
                 keyboardType="numeric"
                 style={{ flexGrow: 1 }}
+                autoFocus
+                onChangeText={(text) => setNewWeight(Number(text))}
               />
               <Text style={{ borderLeftWidth: 1, paddingLeft: 12 }}>
                 Kg
               </Text>
             </View>
             <View style={styles.modalButtonGroupView}>
-              <TouchableOpacity style={styles.modalSaveButton}>
+              <TouchableOpacity
+                style={styles.modalSaveButton}
+                onPress={handleUpdateWeight}
+              >
                 <WhiteText style={{ fontWeight: "bold" }}>
                   Save
                 </WhiteText>

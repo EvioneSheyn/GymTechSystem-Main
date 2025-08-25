@@ -72,9 +72,7 @@ export default function Dashboard() {
   const navigation = useNavigation();
   const todayKey = new Date();
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(
-    AsyncStorage.getItem("profile")
-  );
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -88,16 +86,22 @@ export default function Dashboard() {
       }
     };
 
+    loadUser();
+  }, []);
+
+  useEffect(() => {
     const getProfile = async () => {
       try {
         const response = await api.get("/api/profile");
-        if (response.data.profile) {
+
+        if (response.status === 200) {
           let profile = response.data.profile.dataValues;
-          setProfile(profile);
+
           await AsyncStorage.setItem(
             "profile",
             JSON.stringify(profile)
           );
+          setProfile(profile);
         }
       } catch (error) {
         console.log(
@@ -108,9 +112,12 @@ export default function Dashboard() {
       }
     };
 
-    loadUser();
     getProfile();
   }, []);
+
+  useEffect(() => {
+    console.log("Profile: ", profile);
+  }, [profile]);
 
   const handleLogout = () => {
     // TODO add logout logic

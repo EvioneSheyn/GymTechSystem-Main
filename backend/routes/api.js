@@ -13,6 +13,7 @@ const Meal = require("../models/Meal");
 const MealFood = require("../models/MealFood");
 const { Op } = require("sequelize");
 const { startOfDay, endOfDay } = require("date-fns");
+const WeightRecord = require("../models/WeightRecord");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
@@ -63,6 +64,8 @@ router.post(
     const userId = req.user.userId;
     const errors = validationResult(req);
 
+    const today = new Date().toISOString().split("T")[0];
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -86,8 +89,14 @@ router.post(
         userId: userId,
         dateOfBirth: dateOfBirth,
         height: height,
-        weight: weight,
         gender: gender,
+        weight: weight,
+      });
+
+      await WeightRecord.create({
+        userId: userId,
+        weight: weight,
+        date: today,
       });
 
       return res.status(200).json({
@@ -97,7 +106,8 @@ router.post(
     } catch (error) {
       return res.status(500).json({
         message:
-          "Something went wrong when creating profile: " + error,
+          "Something went wrong when creating profile: " +
+          error.message,
       });
     }
   }
@@ -138,6 +148,56 @@ router.get("/profile", auth, async (req, res) => {
       .json({ message: "Something went wrong: {" + error });
   }
 });
+
+router.post(
+  "/update-weight",
+  auth,
+  [
+    body("newWeight")
+      .isFloat({ min: 20, max: 500 })
+      .withMessage("Weight must be between 20kg and 500kg"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    const { newWeight } = req.body;
+    const userId = req.user.userId;
+    const today = new Date().toISOString().split("T")[0];
+
+    try {
+      await Profile.update(
+        { weight: newWeight },
+        { where: { userId: userId } }
+      );
+
+      const weightRecord = await WeightRecord.findOne({
+        where: {
+          userId: userId,
+          date: today,
+        },
+      });
+
+      if (!weightRecord)
+        await WeightRecord.create({
+          userId: userId,
+          weight: newWeight,
+          date: today,
+        });
+      else
+        await WeightRecord.update(
+          { weight: newWeight },
+          { where: { id: weightRecord.id } }
+        );
+
+      return res.status(200).json({
+        message: "Succesfully updated user weight!",
+      });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Something went wrong: {" + error });
+    }
+  }
+);
 
 router.post("/create-exercises", async (req, res) => {
   const { exercises } = req.body;
