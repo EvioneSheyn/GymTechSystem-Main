@@ -33,6 +33,7 @@ export default function Register() {
       Alert.alert("Error", "Passwords do not match.");
       return;
     }
+
     await api
       .post("/api/auth/register", {
         username,

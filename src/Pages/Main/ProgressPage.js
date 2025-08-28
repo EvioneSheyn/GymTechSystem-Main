@@ -12,6 +12,7 @@ import { RadioButton } from "@/Components/RadioButton";
 import { LineChart } from "react-native-chart-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
+import ModalComponent from "../../Components/ModalComponent";
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -87,11 +88,7 @@ const ProgressPage = () => {
     <PagesLayout
       showModal={showModal}
       modal={
-        <View style={styles.modalBaseView}>
-          <TouchableOpacity
-            onPress={() => setShowModal(false)}
-            style={styles.modalBackdropView}
-          />
+        <ModalComponent>
           <View style={styles.modalCenterView}>
             <Text style={styles.modalTitleText}>
               Enter new weight:
@@ -130,7 +127,7 @@ const ProgressPage = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </ModalComponent>
       }
     >
       <View>
@@ -287,23 +284,6 @@ export const styles = StyleSheet.create({
     width: "50%",
     height: "100%",
     borderRadius: 24,
-  },
-  modalBaseView: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
-  },
-  modalBackdropView: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#00000057",
-    zIndex: 9,
   },
   modalCenterView: {
     backgroundColor: "white",

@@ -6,7 +6,6 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
-  LinearGradient,
 } from "react-native";
 import { Image } from "expo-image";
 import {
@@ -30,12 +29,14 @@ const days = Array.from({ length: 7 }, (_, i) => {
   };
 });
 
+const waverSource = require("root/assets/resources/CTU-DANAO-FITNESS-GYM-WAIVER.png");
+
 const quickActions = [
   {
     label: "Workouts",
     icon: "play-circle",
     color: "#3B82F6",
-    screen: "Workout",
+    screen: "MaleWorkoutPlans",
   },
   {
     label: "Track Meal",
@@ -73,6 +74,7 @@ export default function Dashboard() {
   const todayKey = new Date();
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [verifiedUser, setVerifiedUser] = useState(true);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -90,6 +92,8 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    const fetchUserVerificationStatus = async () => {};
+
     const getProfile = async () => {
       try {
         const response = await api.get("/api/profile");
@@ -125,6 +129,93 @@ export default function Dashboard() {
     AsyncStorage.removeItem("jwtToken");
     navigation.navigate("AuthNavigator", { screen: "Login" });
   };
+
+  if (!verifiedUser) {
+    return (
+      <ScrollView
+        style={{
+          paddingVertical: 52,
+          paddingHorizontal: 12,
+          backgroundColor: "#0f172a",
+        }}
+      >
+        <View>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 18,
+            }}
+          >
+            Thank you for registering to our app!
+          </Text>
+          <Text
+            style={{
+              fontWeight: "500",
+              fontSize: 12,
+              color: "gray",
+              marginBottom: 12,
+            }}
+          >
+            You are one step closer to creating your account with us!
+          </Text>
+          <Text>
+            The next step is to{" "}
+            <Text style={{ fontWeight: "500", color: "blue" }}>
+              verify your account with us
+            </Text>
+          </Text>
+          <Text
+            style={{
+              marginTop: 8,
+            }}
+          >
+            Follow the steps below:
+          </Text>
+          <Text>
+            - Get a copy of the CTU Danao Fitness Gym Waver below by
+            pressing the image
+          </Text>
+          <TouchableOpacity
+            style={{ marginVertical: 12 }}
+            onPress={() => alert("Wa pa boss maintenace sa!")}
+          >
+            <Image
+              source={waverSource}
+              style={{
+                height: 450,
+                width: 300,
+                objectFit: "contain",
+              }}
+            />
+          </TouchableOpacity>
+          <Text>- Fill up the form with the necessary details.</Text>
+          <Text>
+            - Go to the CTU Danao Fitness Gym, and submit the form to
+            be approved by the stationed admin.
+          </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 24,
+              marginTop: 12,
+            }}
+          >
+            THANK YOU!
+          </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 18,
+            }}
+          >
+            We will be waiting for you there!
+          </Text>
+        </View>
+      </ScrollView>
+    );
+  }
 
   if (!profile) {
     return <Profile setProfile={setProfile} />;

@@ -8,6 +8,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MainNav from "../Components/MainNav";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const PagesLayout = ({
   children,
@@ -18,7 +19,15 @@ const PagesLayout = ({
   const navigation = useNavigation();
 
   return (
-    <>
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: "flex-end",
+      }}
+      enableOnAndroid={true}
+      extraScrollHeight={20} // space above keyboard
+    >
       <ScrollView style={[styles.container, style]}>
         <View
           style={{
@@ -52,7 +61,7 @@ const PagesLayout = ({
       </ScrollView>
       <MainNav navigation={navigation} />
       {showModal && modal}
-    </>
+    </KeyboardAwareScrollView>
   );
 };
 

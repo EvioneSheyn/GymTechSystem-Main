@@ -26,6 +26,8 @@ export default function Login() {
       return;
     }
 
+    console.log("naay error");
+
     await api
       .post("/api/auth/login", {
         email,
