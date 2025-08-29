@@ -18,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
 import Profile from "@/Components/Profile";
 import MainNav from "@/Components/MainNav";
+import { CommonActions } from "@react-navigation/native";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -127,7 +128,19 @@ export default function Dashboard() {
     // TODO add logout logic
 
     AsyncStorage.removeItem("jwtToken");
-    navigation.navigate("AuthNavigator", { screen: "Login" });
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: "AuthNavigator",
+            state: {
+              routes: [{ name: "Login" }],
+            },
+          },
+        ],
+      })
+    );
   };
 
   if (!verifiedUser) {

@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     zIndex: 10,
-    pointerEvents: "none",
   },
   modalBackdropView: {
     position: "absolute",

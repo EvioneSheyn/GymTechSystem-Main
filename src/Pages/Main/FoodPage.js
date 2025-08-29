@@ -38,6 +38,7 @@ const FoodPage = () => {
         }
       } catch (error) {
         alert(error.response.data.message);
+        console.log("ni error diri");
       }
     };
 
@@ -50,121 +51,121 @@ const FoodPage = () => {
   };
 
   return (
-    <View>
-      <PagesLayout>
-        <View style={styles.headerView}>
-          <WhiteText style={styles.headerTitle}>
-            Select a Food
-          </WhiteText>
-
-          <TouchableOpacity style={styles.addButton}>
-            <WhiteText style={{ fontSize: 14, fontWeight: "bold" }}>
-              Create Food
-            </WhiteText>
-            <MaterialIcons
-              name="add-circle"
-              style={{ color: "white", fontSize: 18 }}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={{ flexGrow: 1 }}
-            placeholder="Search here"
-          />
-          <TouchableOpacity>
-            <MaterialIcons name="search" style={{ fontSize: 24 }} />
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <RadioSet>
-            {options.map((item, index) => (
-              <RadioButton
-                style={{
-                  paddingHorizontal: 16,
-                  paddingVertical: 8,
-                  backgroundColor:
-                    foodCategory === item ? "#94a3b8" : "transparent",
-                  borderRadius: 24,
-                }}
-                color={"white"}
-                label={item}
-                key={index}
-                selected={foodCategory === item}
-                onPress={() => setFoodCategory(item)}
-              />
-            ))}
-          </RadioSet>
-          {foodCategory && (
-            <TouchableOpacity
-              onPress={() => {
-                setFoodCategory(null);
-              }}
-            >
-              <MaterialIcons
-                name="close"
-                style={{ color: "white", fontSize: 24 }}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-
-        <ScrollView style={{ marginTop: 12, marginBottom: 42 }}>
-          {foods.map((food, index) => (
-            <TouchableOpacity
-              style={styles.foodContainer}
-              key={index}
-              onPress={() => selectFood(food)}
-            >
-              <Image
-                source={{
-                  uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
-                }}
-                height={40}
-                width={40}
-                borderRadius={12}
-              />
-              <View style={{ flexGrow: 1 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <WhiteText style={{ fontWeight: "800" }}>
-                    {food.name}
-                  </WhiteText>
-                  <View style={{ alignItems: "flex-end" }}>
-                    <WhiteText style={styles.calorieText}>
-                      🍗 {food.calories} kcal
-                    </WhiteText>
-                    <WhiteText style={styles.unitText}>
-                      per {food.unit}
-                    </WhiteText>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </PagesLayout>
-
-      {showModal && (
+    <PagesLayout
+      isLoading={!foods}
+      modal={
         <FoodModal
           setShowModal={setShowModal}
           selectedFood={selectedFood}
           mealType={mealType}
           navigation={navigation}
         />
-      )}
-    </View>
+      }
+      showModal={showModal}
+    >
+      <View style={styles.headerView}>
+        <WhiteText style={styles.headerTitle}>
+          Select a Food
+        </WhiteText>
+
+        <TouchableOpacity style={styles.addButton}>
+          <WhiteText style={{ fontSize: 14, fontWeight: "bold" }}>
+            Create Food
+          </WhiteText>
+          <MaterialIcons
+            name="add-circle"
+            style={{ color: "white", fontSize: 18 }}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={{ flexGrow: 1 }}
+          placeholder="Search here"
+        />
+        <TouchableOpacity>
+          <MaterialIcons name="search" style={{ fontSize: 24 }} />
+        </TouchableOpacity>
+      </View>
+
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <RadioSet>
+          {options.map((item, index) => (
+            <RadioButton
+              style={{
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                backgroundColor:
+                  foodCategory === item ? "#94a3b8" : "transparent",
+                borderRadius: 24,
+              }}
+              color={"white"}
+              label={item}
+              key={index}
+              selected={foodCategory === item}
+              onPress={() => setFoodCategory(item)}
+            />
+          ))}
+        </RadioSet>
+        {foodCategory && (
+          <TouchableOpacity
+            onPress={() => {
+              setFoodCategory(null);
+            }}
+          >
+            <MaterialIcons
+              name="close"
+              style={{ color: "white", fontSize: 24 }}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <ScrollView style={{ marginTop: 12, marginBottom: 42 }}>
+        {foods.map((food, index) => (
+          <TouchableOpacity
+            style={styles.foodContainer}
+            key={index}
+            onPress={() => selectFood(food)}
+          >
+            <Image
+              source={{
+                uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
+              }}
+              height={40}
+              width={40}
+              borderRadius={12}
+            />
+            <View style={{ flexGrow: 1 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <WhiteText style={{ fontWeight: "800" }}>
+                  {food.name}
+                </WhiteText>
+                <View style={{ alignItems: "flex-end" }}>
+                  <WhiteText style={styles.calorieText}>
+                    🍗 {food.calories} kcal
+                  </WhiteText>
+                  <WhiteText style={styles.unitText}>
+                    per {food.unit}
+                  </WhiteText>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </PagesLayout>
   );
 };
 
