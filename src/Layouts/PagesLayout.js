@@ -22,9 +22,7 @@ const PagesLayout = ({
   const navigation = useNavigation();
 
   if (isLoading) {
-    return (
-      <ActivityIndicator animating={true} color={MD2Colors.red800} />
-    );
+    return <ActivityIndicator animating={true} color={MD2Colors.red800} />;
   }
 
   return (

@@ -62,7 +62,15 @@ const AuthGuard = ({ children }) => {
     checkAuth();
   }, []);
 
-  return <View style={{ flex: 1 }}>{children}</View>;
+  return (
+    <View
+      style={{
+        flexGrow: 1,
+      }}
+    >
+      {children}
+    </View>
+  );
 };
 
 export default AuthGuard;

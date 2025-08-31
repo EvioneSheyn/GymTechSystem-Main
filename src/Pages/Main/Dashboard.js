@@ -75,6 +75,7 @@ export default function Dashboard() {
   const todayKey = new Date();
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [showProfileForm, setShowProfileForm] = useState(false);
   const [verifiedUser, setVerifiedUser] = useState(true);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ export default function Dashboard() {
             JSON.stringify(profile)
           );
           setProfile(profile);
+          setShowProfileForm(false);
         }
       } catch (error) {
         console.log(
@@ -114,6 +116,7 @@ export default function Dashboard() {
           error.response.data.message
         );
         setProfile(null);
+        setShowProfileForm(true);
       }
     };
 
@@ -230,7 +233,7 @@ export default function Dashboard() {
     );
   }
 
-  if (!profile) {
+  if (showProfileForm) {
     return <Profile setProfile={setProfile} />;
   }
 

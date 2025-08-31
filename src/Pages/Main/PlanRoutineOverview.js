@@ -96,11 +96,14 @@ const PlanRoutineOverview = () => {
 
   const getLevelIndex = () => {
     let lastRoutineId = routines[0]?.id;
+
     workoutSessions?.forEach((session, index) => {
       if (session.routineId > lastRoutineId) {
         lastRoutineId = session.routineId;
+        console.log("Last Routine Id: ", session.routineId);
       }
     });
+
     routines?.forEach((routine, index) => {
       if (lastRoutineId == routine.id) {
         const nextIndex =
@@ -136,7 +139,7 @@ const PlanRoutineOverview = () => {
         <Ionicons name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
       <View style={styles.titleView}>
-        <Text style={styles.header}>Large Arms</Text>
+        <Text style={styles.header}>{plan.title}</Text>
       </View>
       <View
         style={{
