@@ -17,4 +17,3 @@ const Meal = sequelize.define("Meal", {
 });
 
 module.exports = Meal;
-  

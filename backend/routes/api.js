@@ -32,9 +32,7 @@ router.post("/finish-exercise", auth, async (req, res) => {
       duration: duration,
     });
 
-    return res
-      .status(200)
-      .json({ message: "Workout recording complete!" });
+    return res.status(200).json({ message: "Workout recording complete!" });
   } catch (error) {
     return res
       .status(500)
@@ -105,9 +103,7 @@ router.post(
       });
     } catch (error) {
       return res.status(500).json({
-        message:
-          "Something went wrong when creating profile: " +
-          error.message,
+        message: "Something went wrong when creating profile: " + error.message,
       });
     }
   }
@@ -116,7 +112,7 @@ router.post(
 router.get("/profile", auth, async (req, res) => {
   const userId = req.user.userId;
   try {
-    console.log(userId);
+    console.log("User: ", userId);
     const userProfile = await Profile.findOne({
       where: {
         userId: userId,
@@ -143,9 +139,7 @@ router.get("/profile", auth, async (req, res) => {
       message: "Succesfully retrieved user profile!",
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Something went wrong: {" + error });
+    return res.status(500).json({ message: "Something went wrong: {" + error });
   }
 });
 
@@ -237,9 +231,7 @@ router.post("/edit-plan", async (req, res) => {
     plan.image = image;
     await plan.save();
 
-    return res
-      .status(200)
-      .json({ message: "Succesfully edited plan!" });
+    return res.status(200).json({ message: "Succesfully edited plan!" });
   } catch (error) {
     return res.status(500).json({
       message: "Something went wrong when editing plan: " + error,
@@ -289,9 +281,7 @@ router.post("/create-plan", async (req, res) => {
       }
     }
 
-    return res
-      .status(200)
-      .json({ message: "Successfully created plan!" });
+    return res.status(200).json({ message: "Successfully created plan!" });
   } catch (error) {
     return res
       .status(500)
@@ -352,7 +342,7 @@ router.get("/plan-routines/:id", async (req, res) => {
       },
     });
 
-    console.log(plan);
+    console.log("Plan: ", plan);
 
     if (plan) {
       return res.status(200).json({
@@ -397,8 +387,7 @@ router.get("/routine-sets/:id", async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message:
-        "Something went wrong when retrieving routine sets! " +
-        error.message,
+        "Something went wrong when retrieving routine sets! " + error.message,
     });
   }
 });
@@ -406,9 +395,7 @@ router.get("/routine-sets/:id", async (req, res) => {
 router.post("/delete-exercises", async (req, res) => {
   try {
     await Exercise.truncate();
-    res
-      .status(200)
-      .json({ message: "Successfully deleted all exercises!" });
+    res.status(200).json({ message: "Successfully deleted all exercises!" });
   } catch (error) {
     return res.status(500).json({
       message: "Something went wrong when deleting exercises!",
@@ -426,15 +413,21 @@ router.post("/add-foods", async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message:
-        "Something went wrong when adding foods: " + error.message,
+      message: "Something went wrong when adding foods: " + error.message,
     });
   }
 });
 
 router.get("/foods", async (req, res) => {
+  const { category } = req.query;
   try {
-    const foods = await Food.findAll();
+    let foods;
+
+    if (category) {
+      foods = await Food.findAll({ where: { category: category } });
+    } else {
+      foods = await Food.findAll();
+    }
 
     return res.status(200).json({
       message: "Successfully retrieved foods!",
@@ -452,6 +445,7 @@ router.post("/add-meal", auth, async (req, res) => {
   const { foodId, quantity, mealType } = req.body;
   const userId = req.user.userId;
   try {
+    console.log("nisud diri");
     const today = new Date().toISOString().split("T")[0];
 
     let meal = await Meal.findOne({
@@ -464,14 +458,25 @@ router.post("/add-meal", auth, async (req, res) => {
 
     const food = await Food.findOne({ where: { id: foodId } });
 
-    console.log("Food: ", food);
-
-    const mealFood = await MealFood.create({
-      mealId: meal.id,
-      foodId,
-      quantity,
-      totalCalories: food.calories * quantity,
+    let mealFood = await MealFood.findOne({
+      where: { foodId: food.id, mealId: meal.id },
     });
+
+    if (!mealFood) {
+      await MealFood.create({
+        mealId: meal.id,
+        foodId,
+        quantity,
+        totalCalories: food.calories * quantity,
+      });
+    } else {
+      await mealFood.update({
+        quantity: mealFood.quantity + quantity,
+        totalCalories: mealFood.totalCalories + food.calories * quantity,
+      });
+
+      console.log("meal", meal);
+    }
 
     return res.status(200).json({
       message: "Successfully added food to meal!",
@@ -516,8 +521,7 @@ router.post("/meal", auth, async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message:
-        "Something went wrong when retrieving foods!" + error.message,
+      message: "Something went wrong when retrieving foods!" + error.message,
     });
   }
 });
@@ -553,8 +557,7 @@ router.post("/total-meal", auth, async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message:
-        "Something went wrong when retrieving foods!" + error.message,
+      message: "Something went wrong when retrieving foods!" + error.message,
     });
   }
 });
@@ -609,8 +612,7 @@ router.post("/workout-sessions", auth, async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message:
-        "Something went wrong when retrieving calories burned!" +
-        error.message,
+        "Something went wrong when retrieving calories burned!" + error.message,
     });
   }
 });
