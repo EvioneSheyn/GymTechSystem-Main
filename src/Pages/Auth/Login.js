@@ -121,9 +121,7 @@ export default function Login() {
           onPress={() => navigation.navigate("Register")}
           activeOpacity={0.7}
         >
-          <Text style={styles.toggleText}>
-            Don't have an account? Sign Up
-          </Text>
+          <Text style={styles.toggleText}>Don't have an account? Sign Up</Text>
         </TouchableOpacity>
       </View>
     </AuthLayout>

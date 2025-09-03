@@ -617,4 +617,23 @@ router.post("/workout-sessions", auth, async (req, res) => {
   }
 });
 
+router.get("/weights", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { category } = req.query;
+
+  try {
+    const records = await WeightRecord.findAll({ where: { userId: userId } });
+
+    //TODO add category distinction search for days,weeks, months, year
+
+    return res.status(200).json({
+      weights: records,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when retrieving we!" + error.message,
+    });
+  }
+});
+
 module.exports = router;

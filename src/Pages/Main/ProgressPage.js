@@ -14,7 +14,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
 import ModalComponent from "../../Components/ModalComponent";
 
-const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
   backgroundGradientFrom: "#1e2229ff",
   backgroundGradientFromOpacity: 0,
@@ -26,11 +25,11 @@ const chartConfig = {
   useShadowColorFromDataset: true, // optional
 };
 
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
+const defaultData = {
+  labels: [0, 0, 0, 0, 0],
   datasets: [
     {
-      data: [70, 65, 63, 60, 59, 56],
+      data: [0, 0, 0, 0, 0],
       color: (opacity = 1) => `rgba(0, 96, 252, ${opacity})`, // line color
       strokeWidth: 5,
     },
@@ -47,6 +46,10 @@ const ProgressPage = () => {
   const [profile, setProfile] = useState();
   const [showModal, setShowModal] = useState(false);
   const [newWeight, setNewWeight] = useState(0);
+  const [category, setCategory] = useState("");
+  const [weightRecords, setWeightRecords] = useState({});
+  const [weightGap, setWeightGap] = useState({});
+  const [chartData, setChartData] = useState(defaultData);
 
   const options = ["Week", "Month", "Year", "All"];
 
@@ -60,6 +63,89 @@ const ProgressPage = () => {
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    const data = {
+      labels: [...(weightRecords.dates ?? [0, 0])],
+      datasets: [
+        {
+          data: [...(weightRecords.weights ?? [0, 0])],
+          color: (opacity = 1) => `rgba(0, 96, 252, ${opacity})`, // line color
+          strokeWidth: 5,
+        },
+      ],
+      legend: ["Weight"],
+    };
+
+    setChartData(() => ({ ...data }));
+  }, [weightRecords]);
+
+  useEffect(() => {
+    const fetchWeights = async () => {
+      try {
+        const response = await api.get("/api/weights", {
+          params: {
+            category: category,
+          },
+        });
+
+        if (response.status === 200) {
+          const weights = response.data.weights;
+
+          const records = await weights.map(({ createdAt, weight }) => ({
+            date: new Date(createdAt),
+            weight,
+          }));
+
+          const datesRecords = await getWeightDates(records);
+          const weightDataRecords = await getWeightData(records);
+
+          getWeightGap(records);
+          setWeightRecords(() => ({
+            dates: [...datesRecords],
+            weights: [...weightDataRecords],
+          }));
+        }
+      } catch (error) {
+        console.log(
+          "Error fetching weight records: ",
+          error.response.data.message
+        );
+      }
+    };
+
+    fetchWeights();
+  }, [profile]);
+
+  function getWeightDates(records) {
+    // const lastRecord = weightRecords[-1];
+
+    // for (let index = 1; index <= 7; index++) {}
+
+    return records.map(({ date }) =>
+      date.toLocaleDateString([], {
+        month: "long",
+        day: "2-digit",
+      })
+    );
+  }
+
+  function getWeightGap(records) {
+    const from = records[0].weight;
+    const to = records[records.length - 1].weight;
+    const gap = from - to;
+
+    setWeightGap(() => gap);
+    return {
+      from,
+      to,
+      lost: gap,
+    };
+  }
+
+  function getWeightData(records) {
+    return records.map(({ weight }) => weight);
+  }
+
   const handleUpdateWeight = async () => {
     try {
       const response = await api.post("/api/update-weight", {
@@ -67,20 +153,13 @@ const ProgressPage = () => {
       });
 
       if (response.status === 200) {
-        profile.weight = newWeight;
-        await AsyncStorage.setItem(
-          "profile",
-          JSON.stringify(profile)
-        );
-        setProfile(profile);
+        setProfile((prev) => ({ ...prev, weight: newWeight }));
+        await AsyncStorage.setItem("profile", JSON.stringify(profile));
         alert("Succesfully recorded new weight!");
         setShowModal(false);
       }
     } catch (error) {
-      console.log(
-        "Error updating weight: ",
-        error.response.data.message
-      );
+      console.log("Error updating weight: ", error.response.data.message);
     }
   };
 
@@ -90,12 +169,9 @@ const ProgressPage = () => {
       modal={
         <ModalComponent>
           <View style={styles.modalCenterView}>
-            <Text style={styles.modalTitleText}>
-              Enter new weight:
-            </Text>
+            <Text style={styles.modalTitleText}>Enter new weight:</Text>
             <Text style={styles.modalSubText}>
-              Updating your weight allows us to see your weight
-              progress
+              Updating your weight allows us to see your weight progress
             </Text>
             <View style={styles.modalInputView}>
               <TextInput
@@ -104,26 +180,20 @@ const ProgressPage = () => {
                 autoFocus
                 onChangeText={(text) => setNewWeight(Number(text))}
               />
-              <Text style={{ borderLeftWidth: 1, paddingLeft: 12 }}>
-                Kg
-              </Text>
+              <Text style={{ borderLeftWidth: 1, paddingLeft: 12 }}>Kg</Text>
             </View>
             <View style={styles.modalButtonGroupView}>
               <TouchableOpacity
                 style={styles.modalSaveButton}
                 onPress={handleUpdateWeight}
               >
-                <WhiteText style={{ fontWeight: "bold" }}>
-                  Save
-                </WhiteText>
+                <WhiteText style={{ fontWeight: "bold" }}>Save</WhiteText>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalCancelButton}
                 onPress={() => setShowModal(false)}
               >
-                <WhiteText style={{ fontWeight: "bold" }}>
-                  Cancel
-                </WhiteText>
+                <WhiteText style={{ fontWeight: "bold" }}>Cancel</WhiteText>
               </TouchableOpacity>
             </View>
           </View>
@@ -162,7 +232,7 @@ const ProgressPage = () => {
         }}
       >
         <LineChart
-          data={data}
+          data={chartData}
           width={320}
           height={220}
           verticalLabelRotation={20}
@@ -179,16 +249,16 @@ const ProgressPage = () => {
           }}
         >
           <Text style={{ color: "#aaa" }}>
-            Lost{" "}
+            From{" "}
             <Text style={{ fontWeight: "bold", color: "white" }}>
-              20
+              {weightGap.from ?? 0}
             </Text>{" "}
             kg
           </Text>
           <Text style={{ color: "#aaa" }}>
-            Remaining{" "}
+            Lost{" "}
             <Text style={{ fontWeight: "bold", color: "white" }}>
-              20
+              {weightGap.lost ?? 0}
             </Text>{" "}
             kg
           </Text>
@@ -215,16 +285,7 @@ const ProgressPage = () => {
         }}
       >
         <View style={styles.goalContainer}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 16 }}>
-              Weight
-            </Text>
-          </View>
+          <Text style={{ color: "white", fontSize: 16 }}>Weight</Text>
           <WhiteText style={{ color: "#aaa", fontSize: 32 }}>
             <WhiteText style={{ fontWeight: "bold" }}>
               {profile?.weight}
@@ -232,7 +293,19 @@ const ProgressPage = () => {
             Kg
           </WhiteText>
         </View>
-        <View style={styles.goalContainer}></View>
+        <View style={styles.goalContainer}>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 16,
+            }}
+          >
+            Goal
+          </Text>
+          <WhiteText style={{ color: "#aaa", fontSize: 32 }}>
+            <WhiteText style={{ fontWeight: "bold" }}>{60}</WhiteText> Kg
+          </WhiteText>
+        </View>
       </View>
       <TouchableOpacity
         style={styles.addCurrentWeighButton}
