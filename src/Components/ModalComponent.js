@@ -1,12 +1,9 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
-export default function ModalComponent({ children, setShowModal }) {
+export default function ModalComponent({ children, onClose }) {
   return (
     <View style={styles.modalBaseView}>
-      <TouchableOpacity
-        onPress={() => setShowModal(false)}
-        style={styles.modalBackdropView}
-      />
+      <TouchableOpacity onPress={onClose} style={styles.modalBackdropView} />
       {children}
     </View>
   );

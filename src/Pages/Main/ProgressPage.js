@@ -117,10 +117,6 @@ const ProgressPage = () => {
   }, [profile]);
 
   function getWeightDates(records) {
-    // const lastRecord = weightRecords[-1];
-
-    // for (let index = 1; index <= 7; index++) {}
-
     return records.map(({ date }) =>
       date.toLocaleDateString([], {
         month: "long",
@@ -167,7 +163,7 @@ const ProgressPage = () => {
     <PagesLayout
       showModal={showModal}
       modal={
-        <ModalComponent>
+        <ModalComponent onClose={() => setShowModal(false)}>
           <View style={styles.modalCenterView}>
             <Text style={styles.modalTitleText}>Enter new weight:</Text>
             <Text style={styles.modalSubText}>
