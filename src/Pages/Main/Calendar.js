@@ -71,6 +71,7 @@ const Calendar = () => {
     fetchWorkoutSessions();
   }, []);
 
+  
   return (
     <PagesLayout>
       <View>
@@ -127,44 +128,7 @@ const Calendar = () => {
                   </WhiteText>
                 </View>
                 {item.map((record, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      // backgroundColor: "#8b8b8b54",
-                      // backgroundColor: "#4a576b2c",
-                      backgroundColor: "#4a576b2d",
-                      borderLeftWidth: 4,
-                      borderLeftColor: "#49ff9bff",
-                      padding: 12,
-
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginTop: 8,
-                    }}
-                  >
-                    <WhiteText style={{ fontSize: 32, paddingHorizontal: 12 }}>
-                      {record.day}
-                    </WhiteText>
-                    <View
-                      style={{
-                        paddingLeft: 12,
-                        borderLeftWidth: 1,
-                      }}
-                    >
-                      <WhiteText style={{ fontWeight: 700 }}>
-                        {record.title}
-                      </WhiteText>
-                      <WhiteText
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: "#aaa",
-                        }}
-                      >
-                        {record.time.trim()}
-                      </WhiteText>
-                    </View>
-                  </View>
+                  <ScheduleDate />
                 ))}
               </View>
             ))}

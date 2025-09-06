@@ -13,6 +13,7 @@ import { LineChart } from "react-native-chart-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
 import ModalComponent from "../../Components/ModalComponent";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const chartConfig = {
   backgroundGradientFrom: "#1e2229ff",
@@ -42,11 +43,10 @@ const WhiteText = ({ children, style }) => (
 );
 
 const ProgressPage = () => {
-  const [selectedValue, setSelectedValue] = useState("Week");
   const [profile, setProfile] = useState();
   const [showModal, setShowModal] = useState(false);
   const [newWeight, setNewWeight] = useState(0);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Week");
   const [weightRecords, setWeightRecords] = useState({});
   const [weightGap, setWeightGap] = useState({});
   const [chartData, setChartData] = useState(defaultData);
@@ -114,7 +114,7 @@ const ProgressPage = () => {
     };
 
     fetchWeights();
-  }, [profile]);
+  }, [profile]); // TODO add category selection here in the future
 
   function getWeightDates(records) {
     return records.map(({ date }) =>
@@ -200,24 +200,7 @@ const ProgressPage = () => {
         <Text style={styles.subHeader}>Details of</Text>
         <Text style={styles.mainHeader}>Weight Progress</Text>
       </View>
-      <View style={styles.optionsContainer}>
-        {options.map((item, index) => (
-          <RadioButton
-            style={{
-              paddingHorizontal: 24,
-              paddingVertical: 8,
-              backgroundColor:
-                selectedValue === item ? "#94a3b8" : "transparent",
-              borderRadius: 24,
-            }}
-            color={"white"}
-            label={item}
-            key={index}
-            selected={selectedValue === item}
-            onPress={() => setSelectedValue(item)}
-          />
-        ))}
-      </View>
+      {/* {WeightAnalyticsFilter()} */}
       <View
         style={{
           height: 250,
@@ -233,6 +216,8 @@ const ProgressPage = () => {
           height={220}
           verticalLabelRotation={20}
           chartConfig={chartConfig}
+          // fromNumber={0}
+          fromZero
           bezier
         />
       </View>
@@ -264,6 +249,29 @@ const ProgressPage = () => {
         </View>
       </View>
 
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 2,
+          backgroundColor: "#9bfc9bff",
+          marginTop: 12,
+          borderRadius: 12,
+          borderWidth: 2,
+          borderColor: "#00ff00ff",
+          alignItems: "center",
+          justifyContent: "start",
+          paddingVertical: 8,
+          paddingHorizontal: 4,
+        }}
+      >
+        <MaterialIcons
+          name={"info"}
+          style={{ color: "#000000ff", fontSize: 24 }}
+        />
+        <Text style={{ fontSize: 11 }}>
+          It is recommended to update your weight every month!
+        </Text>
+      </View>
       <Text
         style={{
           color: "#aaa",
@@ -313,6 +321,28 @@ const ProgressPage = () => {
       </TouchableOpacity>
     </PagesLayout>
   );
+
+  function WeightAnalyticsFilter() {
+    return (
+      <View style={styles.optionsContainer}>
+        {options.map((item, index) => (
+          <RadioButton
+            style={{
+              paddingHorizontal: 24,
+              paddingVertical: 8,
+              backgroundColor: category === item ? "#94a3b8" : "transparent",
+              borderRadius: 24,
+            }}
+            color={"white"}
+            label={item}
+            key={index}
+            selected={category === item}
+            onPress={() => setCategory(item)}
+          />
+        ))}
+      </View>
+    );
+  }
 };
 
 export default ProgressPage;

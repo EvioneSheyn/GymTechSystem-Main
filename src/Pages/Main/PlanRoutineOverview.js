@@ -25,9 +25,7 @@ const PlanRoutineOverview = () => {
   useEffect(() => {
     const fetchRoutines = async () => {
       try {
-        const response = await api.get(
-          "/api/plan-routines/" + plan.id
-        );
+        const response = await api.get("/api/plan-routines/" + plan.id);
 
         let routines = response.data.routines;
 
@@ -82,9 +80,7 @@ const PlanRoutineOverview = () => {
   }, [levelIndex]);
 
   const checkCompletion = (routineIdToCheck) => {
-    return workoutSessions?.some(
-      (s) => s.routineId === routineIdToCheck
-    );
+    return workoutSessions?.some((s) => s.routineId === routineIdToCheck);
   };
 
   const getMinuteFormat = (timeInSeconds) => {
@@ -108,11 +104,17 @@ const PlanRoutineOverview = () => {
       if (lastRoutineId == routine.id) {
         const nextIndex =
           index + 1 >= routines.length ? routines.length : index + 1;
+        // Indicate if the current index is the last index
 
-        if (routines[nextIndex]?.isRest) {
-          setLevelIndex(nextIndex + 1);
-        } else {
-          setLevelIndex(nextIndex);
+        console.log("Next Index: ", nextIndex);
+
+        // Check if current level is completed
+        if (checkCompletion(routines[levelIndex].id)) {
+          if (routines[nextIndex]?.isRest) {
+            setLevelIndex(nextIndex + 1);
+          } else {
+            setLevelIndex(nextIndex);
+          }
         }
       }
     });
@@ -175,12 +177,8 @@ const PlanRoutineOverview = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", fontSize: 14 }}>
-                    DAY
-                  </Text>
-                  <Text style={styles.dayText}>
-                    {getDay(routine.title)}
-                  </Text>
+                  <Text style={{ fontWeight: "bold", fontSize: 14 }}>DAY</Text>
+                  <Text style={styles.dayText}>{getDay(routine.title)}</Text>
                 </View>
                 <View style={{ flexGrow: 1 }}>
                   <Text style={{ fontWeight: "bold" }}>
@@ -188,10 +186,7 @@ const PlanRoutineOverview = () => {
                   </Text>
                   {!routine.isRest && (
                     <View style={styles.timeView}>
-                      <MaterialIcons
-                        name={"timer"}
-                        style={styles.timeIcon}
-                      />
+                      <MaterialIcons name={"timer"} style={styles.timeIcon} />
                       <Text style={{ fontWeight: 500, fontSize: 12 }}>
                         {getMinuteFormat(routine.duration)}
                       </Text>

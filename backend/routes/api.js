@@ -12,7 +12,12 @@ const Food = require("../models/Food");
 const Meal = require("../models/Meal");
 const MealFood = require("../models/MealFood");
 const { Op } = require("sequelize");
-const { startOfDay, endOfDay } = require("date-fns");
+const {
+  startOfDay,
+  endOfDay,
+  startOfWeek,
+  eachDayOfInterval,
+} = require("date-fns");
 const WeightRecord = require("../models/WeightRecord");
 
 router.get("/", async (req, res) => {
@@ -625,7 +630,6 @@ router.get("/weights", auth, async (req, res) => {
     const records = await WeightRecord.findAll({ where: { userId: userId } });
 
     //TODO add category distinction search for days,weeks, months, year
-
     return res.status(200).json({
       weights: records,
     });
@@ -635,5 +639,6 @@ router.get("/weights", auth, async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;
