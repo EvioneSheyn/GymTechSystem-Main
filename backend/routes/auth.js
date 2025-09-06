@@ -25,11 +25,9 @@ router.post("/register", async (req, res) => {
       password: hashed,
     });
 
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "20h" }
-    );
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "20h",
+    });
 
     res.status(201).json({
       message: "User created",
@@ -50,9 +48,7 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user)
-      return res
-        .status(400)
-        .json({ message: "No user with that email!" });
+      return res.status(400).json({ message: "No user with that email!" });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match)
@@ -60,11 +56,9 @@ router.post("/login", async (req, res) => {
         message: "Incorrect Password!",
       });
 
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "20h" }
-    );
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "20h",
+    });
 
     res.json({
       token,
@@ -72,12 +66,11 @@ router.post("/login", async (req, res) => {
         id: user.id,
         username: user.username,
         email: user.email,
+        verifiedAt: user.verifiedAt,
       },
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Login failed", error: err.message });
+    res.status(500).json({ message: "Login failed", error: err.message });
   }
 });
 

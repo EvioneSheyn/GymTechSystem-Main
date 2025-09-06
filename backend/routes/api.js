@@ -1,16 +1,19 @@
 const express = require("express");
 const router = express.Router();
+
 const Exercise = require("../models/Exercise");
 const Plan = require("../models/Plan");
 const Routine = require("../models/Routine");
 const Set = require("../models/Set");
 const WorkoutSession = require("../models/WorkoutSession");
-const auth = require("../middleware/auth");
 const Profile = require("../models/Profile");
-const { body, validationResult } = require("express-validator");
 const Food = require("../models/Food");
 const Meal = require("../models/Meal");
+const User = require("../models/User");
 const MealFood = require("../models/MealFood");
+
+const auth = require("../middleware/auth");
+const { body, validationResult } = require("express-validator");
 const { Op } = require("sequelize");
 const {
   startOfDay,
@@ -22,6 +25,20 @@ const WeightRecord = require("../models/WeightRecord");
 
 router.get("/", async (req, res) => {
   return res.json({ message: "Connected!" });
+});
+
+router.get("/verification-update", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const user = await User.findOne({ where: { id: userId } });
+    const authenticated = user.verifiedAt;
+    return res.status(200).json({
+      message: "Fetching update complete!",
+      authenticated: authenticated,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Login failed", error: err.message });
+  }
 });
 
 router.post("/finish-exercise", auth, async (req, res) => {
@@ -639,6 +656,5 @@ router.get("/weights", auth, async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;

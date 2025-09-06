@@ -12,7 +12,7 @@ const User = sequelize.define(
       unique: true,
     },
     username: {
-      type: DataTypes.STRING,
+    type: DataTypes.STRING,
       unique: true,
       allowNull: true,
     },
@@ -25,6 +25,10 @@ const User = sequelize.define(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    verifiedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {

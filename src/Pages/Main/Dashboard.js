@@ -6,19 +6,20 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
-import {
-  MaterialIcons,
-  FontAwesome5,
-  Ionicons,
-} from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
 import Profile from "@/Components/Profile";
 import MainNav from "@/Components/MainNav";
 import { CommonActions } from "@react-navigation/native";
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
+import * as IntentLauncher from "expo-intent-launcher";
+import * as WebBrowser from "expo-web-browser";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -31,6 +32,7 @@ const days = Array.from({ length: 7 }, (_, i) => {
 });
 
 const waverSource = require("root/assets/resources/CTU-DANAO-FITNESS-GYM-WAIVER.png");
+const waverFile = require("root/assets/resources/CTU-DANAO-FITNESS-GYM-WAIVER.pdf");
 
 const quickActions = [
   {
@@ -85,6 +87,8 @@ export default function Dashboard() {
         if (userString) {
           setUser(JSON.parse(userString));
         }
+        const isVerified = await AsyncStorage.getItem("isVerified");
+        if (isVerified) setVerifiedUser(true);
       } catch (error) {
         console.error("Failed to load user", error.message);
       }
@@ -94,8 +98,34 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const fetchUserVerificationStatus = async () => {};
+    const fetchVerificationStatus = async () => {
+      try {
+        const isVerified = await AsyncStorage.getItem("isVerified");
+        if (isVerified) return;
 
+        const response = await api.get("/api/verification-update");
+        const authenticated = response.data.authenticated;
+
+        if (authenticated) {
+          console.log("Authenticated");
+          setVerifiedUser(true);
+          await AsyncStorage.setItem("isVerified", authenticated);
+        } else {
+          console.log("Not Yet Authenticated");
+          // setVerifiedUser(false);
+        }
+      } catch (error) {
+        console.log(
+          "Error on authentication update:",
+          error.response.data.error
+        );
+      }
+    };
+
+    fetchVerificationStatus();
+  }, []);
+
+  useEffect(() => {
     const getProfile = async () => {
       try {
         const response = await api.get("/api/profile");
@@ -103,18 +133,12 @@ export default function Dashboard() {
         if (response.status === 200) {
           let profile = response.data.profile.dataValues;
 
-          await AsyncStorage.setItem(
-            "profile",
-            JSON.stringify(profile)
-          );
+          await AsyncStorage.setItem("profile", JSON.stringify(profile));
           setProfile(profile);
           setShowProfileForm(false);
         }
       } catch (error) {
-        console.log(
-          "Failed to fetch profile",
-          error.response.data.message
-        );
+        console.log("Failed to fetch profile", error.response.data.message);
         setProfile(null);
         setShowProfileForm(true);
       }
@@ -127,10 +151,9 @@ export default function Dashboard() {
     console.log("Profile: ", profile);
   }, [profile]);
 
-  const handleLogout = () => {
-    // TODO add logout logic
+  const handleLogout = async () => {
+    await AsyncStorage.clear();
 
-    AsyncStorage.removeItem("jwtToken");
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -141,96 +164,13 @@ export default function Dashboard() {
               routes: [{ name: "Login" }],
             },
           },
-        ],
+    ],
       })
     );
   };
 
   if (!verifiedUser) {
-    return (
-      <ScrollView
-        style={{
-          paddingVertical: 52,
-          paddingHorizontal: 12,
-          backgroundColor: "#0f172a",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-          >
-            Thank you for registering to our app!
-          </Text>
-          <Text
-            style={{
-              fontWeight: "500",
-              fontSize: 12,
-              color: "gray",
-              marginBottom: 12,
-            }}
-          >
-            You are one step closer to creating your account with us!
-          </Text>
-          <Text>
-            The next step is to{" "}
-            <Text style={{ fontWeight: "500", color: "blue" }}>
-              verify your account with us
-            </Text>
-          </Text>
-          <Text
-            style={{
-              marginTop: 8,
-            }}
-          >
-            Follow the steps below:
-          </Text>
-          <Text>
-            - Get a copy of the CTU Danao Fitness Gym Waver below by
-            pressing the image
-          </Text>
-          <TouchableOpacity
-            style={{ marginVertical: 12 }}
-            onPress={() => alert("Wa pa boss maintenace sa!")}
-          >
-            <Image
-              source={waverSource}
-              style={{
-                height: 450,
-                width: 300,
-                objectFit: "contain",
-              }}
-            />
-          </TouchableOpacity>
-          <Text>- Fill up the form with the necessary details.</Text>
-          <Text>
-            - Go to the CTU Danao Fitness Gym, and submit the form to
-            be approved by the stationed admin.
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 24,
-              marginTop: 12,
-            }}
-          >
-            THANK YOU!
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 18,
-            }}
-          >
-            We will be waiting for you there!
-          </Text>
-        </View>
-      </ScrollView>
-    );
+    return <WaverForm />;
   }
 
   if (showProfileForm) {
@@ -255,27 +195,16 @@ export default function Dashboard() {
               }} // TODO temporary, add profile soon
               style={styles.avatar}
             />
-            <TouchableOpacity
-              onPress={handleLogout}
-              style={styles.logoutBtn}
-            >
-              <MaterialIcons
-                name="logout"
-                size={24}
-                color="#F87171"
-              />
+            <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
+              <MaterialIcons name="logout" size={24} color="#F87171" />
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.rowBetween}>
           <Text style={styles.sectionTitle}>Schedule</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Calendar")}
-          >
-            <Text style={{ color: "white", fontSize: 12 }}>
-              View Calendar
-            </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
+            <Text style={{ color: "white", fontSize: 12 }}>View Calendar</Text>
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -288,24 +217,15 @@ export default function Dashboard() {
             return (
               <View
                 key={item.key}
-                style={[
-                  styles.dateItem,
-                  isToday && styles.dateItemSelected,
-                ]}
+                style={[styles.dateItem, isToday && styles.dateItemSelected]}
               >
                 <Text
-                  style={[
-                    styles.dateText,
-                    isToday && styles.dateTextSelected,
-                  ]}
+                  style={[styles.dateText, isToday && styles.dateTextSelected]}
                 >
                   {item.date}
                 </Text>
                 <Text
-                  style={[
-                    styles.dayText,
-                    isToday && styles.dayTextSelected,
-                  ]}
+                  style={[styles.dayText, isToday && styles.dayTextSelected]}
                 >
                   {item.day}
                 </Text>
@@ -326,16 +246,9 @@ export default function Dashboard() {
               onPress={() => {
                 navigation.navigate(action.screen);
               }}
-              style={[
-                styles.actionCard,
-                { borderColor: action.color + "AA" },
-              ]}
+              style={[styles.actionCard, { borderColor: action.color + "AA" }]}
             >
-              <Ionicons
-                name={action.icon}
-                size={28}
-                color={action.color}
-              />
+              <Ionicons name={action.icon} size={28} color={action.color} />
               <Text style={styles.actionLabel}>{action.label}</Text>
             </TouchableOpacity>
           ))}
@@ -519,3 +432,141 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
+
+const WaverForm = () => {
+  const downloadFile = async () => {
+    const fileUri =
+      "https://drive.google.com/file/d/1fFQbfmxymxBEnh85mFgw__aWFAGW1aeF/view?usp=sharing";
+    try {
+      await WebBrowser.openBrowserAsync(fileUri);
+    } catch (error) {
+      console.error("Error opening file:", error);
+    }
+  };
+
+  return (
+    <ScrollView
+      style={{
+        flex: 1,
+        backgroundColor: "#F9FAFB", // light background
+        paddingVertical: 32,
+        paddingHorizontal: 16,
+      }}
+    >
+      <View
+        style={{
+          backgroundColor: "white",
+          padding: 20,
+          paddingBottom: 56,
+          borderRadius: 16,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 6,
+          elevation: 3,
+        }}
+      >
+        {/* Heading */}
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 22,
+            color: "#2563EB", // blue
+            marginBottom: 8,
+            textAlign: "center",
+          }}
+        >
+          Thank you for registering!
+        </Text>
+
+        <Text
+          style={{
+            fontWeight: "500",
+            fontSize: 14,
+            color: "gray",
+            marginBottom: 16,
+            textAlign: "center",
+          }}
+        >
+          You are one step closer to creating your account with us.
+        </Text>
+
+        {/* Instructions */}
+        <Text
+          style={{
+            fontSize: 16,
+            marginBottom: 8,
+            color: "#374151",
+          }}
+        >
+          The next step is to{" "}
+          <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+            verify your account
+          </Text>
+        </Text>
+
+        <Text style={{ fontSize: 15, marginBottom: 6, color: "#374151" }}>
+          Follow the steps below:
+        </Text>
+
+        <Text style={{ fontSize: 14, marginBottom: 4, color: "#374151" }}>
+          • Get a copy of the CTU Danao Fitness Gym Waver below by pressing the
+          image
+        </Text>
+
+        {/* Image Button */}
+        <TouchableOpacity
+          style={{
+            marginVertical: 16,
+            borderWidth: 2,
+            borderColor: "#22C55E", // green border
+            borderRadius: 12,
+            overflow: "hidden",
+          }}
+          onPress={() => downloadFile()}
+        >
+          <Image
+            source={waverSource}
+            style={{
+              height: 450,
+              width: "100%",
+              resizeMode: "contain",
+              backgroundColor: "#F3F4F6",
+            }}
+          />
+        </TouchableOpacity>
+
+        <Text style={{ fontSize: 14, marginBottom: 4, color: "#374151" }}>
+          • Fill up the form with the necessary details
+        </Text>
+        <Text style={{ fontSize: 14, marginBottom: 12, color: "#374151" }}>
+          • Go to the CTU Danao Fitness Gym, and submit the form to be approved
+          by the stationed admin
+        </Text>
+
+        {/* Thank You Section */}
+        <View style={{ marginTop: 16, alignItems: "center" }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 26,
+              color: "#22C55E", // green
+              marginBottom: 6,
+            }}
+          >
+            THANK YOU!
+          </Text>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 18,
+              color: "#2563EB", // blue
+            }}
+          >
+            We will be waiting for you there!
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+};

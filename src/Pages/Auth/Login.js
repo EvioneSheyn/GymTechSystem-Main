@@ -35,6 +35,7 @@ export default function Login() {
       })
       .then((response) => {
         const data = response.data;
+        console.log("Auth data: ", data);
         AsyncStorage.setItem("jwtToken", data.token);
         AsyncStorage.setItem("user", JSON.stringify(data.user));
 

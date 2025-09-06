@@ -253,11 +253,11 @@ const ProgressPage = () => {
         style={{
           flexDirection: "row",
           gap: 2,
-          backgroundColor: "#9bfc9bff",
+          backgroundColor: "#b1d1f5ff",
           marginTop: 12,
           borderRadius: 12,
           borderWidth: 2,
-          borderColor: "#00ff00ff",
+          borderColor: "#0066ffff",
           alignItems: "center",
           justifyContent: "start",
           paddingVertical: 8,
@@ -266,7 +266,7 @@ const ProgressPage = () => {
       >
         <MaterialIcons
           name={"info"}
-          style={{ color: "#000000ff", fontSize: 24 }}
+          style={{ color: "#2b8effff", fontSize: 24 }}
         />
         <Text style={{ fontSize: 11 }}>
           It is recommended to update your weight every month!
