@@ -16,10 +16,9 @@ import api from "@/Axios";
 import Profile from "@/Components/Profile";
 import MainNav from "@/Components/MainNav";
 import { CommonActions } from "@react-navigation/native";
-import * as FileSystem from "expo-file-system";
-import { Asset } from "expo-asset";
-import * as IntentLauncher from "expo-intent-launcher";
 import * as WebBrowser from "expo-web-browser";
+import PagesLayout from "../../Layouts/PagesLayout";
+import Loader from "../../Components/Loader";
 
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
@@ -78,26 +77,27 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [showProfileForm, setShowProfileForm] = useState(false);
-  const [verifiedUser, setVerifiedUser] = useState(true);
+  const [verifiedUser, setVerifiedUser] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const loadUser = async () => {
       try {
         const userString = await AsyncStorage.getItem("user");
         if (userString) {
           setUser(JSON.parse(userString));
         }
+        setVerifiedUser(true);
         const isVerified = await AsyncStorage.getItem("isVerified");
         if (isVerified) setVerifiedUser(true);
       } catch (error) {
         console.error("Failed to load user", error.message);
       }
+
+      setLoading(false);
     };
 
-    loadUser();
-  }, []);
-
-  useEffect(() => {
     const fetchVerificationStatus = async () => {
       try {
         const isVerified = await AsyncStorage.getItem("isVerified");
@@ -122,7 +122,8 @@ export default function Dashboard() {
       }
     };
 
-    fetchVerificationStatus();
+    // fetchVerificationStatus();
+    loadUser();
   }, []);
 
   useEffect(() => {
@@ -164,10 +165,14 @@ export default function Dashboard() {
               routes: [{ name: "Login" }],
             },
           },
-    ],
+        ],
       })
     );
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (!verifiedUser) {
     return <WaverForm />;
@@ -178,11 +183,8 @@ export default function Dashboard() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#0f172a" }}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{ paddingBottom: 120 }}
-      >
+    <PagesLayout isHeadless>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
         <View style={styles.headerCard}>
           <View>
             <Text style={styles.greet}>Welcome back</Text>
@@ -200,7 +202,6 @@ export default function Dashboard() {
             </TouchableOpacity>
           </View>
         </View>
-
         <View style={styles.rowBetween}>
           <Text style={styles.sectionTitle}>Schedule</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
@@ -233,7 +234,6 @@ export default function Dashboard() {
             );
           })}
         </ScrollView>
-
         <Text style={styles.sectionTitle}>Shortcuts</Text>
         <ScrollView
           horizontal
@@ -253,7 +253,6 @@ export default function Dashboard() {
             </TouchableOpacity>
           ))}
         </ScrollView>
-
         <Text style={styles.sectionTitle}>Today</Text>
         <FlatList
           data={todaysWorkouts}
@@ -275,18 +274,12 @@ export default function Dashboard() {
           scrollEnabled={false}
         />
       </ScrollView>
-
       <MainNav navigation={navigation} />
-    </View>
+    </PagesLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 40,
-  },
   headerCard: {
     backgroundColor: "#1e293b",
     padding: 20,

@@ -17,14 +17,9 @@ const PagesLayout = ({
   style,
   modal,
   showModal = false,
-  isLoading = false,
+  isHeadless = false,
 }) => {
   const navigation = useNavigation();
-
-  if (isLoading) {
-    return <ActivityIndicator animating={true} color={MD2Colors.red800} />;
-  }
-
   return (
     // <KeyboardAwareScrollView
     //   style={{ flex: 1 }}
@@ -37,34 +32,34 @@ const PagesLayout = ({
     // >
     <AuthGuard>
       <ScrollView style={[styles.container, style]}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 12,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Ionicons name="chevron-back" size={28} color="#38bdf8" />
-            <Text style={styles.backText}>Back</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              //TODO add information page?
+        {!isHeadless && (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 12,
             }}
           >
-            <Ionicons
-              style={{ fontSize: 24, color: "#ddd" }}
-              name="information-circle-outline"
-            />
-          </TouchableOpacity>
-        </View>
-
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+            >
+              <Ionicons name="chevron-back" size={28} color="#38bdf8" />
+              <Text style={styles.backText}>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                //TODO add information page?
+              }}
+            >
+              <Ionicons
+                style={{ fontSize: 24, color: "#ddd" }}
+                name="information-circle-outline"
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         {children}
       </ScrollView>
       <MainNav navigation={navigation} />
