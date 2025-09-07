@@ -1,4 +1,5 @@
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -36,6 +37,7 @@ const MealPage = () => {
   const startMealType = getMealStatus();
   const [mealType, setMealType] = useState(startMealType);
   const [foods, setFoods] = useState([]);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     const fetchMealFoods = async () => {
@@ -49,10 +51,7 @@ const MealPage = () => {
           setFoods(response.data.foods);
         }
       } catch (error) {
-        console.log(
-          "Fetch meal foods error: ",
-          error.response.data.message
-        );
+        console.log("Fetch meal foods error: ", error.response.data.message);
 
         if (error.status === 404) {
           setFoods([]);
@@ -63,26 +62,67 @@ const MealPage = () => {
     fetchMealFoods();
   }, [mealType]);
 
+  function promptDeleteMeal(food) {
+    Alert.alert(
+      "Delete Item",
+      "Are you sure you want to delete this?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "OK", onPress: () => deleteMeal(food) },
+      ],
+      { cancelable: true }
+    );
+  }
+
+  async function deleteMeal(food) {
+    try {
+      const response = await api.post("/api/delete-meal", {
+        mealId: food.mealId,
+        foodId: food.foodId,
+      });
+
+      if (response.status == 200) {
+        setFoods((prevFoods) =>
+          prevFoods.filter(
+            (foodItem) =>
+              foodItem.Foodid !== food.Foodid && foodItem.MealId !== food.MealId
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
+
   return (
     <View style={{ flexGrow: 1 }}>
       <PagesLayout style={{ flexGrow: 1 }}>
-        <WhiteText
+        <View
           style={{
-            fontWeight: "bold",
-            fontSize: 20,
-            marginBottom: 12,
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
-          Your Meals
-        </WhiteText>
+          <WhiteText
+            style={{
+              fontWeight: "bold",
+              fontSize: 20,
+              marginBottom: 12,
+            }}
+          >
+            Your Meals
+          </WhiteText>
+          <TouchableOpacity onPress={() => setEditMode((prev) => !prev)}>
+            <WhiteText>{editMode ? "Done" : "Edit"}</WhiteText>
+          </TouchableOpacity>
+        </View>
         <RadioSet>
           {options.map((item, index) => (
             <RadioButton
               style={{
                 paddingHorizontal: 16,
                 paddingVertical: 8,
-                backgroundColor:
-                  mealType === item ? "#94a3b8" : "transparent",
+                backgroundColor: mealType === item ? "#94a3b8" : "transparent",
                 borderRadius: 24,
               }}
               color={"white"}
@@ -95,41 +135,58 @@ const MealPage = () => {
         </RadioSet>
         <ScrollView style={{ marginTop: 18 }}>
           {foods.map((food, index) => (
-            <View style={styles.foodContainer} key={index}>
-              <Image
-                source={{
-                  uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
-                }}
-                height={40}
-                width={40}
-                borderRadius={12}
-              />
-              <View style={{ flexGrow: 1 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+            <View style={{ flexDirection: "row" }} key={index}>
+              <View style={styles.foodContainer}>
+                <Image
+                  source={{
+                    uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
                   }}
-                >
-                  <WhiteText style={{ fontWeight: "800" }}>
-                    {food.food.name}
-                  </WhiteText>
-                  <WhiteText
-                    style={{ fontSize: 12, fontWeight: 600 }}
+                  height={40}
+                  width={40}
+                  borderRadius={12}
+                />
+                <View style={{ flexGrow: 1 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    🍗 {food.totalCalories} kcal
+                    <WhiteText style={{ fontWeight: "800" }}>
+                      {food.food.name}
+                    </WhiteText>
+                    <WhiteText style={{ fontSize: 12, fontWeight: 600 }}>
+                      🍗 {food.totalCalories} kcal
+                    </WhiteText>
+                  </View>
+                  <WhiteText
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 500,
+                      color: "#ddd",
+                    }}
+                  >
+                    {food.quantity} {food.food.unit}
                   </WhiteText>
                 </View>
-                <WhiteText
+              </View>
+              {editMode && (
+                <View
                   style={{
-                    fontSize: 10,
-                    fontWeight: 500,
-                    color: "#ddd",
+                    width: 30,
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
                   }}
                 >
-                  {food.quantity} {food.food.unit}
-                </WhiteText>
-              </View>
+                  <TouchableOpacity onPress={() => promptDeleteMeal(food)}>
+                    <MaterialIcons
+                      name="delete"
+                      size={22}
+                      style={{ color: "rgba(243, 82, 82, 1)" }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           ))}
         </ScrollView>
@@ -141,10 +198,7 @@ const MealPage = () => {
             navigation.navigate("Food", { mealType: mealType });
           }}
         >
-          <MaterialIcons
-            name="add"
-            style={{ color: "white", fontSize: 32 }}
-          />
+          <MaterialIcons name="add" style={{ color: "white", fontSize: 32 }} />
         </TouchableOpacity>
       </View>
     </View>
@@ -157,7 +211,6 @@ const styles = StyleSheet.create({
   foodContainer: {
     flexDirection: "row",
     height: 65,
-    width: "100%",
     backgroundColor: "#1e293b",
     borderRadius: 24,
     alignItems: "center",

@@ -105,8 +105,11 @@ const TrackMeal = () => {
 
   const fetchCaloriesBurned = async () => {
     try {
+      const date = new Date(`${selectedDate}`);
+
+      console.log("TODAY DATE: ", date, selectedDate);
       const response = await api.post("/api/workout-sessions", {
-        date: new Date(`${selectedDate}T00:00:00`),
+        date,
       });
 
       if (response.status === 200) {

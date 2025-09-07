@@ -609,8 +609,29 @@ router.post("/workout-sessions", auth, async (req, res) => {
   const { date } = req.body;
 
   try {
-    const start = startOfDay(date);
-    const end = endOfDay(date);
+    const dateObj = new Date(date);
+
+    const start = new Date(
+      Date.UTC(
+        dateObj.getUTCFullYear(),
+        dateObj.getUTCMonth(),
+        dateObj.getUTCDate(),
+        0,
+        0,
+        0
+      )
+    );
+    const end = new Date(
+      Date.UTC(
+        dateObj.getUTCFullYear(),
+        dateObj.getUTCMonth(),
+        dateObj.getUTCDate(),
+        23,
+        59,
+        59,
+        999
+      )
+    );
 
     const workoutSessions = await WorkoutSession.findAll({
       where: {
@@ -665,7 +686,6 @@ router.get("/calorie-report", auth, async (req, res) => {
     const today = new Date();
     // Start date = today minus 4 days
     const startDate = subDays(today, 4);
-
     // Get all days from startDate → today
     const last5Days = eachDayOfInterval({ start: startDate, end: today });
 
@@ -683,8 +703,7 @@ router.get("/calorie-report", auth, async (req, res) => {
       where: {
         userId: userId,
         createdAt: {
-          [Op.gte]: startOfDay(startDate), // from given date
-          [Op.lte]: endOfDay(new Date()), // up to today
+          [Op.gte]: startOfDay(last5Days[0]), // from given date
         },
       },
       group: [literal("day")],
@@ -706,7 +725,6 @@ router.get("/calorie-report", auth, async (req, res) => {
             userId: userId,
             createdAt: {
               [Op.gte]: startOfDay(startDate),
-              [Op.lte]: endOfDay(new Date()),
             },
           },
         },
@@ -784,11 +802,30 @@ router.get("/monthly-workout-sessions", auth, async (req, res) => {
       year: r.year,
     }));
 
-    res.status(200).json({ reportData: formatted });
+    return res.status(200).json({ reportData: formatted });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Error retrieving monthly workout data: " + error.message,
     });
+  }
+});
+
+router.post("/delete-meal", auth, async (req, res) => {
+  const { mealId, foodId } = req.body;
+  try {
+    const deleted = await MealFood.destroy({
+      where: { mealId, foodId },
+    });
+
+    if (deleted) {
+      return res.status(200).json({
+        message: "Deleted successfully",
+      });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error when deleting meal food: " + error.message });
   }
 });
 
