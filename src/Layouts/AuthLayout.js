@@ -1,43 +1,34 @@
 import React, { useState } from "react";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-export default function AuthLayout({
-  children,
-  modal,
-  showModal = false,
-}) {
+export default function AuthLayout({ children, modal, showModal = false }) {
   const backgroundImage = require("root/assets/barbel.jpg");
 
   return (
-    <KeyboardAwareScrollView
-      style={{ flex: 1 }}
-      contentContainerStyle={{
-        flexGrow: 1,
-        justifyContent: "flex-end",
-      }}
-      enableOnAndroid={true}
-      extraScrollHeight={20} // space above keyboard
-    >
-      <View style={styles.container}>
-        <ImageBackground
-          source={backgroundImage}
-          style={styles.background}
-          resizeMode="cover"
-        >
-          <View style={styles.gradientShape} />
-          <Text style={styles.welcomeTitle}>
-            Welcome to <Text style={styles.wTitle}>GYMTECH</Text>
-          </Text>
-          {children}
-        </ImageBackground>
-        {showModal && modal}
-      </View>
-    </KeyboardAwareScrollView>
+    // <KeyboardAwareScrollView
+    //   style={{ flex: 1 }}
+    //   contentContainerStyle={{
+    //     flexGrow: 1,
+    //     justifyContent: "flex-end",
+    //   }}
+    //   enableOnAndroid={true}
+    //   extraScrollHeight={20} // space above keyboard
+    // >
+    <View style={styles.container}>
+      <ImageBackground
+        source={backgroundImage}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        <View style={styles.gradientShape} />
+        <Text style={styles.welcomeTitle}>
+          Welcome to <Text style={styles.wTitle}>GYMTECH</Text>
+        </Text>
+        {children}
+      </ImageBackground>
+      {showModal && modal}
+    </View>
+    // </KeyboardAwareScrollView>
   );
 }
 

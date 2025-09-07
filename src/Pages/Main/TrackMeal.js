@@ -13,6 +13,8 @@ import { WhiteText } from "@/Components/WhiteText";
 import api from "@/Axios";
 import { PieChart } from "react-native-gifted-charts";
 import { LineChart } from "react-native-chart-kit";
+import { MaterialIcons } from "@expo/vector-icons";
+import { parseISO, format } from "date-fns";
 
 const today = new Date();
 const screenWidth = Dimensions.get("window").width;
@@ -27,28 +29,10 @@ const chartConfig = {
   useShadowColorFromDataset: true, // optional
 };
 
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-      color: (opacity = 1) => `rgba(237, 73, 73, ${opacity})`, // line color
-      strokeWidth: 5,
-    },
-    {
-      data: [30, 65, 2, 80, 59, 73],
-      color: (opacity = 1) => `rgba(0, 96, 252, ${opacity})`, // line color
-      strokeWidth: 5,
-    },
-  ],
-  legend: ["Calorie Burned", "Calorie Eaten"],
-};
-
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
   date.setDate(date.getDate() - date.getDay() + i);
-
-  const isoDate = date.toISOString().split("T")[0];
+  const isoDate = date.toLocaleDateString("en-CA"); // YYYY-MM-DD local
 
   return {
     key: isoDate,
@@ -57,17 +41,9 @@ const days = Array.from({ length: 7 }, (_, i) => {
   };
 });
 
-const DateComponent = ({
-  day,
-  dayOfWeek,
-  selected = false,
-  onPress,
-}) => (
+const DateComponent = ({ day, dayOfWeek, selected = false, onPress }) => (
   <TouchableOpacity
-    style={[
-      styles.dateComponent,
-      selected && { backgroundColor: "#38bdf8" },
-    ]}
+    style={[styles.dateComponent, selected && { backgroundColor: "#38bdf8" }]}
     onPress={onPress}
   >
     <WhiteText
@@ -100,10 +76,12 @@ const TrackMeal = () => {
   const navigation = useNavigation();
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalCaloriesBurned, setTotalCaloriesBurned] = useState(0);
+  const [calorieReportData, setCalorieReportData] = useState({});
 
   useEffect(() => {
     fetchMeals();
     fetchCaloriesBurned();
+    fetchCalorieReport();
   }, [selectedDate]);
 
   const handleSelect = (isodate) => {
@@ -132,15 +110,42 @@ const TrackMeal = () => {
       });
 
       if (response.status === 200) {
-        setTotalCaloriesBurned(
-          Number(response.data.caloriesBurned) || 0
-        );
+        setTotalCaloriesBurned(Number(response.data.caloriesBurned) || 0);
       }
     } catch (error) {
-      alert(
-        error.response?.data?.message || "Failed to fetch workouts"
-      );
+      alert(error.response?.data?.message || "Failed to fetch workouts");
       setTotalCaloriesBurned(0); // fallback
+    }
+  };
+
+  const fetchCalorieReport = async () => {
+    try {
+      const response = await api.get("/api/calorie-report");
+
+      const reportData = response.data.reportData;
+      const burnedList = reportData.last5Days.map(
+        (day) => reportData.burnedResult?.[day] ?? 0
+      );
+      const intakeList = reportData.last5Days.map(
+        (day) => reportData.mealsTaken?.[day] ?? 0
+      );
+      const formattedDates = reportData.last5Days.map((d) =>
+        format(parseISO(d), "MMM d")
+      );
+      console.log("nigana");
+
+      const chartData = {
+        labels: formattedDates,
+        burnedList: burnedList,
+        intakeList: intakeList,
+      };
+
+      console.log("Calorie Report: ", chartData);
+      setCalorieReportData(chartData);
+    } catch (error) {
+      console.log(
+        "Error retrieving calorie report: " + error.response.data.message
+      );
     }
   };
 
@@ -161,7 +166,6 @@ const TrackMeal = () => {
           />
         ))}
       </View>
-
       <View
         style={{
           marginTop: 12,
@@ -175,11 +179,7 @@ const TrackMeal = () => {
       >
         <TouchableOpacity style={styles.orangeBox}>
           <Text>🔥</Text>
-          <Text
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            style={styles.statText}
-          >
+          <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statText}>
             {totalCaloriesBurned}
           </Text>
           <Text style={{ color: "#777" }}>Burn</Text>
@@ -206,6 +206,9 @@ const TrackMeal = () => {
             radius={55}
             donut
           />
+          <View>
+            <Text style={{ color: "white", textAlign: "center" }}>Workout</Text>
+          </View>
         </View>
         <TouchableOpacity
           style={styles.greenBox}
@@ -216,17 +219,13 @@ const TrackMeal = () => {
           }}
         >
           <Text>🍽️</Text>
-          <Text
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            style={styles.statText}
-          >
+          <Text adjustsFontSizeToFit numberOfLines={1} style={styles.statText}>
             {totalCalories}
           </Text>
           <Text style={{ color: "#777" }}>Eaten</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.optionsContainer}>
+      {/* <View style={styles.optionsContainer}>
         {options.map((item, index) => (
           <RadioButton
             style={{
@@ -242,7 +241,32 @@ const TrackMeal = () => {
             selected={selectedValue === item}
             onPress={() => setSelectedValue(item)}
           />
+          //TODO removed for now
         ))}
+      </View> */}
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 2,
+          backgroundColor: "#b1d1f5ff",
+          marginTop: 12,
+          borderRadius: 12,
+          borderWidth: 2,
+          borderColor: "#0066ffff",
+          alignItems: "center",
+          justifyContent: "start",
+          paddingVertical: 8,
+          paddingHorizontal: 4,
+          marginBottom: 24,
+        }}
+      >
+        <MaterialIcons
+          name={"info"}
+          style={{ color: "#2b8effff", fontSize: 24 }}
+        />
+        <Text style={{ fontSize: 11 }}>
+          Do not forget to track your meal everyday and exercise!
+        </Text>
       </View>
       <View
         style={{
@@ -251,14 +275,32 @@ const TrackMeal = () => {
           justifyContent: "center",
         }}
       >
-        <LineChart
-          data={data}
-          width={screenWidth}
-          height={256}
-          verticalLabelRotation={30}
-          chartConfig={chartConfig}
-          bezier
-        />
+        {calorieReportData && (
+          <LineChart
+            data={{
+              labels: calorieReportData.labels ?? ["", ""],
+              datasets: [
+                {
+                  data: calorieReportData.burnedList ?? [0, 0],
+                  color: (opacity = 1) => `rgba(237, 73, 73, ${opacity})`, // line color
+                  strokeWidth: 5,
+                },
+                {
+                  data: calorieReportData.intakeList ?? [0, 0],
+                  color: (opacity = 1) => `rgba(0, 96, 252, ${opacity})`, // line color
+                  strokeWidth: 5,
+                },
+              ],
+              legend: ["Calorie Burned", "Calorie Eaten"],
+            }}
+            width={screenWidth}
+            height={200}
+            style={{ paddingBottom: 24 }}
+            verticalLabelRotation={30}
+            chartConfig={chartConfig}
+            bezier
+          />
+        )}
       </View>
     </PagesLayout>
   );

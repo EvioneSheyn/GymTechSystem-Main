@@ -20,6 +20,23 @@ import * as WebBrowser from "expo-web-browser";
 import PagesLayout from "../../Layouts/PagesLayout";
 import Loader from "../../Components/Loader";
 
+// Map announcement types to icons
+const announcementIcons = {
+  info: { component: MaterialIcons, name: "info-outline", color: "#3B82F6" }, // blue
+  success: {
+    component: MaterialIcons,
+    name: "check-circle-outline",
+    color: "#10B981",
+  }, // green
+  warning: {
+    component: MaterialIcons,
+    name: "warning-amber",
+    color: "#F59E0B",
+  }, // yellow
+  alert: { component: MaterialIcons, name: "error-outline", color: "#EF4444" }, // red
+  event: { component: FontAwesome5, name: "calendar-alt", color: "#8B5CF6" }, // purple
+};
+
 const days = Array.from({ length: 7 }, (_, i) => {
   const date = new Date();
   date.setDate(date.getDate() - date.getDay() + i);
@@ -60,6 +77,48 @@ const quickActions = [
   },
 ];
 
+export const announcements = [
+  {
+    id: "1",
+    title: "Server Maintenance",
+    content:
+      "Our servers will be down for maintenance on Sept 10th from 1 AM to 3 AM UTC.",
+    date: "2025-09-07",
+    type: "info", // can be 'info', 'warning', 'alert'
+  },
+  {
+    id: "2",
+    title: "New Feature Release",
+    content: "We are excited to announce the launch of the dark mode feature!",
+    date: "2025-09-06",
+    type: "success",
+  },
+  {
+    id: "3",
+    title: "Scheduled Downtime",
+    content:
+      "The mobile app may experience brief downtime due to server upgrades.",
+    date: "2025-09-05",
+    type: "warning",
+  },
+  {
+    id: "4",
+    title: "Community Event",
+    content:
+      "Join our online community meetup this weekend to connect with other users.",
+    date: "2025-09-04",
+    type: "event",
+  },
+  {
+    id: "5",
+    title: "Security Update",
+    content:
+      "Please update your app to the latest version to ensure the best security.",
+    date: "2025-09-03",
+    type: "alert",
+  },
+];
+
 const todaysWorkouts = [
   {
     id: "1",
@@ -94,8 +153,6 @@ export default function Dashboard() {
       } catch (error) {
         console.error("Failed to load user", error.message);
       }
-
-      setLoading(false);
     };
 
     const fetchVerificationStatus = async () => {
@@ -124,6 +181,7 @@ export default function Dashboard() {
 
     // fetchVerificationStatus();
     loadUser();
+    setTimeout(() => setLoading(false), 800);
   }, []);
 
   useEffect(() => {
@@ -184,77 +242,73 @@ export default function Dashboard() {
 
   return (
     <PagesLayout isHeadless>
-      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-        <View style={styles.headerCard}>
-          <View>
-            <Text style={styles.greet}>Welcome back</Text>
-            <Text style={styles.name}>{user?.username}</Text>
-          </View>
-          <View style={styles.headerRight}>
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/2922/2922561.png",
-              }} // TODO temporary, add profile soon
-              style={styles.avatar}
-            />
-            <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
-              <MaterialIcons name="logout" size={24} color="#F87171" />
-            </TouchableOpacity>
-          </View>
+      <View style={styles.headerCard}>
+        <View>
+          <Text style={styles.greet}>Welcome back</Text>
+          <Text style={styles.name}>{user?.username}</Text>
         </View>
-        <View style={styles.rowBetween}>
-          <Text style={styles.sectionTitle}>Schedule</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
-            <Text style={{ color: "white", fontSize: 12 }}>View Calendar</Text>
+        <View style={styles.headerRight}>
+          <Image
+            source={{
+              uri: "https://cdn-icons-png.flaticon.com/512/2922/2922561.png",
+            }} // TODO temporary, add profile soon
+            style={styles.avatar}
+          />
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
+            <MaterialIcons name="logout" size={24} color="#F87171" />
           </TouchableOpacity>
         </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.dateRow}
-        >
-          {days.map((item) => {
-            const isToday = item.key === todayKey.getDate();
-            return (
-              <View
-                key={item.key}
-                style={[styles.dateItem, isToday && styles.dateItemSelected]}
-              >
-                <Text
-                  style={[styles.dateText, isToday && styles.dateTextSelected]}
-                >
-                  {item.date}
-                </Text>
-                <Text
-                  style={[styles.dayText, isToday && styles.dayTextSelected]}
-                >
-                  {item.day}
-                </Text>
-              </View>
-            );
-          })}
-        </ScrollView>
-        <Text style={styles.sectionTitle}>Shortcuts</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.quickActions}
-        >
-          {quickActions.map((action) => (
-            <TouchableOpacity
-              key={action.label}
-              onPress={() => {
-                navigation.navigate(action.screen);
-              }}
-              style={[styles.actionCard, { borderColor: action.color + "AA" }]}
+      </View>
+      <View style={styles.rowBetween}>
+        <Text style={styles.sectionTitle}>Schedule</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
+          <Text style={{ color: "white", fontSize: 12 }}>View Calendar</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.dateRow}
+      >
+        {days.map((item) => {
+          const isToday = item.key === todayKey.getDate();
+          return (
+            <View
+              key={item.key}
+              style={[styles.dateItem, isToday && styles.dateItemSelected]}
             >
-              <Ionicons name={action.icon} size={28} color={action.color} />
-              <Text style={styles.actionLabel}>{action.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        <Text style={styles.sectionTitle}>Today</Text>
-        <FlatList
+              <Text
+                style={[styles.dateText, isToday && styles.dateTextSelected]}
+              >
+                {item.date}
+              </Text>
+              <Text style={[styles.dayText, isToday && styles.dayTextSelected]}>
+                {item.day}
+              </Text>
+            </View>
+          );
+        })}
+      </ScrollView>
+      <Text style={styles.sectionTitle}>Shortcuts</Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.quickActions}
+      >
+        {quickActions.map((action) => (
+          <TouchableOpacity
+            key={action.label}
+            onPress={() => {
+              navigation.navigate(action.screen);
+            }}
+            style={[styles.actionCard, { borderColor: action.color + "AA" }]}
+          >
+            <Ionicons name={action.icon} size={28} color={action.color} />
+            <Text style={styles.actionLabel}>{action.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      {/* <FlatList
           data={todaysWorkouts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -272,9 +326,43 @@ export default function Dashboard() {
             </View>
           )}
           scrollEnabled={false}
-        />
-      </ScrollView>
-      <MainNav navigation={navigation} />
+        /> */}
+      {/* Announcements */}
+      <Text style={styles.sectionTitle}>Announcements</Text>
+      {announcements.length === 0 ? (
+        <Text style={{ color: "white", textAlign: "center" }}>
+          No Announcements yet.
+        </Text>
+      ) : (
+        announcements.map((item) => {
+          const Icon = announcementIcons[item.type].component;
+          const iconName = announcementIcons[item.type].name;
+          const iconColor = announcementIcons[item.type].color;
+
+          return (
+            <View key={item.id} style={styles.card}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: 8,
+                }}
+              >
+                <Icon
+                  name={iconName}
+                  size={20}
+                  color={iconColor}
+                  style={{ marginRight: 8 }}
+                />
+                <Text style={styles.title}>{item.title}</Text>
+              </View>
+              <Text style={styles.content}>{item.content}</Text>
+              <Text style={styles.date}>{item.date}</Text>
+            </View>
+          );
+        })
+      )}
+      <View style={{ marginBottom: 124 }} />
     </PagesLayout>
   );
 }
@@ -423,6 +511,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  card: {
+    backgroundColor: "#112B52", // slightly lighter navy for card
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5, // for Android shadow
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#FFFFFF", // white text
+  },
+  content: {
+    fontSize: 12,
+    color: "#D0D6E0", // light grayish text
+  },
+  date: {
+    fontSize: 10,
+    color: "white",
   },
 });
 

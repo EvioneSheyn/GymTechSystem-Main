@@ -216,6 +216,7 @@ const ProgressPage = () => {
           height={220}
           verticalLabelRotation={20}
           chartConfig={chartConfig}
+          style={{ paddingBottom: 24 }}
           // fromNumber={0}
           fromZero
           bezier

@@ -5,28 +5,36 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
-import { ProgressChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
-
-const chartConfig = {
-  backgroundGradientFrom: "#1e2229ff",
-  backgroundGradientTo: "#080a13ff",
-  color: (opacity = 1) => `rgba(37, 146, 219, ${opacity})`,
-};
+import {
+  BarChart as BarChartGifted,
+  PieChart,
+} from "react-native-gifted-charts";
 
 const screenWidth = Dimensions.get("window").width;
+
+const donutData = [
+  { value: 60, color: "#3b82f6", text: "Weight" },
+  { value: 70, color: "#10b981", text: "Workouts" },
+];
+
+const mock_data = [
+  { label: "Jan", value: 400 },
+  { label: "Feb", value: 300 },
+  { label: "Mar", value: 200 },
+  { label: "Apr", value: 278 },
+  { label: "May", value: 189 },
+];
 
 const ReportPage = () => {
   const weightLost = 5; // example
   const streak = 12; // days
-  const workouts = [3, 4, 2, 5, 4, 3, 6, 0]; // weekly sessions
-  const [chartWidth, setChartWidth] = useState(0);
 
   return (
     <PagesLayout>
-      <ScrollView style={{ paddingBottom: 64 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 64 }}>
         {/* Header */}
         <Text style={styles.subHeader}>Summary</Text>
         <Text style={styles.mainHeader}>My Report</Text>
@@ -42,33 +50,26 @@ const ReportPage = () => {
             <Text style={styles.cardValue}>{streak} days</Text>
           </View>
         </View>
-        <BarChart
-          data={{
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", ""],
-            datasets: [{ data: workouts }],
-          }}
-          width={screenWidth} // use container width
-          height={220}
-          chartConfig={chartConfig}
-          fromZero
-          style={{
-            borderRadius: 16,
-            transform: [{ scaleX: 0.9 }], // 👈 scale down horizontally
-            marginLeft: -8, // 👈 recenters chart after scaling
-          }}
-        />
 
-        {/* Progress Pie */}
-        <Text style={styles.sectionTitle}>Goal Completion</Text>
-        <ProgressChart
-          data={{ labels: ["Weight", "Workouts"], data: [0.6, 0.75] }}
-          width={320}
-          height={220}
-          chartConfig={chartConfig}
-          style={styles.chart}
-        />
+        {/* Bar Chart */}
+        <Text style={styles.sectionTitle}>Monthly Progress</Text>
+        <View style={styles.chartContainer}>
+          <BarChartGifted
+            data={mock_data}
+            barWidth={28}
+            barBorderRadius={6}
+            frontColor="#3b82f6"
+            yAxisThickness={0}
+            xAxisThickness={0}
+            hideRules
+            noOfSections={4}
+            xAxisColor="transparent"
+            yAxisTextStyle={{ color: "#9ca3af", fontSize: 12 }}
+            xAxisLabelTextStyle={{ color: "#d1d5db", fontSize: 12 }}
+          />
+        </View>
 
-        {/* Recommendations */}
+        {/* Insights */}
         <View style={styles.insightBox}>
           <Text style={styles.insightText}>
             🎯 You're on track to reach your weight goal in 2 months.
@@ -96,9 +97,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     fontWeight: "bold",
+    marginTop: 8,
   },
   subHeader: {
     color: "#aaa",
+    marginBottom: 4,
   },
   cardRow: {
     flexDirection: "row",
@@ -113,10 +116,10 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
   },
   cardValue: {
-    color: "#3ad",
+    color: "#3b82f6",
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 8,
@@ -126,10 +129,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 12,
   },
-  chart: {
+  chartContainer: {
+    width: "100%",
+    backgroundColor: "#1e293b",
     borderRadius: 16,
+    padding: 16,
     marginBottom: 16,
-    alignSelf: "center",
+    alignItems: "center",
+    overflow: "visible", // ✅ allow labels to render outside
+    paddingBottom: 24, // ✅ extra space for x-axis labels
   },
   insightBox: {
     backgroundColor: "#1e293b",
@@ -143,17 +151,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   exportButton: {
-    backgroundColor: "#222",
+    backgroundColor: "#3b82f6",
     borderRadius: 24,
     padding: 16,
     width: "100%",
     marginTop: 20,
-  },
-  chartContainer: {
-    width: "100%",
-    backgroundColor: "#1e293b",
-    borderRadius: 16,
-    padding: 8, // give breathing room
-    marginBottom: 16,
   },
 });

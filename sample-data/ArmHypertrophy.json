@@ -1,0 +1,45 @@
+{
+  "plan": {
+    "title": "Arm Hypertrophy",
+    "details": ["24 workout days (3 sessions/week)", "Focus on arm mass", "High-volume isolation work"],
+    "description": "Designed for intermediate lifters aiming to maximize arm growth with a focus on biceps and triceps hypertrophy.",
+    "image": "arm_hypertrophy",
+    "routines": [
+      {
+        "title": "Day 1 - Biceps Blast",
+        "sets": [
+          { "exercise": 10, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 13, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 9, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 15, "set_count": 3, "target": { "value": 30, "unit": "secs" } }
+        ]
+      },
+      { "title": "Day 2 - Rest", "sets": [] },
+      {
+        "title": "Day 3 - Triceps Pump",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 14, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 8, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
+        ]
+      },
+      { "title": "Day 4 - Rest", "sets": [] },
+      {
+        "title": "Day 5 - Arm Power",
+        "sets": [
+          { "exercise": 10, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 13, "set_count": 4, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 14, "set_count": 4, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 4, "set_count": 4, "target": { "value": 20, "unit": "reps" } }
+        ]
+      },
+      { "title": "Day 6 - Rest", "sets": [] },
+      { "title": "Day 7 - Core + Stretch", "sets": [
+          { "exercise": 15, "set_count": 3, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
+        ]
+      }
+    ]
+  }
+}

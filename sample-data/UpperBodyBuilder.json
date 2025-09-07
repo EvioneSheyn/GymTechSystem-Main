@@ -1,0 +1,46 @@
+{
+  "plan": {
+    "title": "Upper Body Builder",
+    "details": ["24 workout days (3 sessions/week)", "Chest, arms, and shoulders", "Strength + size focus"],
+    "description": "Balanced plan emphasizing upper body strength and size with a mix of compound and isolation exercises.",
+    "image": "upper_body_builder",
+    "routines": [
+      {
+        "title": "Day 1 - Chest Strength",
+        "sets": [
+          { "exercise": 7, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 6, "set_count": 4, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 5, "set_count": 4, "target": { "value": 12, "unit": "reps" } }
+        ]
+      },
+      { "title": "Day 2 - Rest", "sets": [] },
+      {
+        "title": "Day 3 - Arm Combo",
+        "sets": [
+          { "exercise": 13, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 14, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 9, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 15, "set_count": 3, "target": { "value": 30, "unit": "secs" } }
+        ]
+      },
+      { "title": "Day 4 - Rest", "sets": [] },
+      {
+        "title": "Day 5 - Push Power",
+        "sets": [
+          { "exercise": 8, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 7, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 14, "set_count": 4, "target": { "value": 12, "unit": "reps" } }
+        ]
+      },
+      { "title": "Day 6 - Rest", "sets": [] },
+      {
+        "title": "Day 7 - Cardio & Stretch",
+        "sets": [
+          { "exercise": 10, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "secs" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
+        ]
+      }
+    ]
+  }
+}

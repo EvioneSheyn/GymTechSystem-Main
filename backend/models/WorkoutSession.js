@@ -8,7 +8,6 @@ const WorkoutSession = sequelize.define("WorkoutSession", {
   },
   routineId: {
     type: DataTypes.INTEGER,
-    unique: true,
     allowNull: false,
   },
   caloriesBurned: {

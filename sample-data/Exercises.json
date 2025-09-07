@@ -274,5 +274,69 @@
         "Shoulders"
       ]
     }
+  ],
+  "new_exercises": [
+    {
+      "id": 13,
+      "name": "Barbell curl",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 4,
+      "weight": 20,
+      "details": "4x12x20 kg",
+      "image": "barbell_curl",
+      "variantUnit": "kg",
+      "instruction": [
+        "Stand with feet shoulder-width apart, holding a barbell with an underhand grip.",
+        "Keep elbows tucked to your sides.",
+        "Curl the barbell upward toward your shoulders.",
+        "Lower slowly back to the starting position."
+      ],
+      "description": "Classic biceps mass builder that develops arm strength and definition.",
+      "target": ["Biceps", "Forearms"]
+    },
+    {
+      "id": 14,
+      "name": "Overhead triceps extension",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 4,
+      "weight": 12,
+      "details": "4x12x12 kg",
+      "image": "triceps_extension",
+      "variantUnit": "kg",
+      "instruction": [
+        "Hold a dumbbell with both hands and lift it overhead.",
+        "Keep elbows close to your ears.",
+        "Lower the dumbbell behind your head in a controlled motion.",
+        "Extend your arms back up to the starting position."
+      ],
+      "description": "Strengthens the triceps and improves overhead pushing power.",
+      "target": ["Triceps", "Shoulders"]
+    },
+    {
+      "id": 15,
+      "name": "Plank hold",
+      "type": "time",
+      "duration": 30,
+      "durationType": "seconds",
+      "reps": 1,
+      "sets": 3,
+      "details": "3x30 s",
+      "image": "plank",
+      "variantUnit": "seconds",
+      "instruction": [
+        "Start in a forearm plank position with elbows under shoulders.",
+        "Keep your body in a straight line from head to heels.",
+        "Engage your core and avoid sagging hips.",
+        "Hold for the prescribed time."
+      ],
+      "description": "Builds core stability, endurance, and improves posture.",
+      "target": ["Core", "Abs", "Lower back"]
+    }
   ]
 }

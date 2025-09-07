@@ -1,10 +1,10 @@
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Switch, 
-  ScrollView 
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
@@ -16,7 +16,7 @@ const SettingsPage = () => {
 
   return (
     <PagesLayout>
-      <ScrollView style={{paddingBottom: 120}}>
+      <ScrollView style={{ paddingBottom: 120 }}>
         {/* Header */}
         <Text style={styles.header}>Settings</Text>
         <Text style={styles.subHeader}>Manage your preferences</Text>
@@ -63,14 +63,16 @@ const SettingsPage = () => {
           </TouchableOpacity>
           <View style={styles.divider} />
           <TouchableOpacity style={styles.itemRow}>
-            <Text style={[styles.itemText, { color: "red" }]}>Delete Account</Text>
+            <Text style={[styles.itemText, { color: "red" }]}>
+              Delete Account
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* About */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
-          <Text style={styles.itemText}>App version 1.0.0</Text>
+          <Text style={styles.itemText}>App version 1.0.0 Beta</Text>
         </View>
       </ScrollView>
     </PagesLayout>

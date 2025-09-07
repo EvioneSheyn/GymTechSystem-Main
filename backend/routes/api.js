@@ -14,11 +14,12 @@ const MealFood = require("../models/MealFood");
 
 const auth = require("../middleware/auth");
 const { body, validationResult } = require("express-validator");
-const { Op } = require("sequelize");
+const { fn, col, literal, Op } = require("sequelize");
 const {
   startOfDay,
   endOfDay,
   startOfWeek,
+  subDays,
   eachDayOfInterval,
 } = require("date-fns");
 const WeightRecord = require("../models/WeightRecord");
@@ -652,7 +653,141 @@ router.get("/weights", auth, async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong when retrieving we!" + error.message,
+      message:
+        "Something went wrong when retrieving weight records!" + error.message,
+    });
+  }
+});
+
+router.get("/calorie-report", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const today = new Date();
+    // Start date = today minus 4 days
+    const startDate = subDays(today, 4);
+
+    // Get all days from startDate → today
+    const last5Days = eachDayOfInterval({ start: startDate, end: today });
+
+    // Convert Date objects to "YYYY-MM-DD" strings
+    const datesOnly = [
+      ...last5Days.map((dateTime) => dateTime.toISOString().split("T")[0]),
+      today.toISOString().split("T")[0],
+    ];
+
+    const burnedResult = await WorkoutSession.findAll({
+      attributes: [
+        [fn("date", col("updatedAt")), "day"], // group by DATE only
+        [fn("SUM", col("caloriesBurned")), "totalCaloriesBurned"],
+      ],
+      where: {
+        userId: userId,
+        createdAt: {
+          [Op.gte]: startOfDay(startDate), // from given date
+          [Op.lte]: endOfDay(new Date()), // up to today
+        },
+      },
+      group: [literal("day")],
+      order: [[literal("day"), "ASC"]],
+      raw: true,
+    });
+
+    const mealsTaken = await MealFood.findAll({
+      attributes: [
+        [fn("date", col("Meal.createdAt")), "day"], // date of the meal
+        [fn("SUM", col("MealFood.totalCalories")), "totalCaloriesIntake"],
+      ],
+      include: [
+        {
+          model: Meal,
+          as: "meal",
+          attributes: [],
+          where: {
+            userId: userId,
+            createdAt: {
+              [Op.gte]: startOfDay(startDate),
+              [Op.lte]: endOfDay(new Date()),
+            },
+          },
+        },
+      ],
+      group: [literal("day")],
+      order: [[literal("day"), "ASC"]],
+      raw: true,
+    });
+
+    const formattedBurnedResult = burnedResult.reduce((acc, burned) => {
+      acc[burned.day] = burned.totalCaloriesBurned;
+      return acc;
+    }, {});
+
+    const formattedMealsTaken = mealsTaken.reduce((acc, mealItem) => {
+      acc[mealItem.day] = mealItem.totalCaloriesIntake;
+
+      return acc;
+    }, {});
+
+    res.status(200).send({
+      reportData: {
+        last5Days: datesOnly,
+        burnedResult: formattedBurnedResult,
+        mealsTaken: formattedMealsTaken,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:
+        "Something went wrong when retrieving calorie report!" + error.message,
+    });
+  }
+});
+
+router.get("/monthly-workout-sessions", auth, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const results = await WorkoutSession.findAll({
+      attributes: [
+        "userId",
+        [fn("strftime", "%m", col("createdAt")), "monthNumber"],
+        [fn("strftime", "%Y", col("createdAt")), "year"],
+        [fn("COUNT", col("id")), "total"],
+      ],
+      where: { userId: { [Op.eq]: userId } },
+      group: ["year", "monthNumber"],
+      order: [
+        [literal("year"), "ASC"],
+        [literal("monthNumber"), "ASC"],
+      ],
+      raw: true,
+    });
+
+    // Map month number → name
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const formatted = results.map((r) => ({
+      ...r,
+      month: monthNames[parseInt(r.monthNumber, 10) - 1],
+      year: r.year,
+    }));
+
+    res.status(200).json({ reportData: formatted });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error retrieving monthly workout data: " + error.message,
     });
   }
 });
