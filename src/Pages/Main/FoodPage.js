@@ -32,7 +32,7 @@ const FoodPage = () => {
     const fetchFoods = async () => {
       console.log("fetching food");
       try {
-        const response = await api.get("/api/foods", {
+        const response = await api.get("/api/meal", {
           params: { category: foodCategory.toLowerCase() },
         });
 

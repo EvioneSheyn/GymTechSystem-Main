@@ -10,7 +10,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import api from "@/Axios";
 import { Image } from "expo-image";
-import { ExerciseImages } from "../../../sample-data/Exercises";
+import { ExerciseImages } from "root/sample-data/Exercises";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const PlanRoutineOverview = () => {
@@ -25,7 +25,7 @@ const PlanRoutineOverview = () => {
   useEffect(() => {
     const fetchRoutines = async () => {
       try {
-        const response = await api.get("/api/plan-routines/" + plan.id);
+        const response = await api.get("/api/plans/routines/" + plan.id);
 
         let routines = response.data.routines;
 
@@ -58,7 +58,7 @@ const PlanRoutineOverview = () => {
   useEffect(() => {
     const fetchWorkoutSessions = async () => {
       try {
-        const response = await api.get("/api/all-workout-sessions");
+        const response = await api.get("/api/workout/all");
 
         if (response.status === 200) {
           setWorkoutSessions(response.data.sessions);

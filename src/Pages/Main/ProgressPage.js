@@ -56,7 +56,6 @@ const ProgressPage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       const storedProfile = await AsyncStorage.getItem("profile");
-
       setProfile(JSON.parse(storedProfile));
     };
 
@@ -82,7 +81,7 @@ const ProgressPage = () => {
   useEffect(() => {
     const fetchWeights = async () => {
       try {
-        const response = await api.get("/api/weights", {
+        const response = await api.get("/api/report/weights", {
           params: {
             category: category,
           },
@@ -144,7 +143,7 @@ const ProgressPage = () => {
 
   const handleUpdateWeight = async () => {
     try {
-      const response = await api.post("/api/update-weight", {
+      const response = await api.post("/api/profile/update-weight", {
         newWeight: newWeight,
       });
 

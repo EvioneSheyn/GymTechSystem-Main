@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { ExerciseImages } from "../../../sample-data/Exercises";
+import { ExerciseImages } from "root/sample-data/Exercises";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "@/Axios";
 
@@ -53,10 +53,7 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log(
-      "variantUnit: ",
-      currentExercise.exercise.variantUnit
-    );
+    console.log("variantUnit: ", currentExercise.exercise.variantUnit);
 
     const fetchProfile = async () => {
       const storedProfile = await AsyncStorage.getItem("profile");
@@ -89,7 +86,7 @@ const BeginWorkout = ({ route, navigation }) => {
   }, [status]);
 
   useEffect(() => {
-    console.log(currentExercise.unit);
+    console.log("Unit: ", currentExercise.unit);
     if (SetCount >= currentExercise.count) {
       setDone(true);
       setTimeout(() => {
@@ -109,8 +106,7 @@ const BeginWorkout = ({ route, navigation }) => {
 
   const handleDone = () => {
     if (
-      (currentExercise.exercise.variantUnit === "kg" &&
-        !variantUnitValue) ||
+      (currentExercise.exercise.variantUnit === "kg" && !variantUnitValue) ||
       variantUnitValue <= 0
     ) {
       alert("Invalid input, change to appropriate weights");
@@ -134,7 +130,6 @@ const BeginWorkout = ({ route, navigation }) => {
     } else {
       setCompleted(true);
       handleOnFinish();
-      console.log("naabot dirid");
     }
   };
 
@@ -191,7 +186,7 @@ const BeginWorkout = ({ route, navigation }) => {
 
     console.log(caloriesBurned);
     try {
-      const response = await api.post("/api/finish-exercise", {
+      const response = await api.post("/api/workout/finish-exercise", {
         routineId: routineId,
         caloriesBurned: caloriesBurned,
         duration: getElapsedTime().raw,
@@ -202,10 +197,7 @@ const BeginWorkout = ({ route, navigation }) => {
         navigation.navigate("Dashboard");
       }
     } catch (error) {
-      console.log(
-        "Error recording workout: ",
-        error.response.data.message
-      );
+      console.log("Error recording workout: ", error.response.data.message);
     }
   };
 
@@ -213,9 +205,7 @@ const BeginWorkout = ({ route, navigation }) => {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Congratulations!</Text>
-        <Text style={styles.subtitle}>
-          You have completed all exercises.
-        </Text>
+        <Text style={styles.subtitle}>You have completed all exercises.</Text>
       </View>
     );
   }
@@ -316,8 +306,7 @@ const BeginWorkout = ({ route, navigation }) => {
         <View style={styles.centeredView}>
           <View style={styles.greenCircle}>
             <Text style={{ fontSize: 18, fontWeight: 700 }}>
-              {currentExercise.value > 1 &&
-              currentExercise.unit === "reps"
+              {currentExercise.value > 1 && currentExercise.unit === "reps"
                 ? currentExercise.value
                 : "No"}
             </Text>
@@ -370,8 +359,7 @@ const BeginWorkout = ({ route, navigation }) => {
             }
           </CountdownCircleTimer>
           <Text>
-            {currentExercise.exercise.type === "time" &&
-            status === "working"
+            {currentExercise.exercise.type === "time" && status === "working"
               ? "Timer"
               : "Rest"}
           </Text>
@@ -385,39 +373,40 @@ const BeginWorkout = ({ route, navigation }) => {
           <Text>Sets done</Text>
         </View>
       </View>
-      {currentExercise.exercise.variantUnit === "kg" && (
-        <View style={{ flexDirection: "row", gap: 8 }}>
-          <View style={styles.variableInput}>
-            <TextInput
-              defaultValue={Math.floor(profile.weight * 0.1)}
-              value={variantUnitValue}
-              keyboardType="numeric"
-              placeholder="Enter KG"
-              style={{
-                width: "100%",
-                paddingHorizontal: 12,
-              }}
-              onChangeText={(text) =>
-                setVariantUnitValue(Number(text))
-              }
-            />
-          </View>
+      {currentExercise.unit === "reps" &&
+        initialStart &&
+        isDone &&
+        !resting && (
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            {currentExercise.exercise.variantUnit === "kg" && (
+              <View style={styles.variableInput}>
+                <TextInput
+                  defaultValue={Math.floor(profile.weight * 0.1)}
+                  value={variantUnitValue}
+                  keyboardType="numeric"
+                  placeholder="Enter KG"
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: 12,
+                  }}
+                  onChangeText={(text) => setVariantUnitValue(Number(text))}
+                />
+              </View>
+            )}
 
-          <TouchableOpacity
-            style={styles.nextButton}
-            onPress={handleDone}
-            disabled={
-              currentExercise.exercise.type === "time" && !isDone
-            }
-          >
-            <Text style={styles.nextButtonText}>Record</Text>
-            <MaterialIcons
-              name={"add-circle-outline"}
-              style={{ color: "white", fontSize: 24 }}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
+            <TouchableOpacity
+              style={styles.nextButton}
+              onPress={handleDone}
+              disabled={currentExercise.exercise.type === "time" && !isDone}
+            >
+              <Text style={styles.nextButtonText}>Record</Text>
+              <MaterialIcons
+                name={"add-circle-outline"}
+                style={{ color: "white", fontSize: 24 }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
     </View>
   );
 };

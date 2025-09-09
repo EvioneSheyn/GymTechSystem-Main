@@ -27,7 +27,7 @@ export function FoodModal({
     }
 
     try {
-      const response = await api.post("/api/add-meal", {
+      const response = await api.post("/api/meal/add", {
         foodId: selectedFood.id,
         quantity: quantity,
         mealType: mealType,

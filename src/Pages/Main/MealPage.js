@@ -42,8 +42,8 @@ const MealPage = () => {
   useEffect(() => {
     const fetchMealFoods = async () => {
       try {
-        const response = await api.post("/api/meal", {
-          mealType: mealType,
+        const response = await api.post("/api/meal/by-type", {
+          mealType,
         });
 
         if (response.status === 200) {
@@ -76,7 +76,7 @@ const MealPage = () => {
 
   async function deleteMeal(food) {
     try {
-      const response = await api.post("/api/delete-meal", {
+      const response = await api.post("/api/meal/delete", {
         mealId: food.mealId,
         foodId: food.foodId,
       });

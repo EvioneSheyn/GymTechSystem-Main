@@ -1,9 +1,9 @@
-const ScheduleDate = () => (
+import { StyleSheet, View } from "react-native";
+import { WhiteText } from "@/Components/WhiteText";
+
+const ScheduleDate = ({ record }) => (
   <View
-    key={index}
     style={{
-      // backgroundColor: "#8b8b8b54",
-      // backgroundColor: "#4a576b2c",
       backgroundColor: "#4a576b2d",
       borderLeftWidth: 4,
       borderLeftColor: "#49ff9bff",
@@ -16,7 +16,7 @@ const ScheduleDate = () => (
   >
     <WhiteText style={{ fontSize: 32, paddingHorizontal: 12 }}>
       {record.day}
-    </WhiteText>
+  </WhiteText>
     <View
       style={{
         paddingLeft: 12,
@@ -37,4 +37,4 @@ const ScheduleDate = () => (
   </View>
 );
 
-export default ScheduleDate
+export default ScheduleDate;

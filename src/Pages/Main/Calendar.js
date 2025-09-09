@@ -5,6 +5,7 @@ import api from "@/Axios";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { WhiteText } from "@/Components/WhiteText";
 import RNCalendar from "../../Components/RNCalendar";
+import ScheduleDate from "@/Components/ScheduleDate";
 
 const Calendar = () => {
   const navigation = useNavigation();
@@ -52,7 +53,7 @@ const Calendar = () => {
   useEffect(() => {
     const fetchWorkoutSessions = async () => {
       try {
-        const response = await api.get("/api/all-workout-sessions");
+        const response = await api.get("/api/workout/all");
 
         const sessions = response.data.sessions;
         let dates = sessions.map((session) => {
@@ -71,7 +72,6 @@ const Calendar = () => {
     fetchWorkoutSessions();
   }, []);
 
-  
   return (
     <PagesLayout>
       <View>
@@ -128,7 +128,7 @@ const Calendar = () => {
                   </WhiteText>
                 </View>
                 {item.map((record, index) => (
-                  <ScheduleDate />
+                  <ScheduleDate record={record} key={index} />
                 ))}
               </View>
             ))}
@@ -142,11 +142,3 @@ const Calendar = () => {
 export default Calendar;
 
 const styles = StyleSheet.create({});
-
-// <View
-//   style={{
-//     marginTop: 12,
-//   }}
-// >
-// </View>
-// )}

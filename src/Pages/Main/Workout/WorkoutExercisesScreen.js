@@ -10,73 +10,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ExerciseImages } from "../../../sample-data/Exercises";
-import api from "../../Axios";
-
-// const exercises = [
-//   {
-//     name: "Treadmill",
-//     details: "8 min., 110–140bpm",
-//     image: require("root/assets/exercises/treadmill.jpg"),
-//   },
-//   {
-//     name: "Hammer strength chest bench press",
-//     details: "3x15x20 kg",
-//     image: require("root/assets/exercises/chestpress.jpg"),
-//   },
-//   {
-//     name: "Close-grip front lat pulldown",
-//     details: "3x15x35 kg",
-//     image: require("root/assets/exercises/latpulldown.jpg"),
-//   },
-//   {
-//     name: "30-degree incline dumbbell fly",
-//     details: "3x15x6 kg",
-//     image: require("root/assets/exercises/fly.jpg"),
-//   },
-//   {
-//     name: "Standing rope pullover",
-//     details: "3x15x20 kg",
-//     image: require("root/assets/exercises/ropepullover.jpg"),
-//   },
-//   {
-//     name: "Hanging leg raises",
-//     details: "3x15",
-//     image: require("root/assets/exercises/legraises.jpg"),
-//   },
-
-//   // ✅ Added Stretching Exercises Below
-//   {
-//     name: "Shoulder joint stretch",
-//     details: "1x30 s",
-//     image: require("root/assets/exercises/shoulderstretch.jpg"),
-//   },
-//   {
-//     name: "Chest muscle stretch",
-//     details: "1x30 s",
-//     image: require("root/assets/exercises/cheststretch.jpg"),
-//   },
-//   {
-//     name: "Deltoids stretch",
-//     details: "1x20 s",
-//     image: require("root/assets/exercises/deltoidstretch.jpg"),
-//   },
-//   {
-//     name: "Overhead triceps stretch",
-//     details: "1x20 s",
-//     image: require("root/assets/exercises/tricepsstretch.jpg"),
-//   },
-//   {
-//     name: "Oblique & lat side reach stretch",
-//     details: "1x20 s",
-//     image: require("root/assets/exercises/obliquestretch.jpg"),
-//   },
-//   {
-//     name: "Spine extensor muscles stretch",
-//     details: "1x30 s",
-//     image: require("root/assets/exercises/spinestretch.jpg"),
-//   },
-// ];
+import { ExerciseImages } from "root/sample-data/Exercises";
+import api from "@/Axios";
 
 export default function WorkoutExercisesScreen() {
   const navigation = useNavigation();
@@ -87,9 +22,7 @@ export default function WorkoutExercisesScreen() {
   useEffect(() => {
     const fetchExerciseSets = async () => {
       try {
-        const response = await api.get(
-          "/api/routine-sets/" + routineId
-        );
+        const response = await api.get("/api/plans/sets/" + routineId);
 
         let exercises = response.data.sets;
         setExercises(exercises);
@@ -127,9 +60,7 @@ export default function WorkoutExercisesScreen() {
               style={styles.exerciseImage}
             />
             <View style={styles.exerciseText}>
-              <Text style={styles.exerciseName}>
-                {item.exercise.name}
-              </Text>
+              <Text style={styles.exerciseName}>{item.exercise.name}</Text>
               <Text style={styles.exerciseDetails}>
                 {item.count} Sets x {item.value}{" "}
                 {item.type === "Reps" ? "reps" : "secs"}

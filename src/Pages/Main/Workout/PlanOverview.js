@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ExerciseImages } from "../../../sample-data/Exercises";
+import { ExerciseImages } from "root/sample-data/Exercises";
 import api from "@/Axios";
 
 export default function PlanOverview() {
@@ -22,7 +22,7 @@ export default function PlanOverview() {
   useEffect(() => {
     const fetchPlan = async () => {
       try {
-        const response = await api.get(`api/plan/${planId}`);
+        const response = await api.get(`api/plans/${planId}`);
 
         let plan = response.data.plan;
         setPlan(plan);
@@ -32,10 +32,7 @@ export default function PlanOverview() {
           .join("\n");
         setDetails(details);
       } catch (error) {
-        console.error(
-          "Error retrieivng plan: ",
-          error.response.data.message
-        );
+        console.error("Error retrieivng plan: ", error.response.data.message);
       }
     };
 
@@ -57,10 +54,7 @@ export default function PlanOverview() {
 
       <Text style={styles.header}>Workout Plan</Text>
 
-      <Image
-        source={ExerciseImages[plan.image]}
-        style={styles.image}
-      />
+      <Image source={ExerciseImages[plan.image]} style={styles.image} />
       <View style={styles.textOverlay}>
         <Text style={styles.planTitle}>{plan.title}</Text>
       </View>
@@ -68,10 +62,7 @@ export default function PlanOverview() {
       <View style={styles.detailsBox}>
         <Text style={styles.details}>{details}</Text>
 
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={handleStartWorkout}
-        >
+        <TouchableOpacity style={styles.addButton} onPress={handleStartWorkout}>
           <Text style={styles.addText}>START</Text>
         </TouchableOpacity>
 

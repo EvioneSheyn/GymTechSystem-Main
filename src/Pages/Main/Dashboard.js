@@ -160,7 +160,7 @@ export default function Dashboard() {
         const isVerified = await AsyncStorage.getItem("isVerified");
         if (isVerified) return;
 
-        const response = await api.get("/api/verification-update");
+        const response = await api.get("/api/user/verification-update");
         const authenticated = response.data.authenticated;
 
         if (authenticated) {
@@ -190,8 +190,7 @@ export default function Dashboard() {
         const response = await api.get("/api/profile");
 
         if (response.status === 200) {
-          let profile = response.data.profile.dataValues;
-
+          let profile = response.data.profile;
           await AsyncStorage.setItem("profile", JSON.stringify(profile));
           setProfile(profile);
           setShowProfileForm(false);

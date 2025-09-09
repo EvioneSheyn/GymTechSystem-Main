@@ -70,7 +70,7 @@ const DateComponent = ({ day, dayOfWeek, selected = false, onPress }) => (
 const TrackMeal = () => {
   const [selectedValue, setSelectedValue] = useState("Day");
   const [selectedDate, setSelectedDate] = useState(
-    today.toISOString().split("T")[0]
+    today.toLocaleDateString("en-CA")
   );
   const options = ["Day", "Week", "Month", "Year"];
   const navigation = useNavigation();
@@ -90,7 +90,7 @@ const TrackMeal = () => {
 
   const fetchMeals = async () => {
     try {
-      const response = await api.post("/api/total-meal", {
+      const response = await api.post("/api/meal/total", {
         date: selectedDate,
       });
 
@@ -108,7 +108,7 @@ const TrackMeal = () => {
       const date = new Date(`${selectedDate}`);
 
       console.log("TODAY DATE: ", date, selectedDate);
-      const response = await api.post("/api/workout-sessions", {
+      const response = await api.post("/api/workout/by-date", {
         date,
       });
 
@@ -123,7 +123,7 @@ const TrackMeal = () => {
 
   const fetchCalorieReport = async () => {
     try {
-      const response = await api.get("/api/calorie-report");
+      const response = await api.get("/api/report/calorie");
 
       const reportData = response.data.reportData;
       const burnedList = reportData.last5Days.map(

@@ -18,6 +18,14 @@ const WorkoutSession = sequelize.define("WorkoutSession", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: () => new Date(),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: () => new Date(),
+  },
 });
 
 module.exports = WorkoutSession;
