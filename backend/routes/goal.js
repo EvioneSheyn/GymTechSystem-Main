@@ -27,11 +27,30 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// Create Goal
 router.post("/", auth, async (req, res) => {
   const userId = req.user.userId;
   const { type, target } = req.body;
 
   try {
+    const acceptedTypes = ["weight", "workout"];
+
+    if (!acceptedTypes.includes(type)) {
+      return res
+        .status(400)
+        .json({ message: "Custom goal is not yet supported!" });
+    }
+
+    const activeUserGoal = Goal.findOne({
+      where: { userId, type, completed: false },
+    });
+
+    if (activeUserGoal) {
+      return res.status(409).json({
+        message: `There is still an ongoing goal of type ${type}, either keep it or delete it to create new one.`,
+      });
+    }
+
     let goal;
     const userWeightRecord = await WeightRecord.findOne({
       where: { userId },
@@ -54,14 +73,10 @@ router.post("/", auth, async (req, res) => {
           from: userWeightRecord.weight,
         });
         break;
-      default:
-        return res
-          .status(500)
-          .json({ message: "Custom goal is not yet supported!" });
     }
 
     return res
-      .status(200)
+      .status(400)
       .json({ message: "Custom goal is not yet supported!" });
   } catch (error) {
     return res
