@@ -5,7 +5,8 @@ const auth = require("../middleware/auth");
 
 const Profile = require("../models/Profile");
 const WeightRecord = require("../models/WeightRecord");
-const User = require("../models/User");
+const Goal = require("../models/Goal");
+const { Op } = require("sequelize");
 
 // Get profile (originally GET /profile)
 router.get("/", auth, async (req, res) => {
@@ -20,12 +21,10 @@ router.get("/", auth, async (req, res) => {
       (Date.now() - dob.getTime()) / (1000 * 60 * 60 * 24 * 365.25)
     );
 
-    return res
-      .status(200)
-      .json({
-        profile: { ...userProfile.toJSON(), age },
-        message: "Successfully retrieved user profile!",
-      });
+    return res.status(200).json({
+      profile: { ...userProfile.toJSON(), age },
+      message: "Successfully retrieved user profile!",
+    });
   } catch (error) {
     return res
       .status(500)
@@ -86,16 +85,43 @@ router.post("/update-weight", auth, async (req, res) => {
   try {
     await Profile.update({ weight: newWeight }, { where: { userId } });
 
-    const weightRecord = await WeightRecord.findOne({
+    let weightRecord = await WeightRecord.findOne({
       where: { userId, date: today },
     });
+
     if (!weightRecord) {
-      await WeightRecord.create({ userId, weight: newWeight, date: today });
+      weightRecord = await WeightRecord.create({
+        userId,
+        weight: newWeight,
+        date: today,
+      });
     } else {
       await WeightRecord.update(
         { weight: newWeight },
         { where: { id: weightRecord.id } }
       );
+    }
+
+    const userGoal = Goal.findOne({
+      where: {
+        [Op.and]: [{ userId }, { completed: false, type: "weight" }],
+      },
+    });
+
+    if (userGoal) {
+      const isBulking = userGoal.target > userGoal.from;
+      const isRegressing = isBulking
+        ? weightRecord.weight < userGoal.from
+        : weightRecord.weight > userGoal.from;
+
+      const calculatedFrom = isRegressing ? weightRecord.weight : userGoal.from;
+      await userGoal.update({
+        from: calculatedFrom,
+        progress: !isRegressing ? weightRecord - calculatedFrom : 0,
+        completed: isBulking
+          ? weightRecord.weight >= userGoal.target
+          : weightRecord.weight <= userGoal.target,
+      });
     }
 
     return res

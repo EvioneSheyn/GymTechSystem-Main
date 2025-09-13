@@ -9,6 +9,7 @@ const Meal = require("./Meal");
 const Food = require("./Food");
 const MealFood = require("./MealFood");
 const WeightRecord = require("./WeightRecord");
+const Goal = require("./Goal");
 
 User.hasMany(Routine, {
   foreignKey: "routineableId",
@@ -89,3 +90,6 @@ User.hasMany(WeightRecord, {
   as: "weightRecords",
 });
 WeightRecord.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+User.hasMany(Goal, { foreignKey: "userId", as: "goals" });
+Goal.belongsTo(User, { foreignKey: "userId", as: "user" });

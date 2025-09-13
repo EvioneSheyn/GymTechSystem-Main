@@ -114,18 +114,30 @@ export default function MaleWorkoutPlans() {
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         {[
-          { label: "Home", icon: "home", screen: "Dashboard" },
-          { label: "Workout", icon: "barbell", screen: "Workout" },
+          { label: "Home", icon: "home", screen: "Dashboard", active: false },
+          {
+            label: "Workout",
+            icon: "barbell",
+            screen: "MaleWorkoutPlans",
+            active: true,
+          },
           {
             label: "Plans",
             icon: "fitness",
             screen: "MaleWorkoutPlans",
+            active: false,
           },
         ].map((btn, index) => (
           <TouchableOpacity
             key={index}
-            style={styles.navItem}
+            style={[
+              styles.navItem,
+              {
+                color: btn.active ? "#56ce1fff" : "",
+              },
+            ]}
             onPress={() => navigation.navigate(btn.screen)}
+            disabled={btn.active}
           >
             <Ionicons name={btn.icon} size={22} color="#38bdf8" />
             <Text style={styles.navText}>{btn.label}</Text>

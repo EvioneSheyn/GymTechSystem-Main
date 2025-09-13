@@ -19,7 +19,7 @@ const Profile = sequelize.define("Profile", {
     allowNull: false,
   },
   dateOfBirth: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
 });

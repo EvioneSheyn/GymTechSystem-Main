@@ -29,28 +29,6 @@ const SettingsPage = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Preferences */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
-
-          <View style={styles.itemRow}>
-            <Text style={styles.itemText}>Dark Mode</Text>
-            <Switch value={darkMode} onValueChange={setDarkMode} />
-          </View>
-          <View style={styles.divider} />
-
-          <View style={styles.itemRow}>
-            <Text style={styles.itemText}>Use Kg</Text>
-            <Switch value={useKg} onValueChange={setUseKg} />
-          </View>
-          <View style={styles.divider} />
-
-          <View style={styles.itemRow}>
-            <Text style={styles.itemText}>Reminders</Text>
-            <Switch value={reminders} onValueChange={setReminders} />
-          </View>
-        </View>
-
         {/* Account */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Account</Text>
