@@ -134,7 +134,7 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   const handleQuitting = () => {
-    Alert.alert("Leaving", "Do you really wish to quit?", [
+     ("Leaving", "Do you really wish to quit?", [
       { text: "Cancel", style: "cancel" },
       { text: "Leave", onPress: () => navigation.goBack() },
     ]);

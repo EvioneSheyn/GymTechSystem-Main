@@ -5,13 +5,14 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { Dimensions } from "react-native";
 import {
   BarChart as BarChartGifted,
   PieChart,
 } from "react-native-gifted-charts";
+import api from "@/Axios";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -29,8 +30,53 @@ const mock_data = [
 ];
 
 const ReportPage = () => {
-  const weightLost = 5; // example
-  const streak = 12; // days
+  const [streak, setStreak] = useState(0);
+  const [weightReport, setWeightReport] = useState({});
+  const [reportData, setReportData] = useState(mock_data);
+
+  useEffect(() => {
+    fetchMonthlyWorkout();
+    fetchStreakCount();
+    fetchWeightReport();
+  }, []);
+
+  async function fetchMonthlyWorkout() {
+    try {
+      const response = await api.get("/api/report/monthly-workouts");
+
+      if (response) {
+        console.log("Report Data: ", response.data.reportData);
+        setReportData(response.data.reportData);
+      }
+    } catch (error) {}
+  }
+
+  async function fetchStreakCount() {
+    try {
+      const response = await api.get("/api/report/streak");
+
+      if (response) {
+        const streak = response.data.streak;
+        console.log("Streak Count: ", streak);
+        setStreak(streak);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
+
+  async function fetchWeightReport() {
+    try {
+      const response = await api.get("/api/report/weight-summary");
+
+      if (response) {
+        console.log("Weight Report: ", response.data);
+        setWeightReport(response.data);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
 
   return (
     <PagesLayout>
@@ -42,8 +88,8 @@ const ReportPage = () => {
         {/* Stat Cards */}
         <View style={styles.cardRow}>
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>Weight Lost</Text>
-            <Text style={styles.cardValue}>{weightLost} Kg</Text>
+            <Text style={styles.cardTitle}>Weight {weightReport.status}</Text>
+            <Text style={styles.cardValue}>{weightReport.difference} Kg</Text>
           </View>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Streak</Text>
@@ -55,7 +101,7 @@ const ReportPage = () => {
         <Text style={styles.sectionTitle}>Monthly Progress</Text>
         <View style={styles.chartContainer}>
           <BarChartGifted
-            data={mock_data}
+            data={reportData}
             barWidth={28}
             barBorderRadius={6}
             frontColor="#3b82f6"

@@ -49,6 +49,7 @@ const ProgressPage = () => {
   const [category, setCategory] = useState("Week");
   const [weightRecords, setWeightRecords] = useState({});
   const [weightGap, setWeightGap] = useState({});
+  const [goalWeight, setGoalWeight] = useState();
   const [chartData, setChartData] = useState(defaultData);
 
   const options = ["Week", "Month", "Year", "All"];
@@ -60,6 +61,7 @@ const ProgressPage = () => {
     };
 
     fetchProfile();
+    fetchGoal();
   }, []);
 
   useEffect(() => {
@@ -126,15 +128,18 @@ const ProgressPage = () => {
 
   function getWeightGap(records) {
     const from = records[0].weight;
-    const to = records[records.length - 1].weight;
-    const gap = from - to;
-
-    setWeightGap(() => gap);
-    return {
+    const current = records[records.length - 1].weight;
+    const status = current >= from ? "Gains" : "Loss";
+    const gap = current - from;
+    const progressBar =
+      (status === "Loss" ? current / from : from / current) * 100;
+    setWeightGap({
       from,
-      to,
-      lost: gap,
-    };
+      to: current,
+      gap: status === "Loss" ? gap * -1 : gap,
+      status,
+      bar: `${progressBar}%`,
+    });
   }
 
   function getWeightData(records) {
@@ -157,6 +162,20 @@ const ProgressPage = () => {
       console.log("Error updating weight: ", error.response.data.message);
     }
   };
+
+  async function fetchGoal() {
+    try {
+      const response = await api.get("/api/goal/type/weight");
+      const target = response.data.goal.target;
+      console.log("Target: " + target);
+
+      if (response) {
+        setGoalWeight(target);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
 
   return (
     <PagesLayout
@@ -237,33 +256,19 @@ const ProgressPage = () => {
             kg
           </Text>
           <Text style={{ color: "#aaa" }}>
-            Lost{" "}
+            {weightGap.status}{" "}
             <Text style={{ fontWeight: "bold", color: "white" }}>
-              {weightGap.lost ?? 0}
+              {weightGap.gap ?? 0}
             </Text>{" "}
             kg
           </Text>
         </View>
         <View style={styles.outerBar}>
-          <View style={styles.innerBar}></View>
+          <View style={[styles.innerBar, { width: weightGap.bar }]}></View>
         </View>
       </View>
 
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 2,
-          backgroundColor: "#b1d1f5ff",
-          marginTop: 12,
-          borderRadius: 12,
-          borderWidth: 2,
-          borderColor: "#0066ffff",
-          alignItems: "center",
-          justifyContent: "start",
-          paddingVertical: 8,
-          paddingHorizontal: 4,
-        }}
-      >
+      <View style={styles.infoBar}>
         <MaterialIcons
           name={"info"}
           style={{ color: "#2b8effff", fontSize: 24 }}
@@ -307,7 +312,16 @@ const ProgressPage = () => {
             Goal
           </Text>
           <WhiteText style={{ color: "#aaa", fontSize: 32 }}>
-            <WhiteText style={{ fontWeight: "bold" }}>{60}</WhiteText> Kg
+            {goalWeight ? (
+              <>
+                <WhiteText style={{ fontWeight: "bold" }}>
+                  {goalWeight}
+                </WhiteText>{" "}
+                Kg
+              </>
+            ) : (
+              "-"
+            )}
           </WhiteText>
         </View>
       </View>
@@ -348,6 +362,19 @@ const ProgressPage = () => {
 export default ProgressPage;
 
 export const styles = StyleSheet.create({
+  infoBar: {
+    flexDirection: "row",
+    gap: 2,
+    backgroundColor: "#b1d1f5ff",
+    marginTop: 12,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#0066ffff",
+    alignItems: "center",
+    justifyContent: "start",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
   mainHeader: {
     color: "white",
     fontSize: 22,
@@ -380,7 +407,6 @@ export const styles = StyleSheet.create({
   },
   innerBar: {
     backgroundColor: "#333",
-    width: "50%",
     height: "100%",
     borderRadius: 24,
   },

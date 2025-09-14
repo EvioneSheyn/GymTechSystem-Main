@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Goal = sequelize.define("Food", {
+const Goal = sequelize.define("Goal", {
   type: {
     type: DataTypes.ENUM(["workout", "weight"]),
     allowNull: false,
@@ -18,7 +18,7 @@ const Goal = sequelize.define("Food", {
   progress: {
     type: DataTypes.FLOAT,
     allowNull: true,
-  defaultValue: 0,
+    defaultValue: 0,
   },
   completed: {
     type: DataTypes.BOOLEAN,

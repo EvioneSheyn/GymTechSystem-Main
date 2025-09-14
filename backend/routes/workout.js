@@ -65,8 +65,8 @@ router.post("/by-date", auth, async (req, res) => {
 
   try {
     const dateObj = new Date(date);
-    const start = new Date(dateObj.setUTCHours(0, 0, 0, 0));
-    const end = new Date(dateObj.setUTCHours(23, 59, 59, 999));
+    const start = new Date(dateObj.setHours(0, 0, 0, 0));
+    const end = new Date(dateObj.setHours(23, 59, 59, 999));
 
     const workoutSessions = await WorkoutSession.findAll({
       where: { userId, createdAt: { [Op.between]: [start, end] } },
