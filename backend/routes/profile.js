@@ -136,7 +136,7 @@ router.post("/update-weight", auth, async (req, res) => {
       );
     }
 
-    const userGoal = Goal.findOne({
+    const userGoal = await Goal.findOne({
       where: {
         [Op.and]: [{ userId }, { completed: false, type: "weight" }],
       },
@@ -149,9 +149,10 @@ router.post("/update-weight", auth, async (req, res) => {
         : weightRecord.weight > userGoal.from;
 
       const calculatedFrom = isRegressing ? weightRecord.weight : userGoal.from;
+
       await userGoal.update({
         from: calculatedFrom,
-        progress: !isRegressing ? weightRecord - calculatedFrom : 0,
+        progress: !isRegressing ? weightRecord.weight - calculatedFrom : 0,
         completed: isBulking
           ? weightRecord.weight >= userGoal.target
           : weightRecord.weight <= userGoal.target,
@@ -160,7 +161,7 @@ router.post("/update-weight", auth, async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Successfully updated user weight!" });
+      .json({ message: "Successfully updated user weight!" + userGoal });
   } catch (error) {
     return res
       .status(500)

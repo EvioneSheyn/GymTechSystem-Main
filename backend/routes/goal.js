@@ -41,7 +41,7 @@ router.post("/", auth, async (req, res) => {
         .json({ message: "Custom goal is not yet supported!" });
     }
 
-    const activeUserGoal = Goal.findOne({
+    const activeUserGoal = await Goal.findOne({
       where: { userId, type, completed: false },
     });
 
@@ -51,7 +51,6 @@ router.post("/", auth, async (req, res) => {
       });
     }
 
-    let goal;
     const userWeightRecord = await WeightRecord.findOne({
       where: { userId },
       order: [["createdAt", "DESC"]],
@@ -59,25 +58,25 @@ router.post("/", auth, async (req, res) => {
 
     switch (type) {
       case "workout":
-        goal = await Goal.create({
+        await Goal.create({
           type,
           target,
-          unit: "session/s",
+          unit: "sessions",
+          userId,
         });
         break;
       case "weight":
-        goal = await Goal.create({
+        await Goal.create({
           type,
           target,
           unit: "kg",
           from: userWeightRecord.weight,
+          userId,
         });
         break;
     }
 
-    return res
-      .status(400)
-      .json({ message: "Custom goal is not yet supported!" });
+    return res.status(200).json({ message: "Goal created successfully!" });
   } catch (error) {
     return res
       .status(500)
@@ -119,7 +118,7 @@ router.delete("/:id", auth, async (req, res) => {
     const goal = await Goal.findByPk(id);
 
     if (goal) {
-      await goal.delete();
+      await goal.destroy();
 
       return res.status(200).json({
         message: "Goal deleted successfully",
@@ -133,6 +132,38 @@ router.delete("/:id", auth, async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error deleting goal: " + error.message });
+  }
+});
+
+router.get("/type/:type", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { type } = req.params;
+  try {
+    const acceptedTypes = ["weight", "workout"];
+
+    if (!acceptedTypes.includes(type)) {
+      return res
+        .status(400)
+        .json({ message: "Custom goal is not yet supported!" });
+    }
+
+    const goal = await Goal.findOne({
+      where: { userId, completed: false, type },
+    });
+
+    if (goal) {
+      return res.status(200).json({
+        goal,
+      });
+    }
+
+    return res.status(404).json({
+      message: `No ${type} goal found`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error retrieving ${type} goal: ${error.message}`,
+    });
   }
 });
 

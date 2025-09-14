@@ -7,5 +7,6 @@ router.use("/meal", require("./meal"));
 router.use("/plans", require("./plan"));
 router.use("/report", require("./report"));
 router.use("/user", require("./user"));
+router.use("/goal", require("./goal"));
 
 module.exports = router;

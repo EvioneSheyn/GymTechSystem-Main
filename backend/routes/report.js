@@ -17,8 +17,9 @@ router.get("/calorie", auth, async (req, res) => {
     const startDate = subDays(today, 4);
     const last5Days = eachDayOfInterval({ start: startDate, end: today });
 
-    const datesOnly = [...last5Days.map((d) => d.toISOString().split("T")[0])];
-
+    const datesOnly = last5Days.map(
+      (d) => d.toLocaleDateString("en-CA") // format YYYY-MM-DD in local time
+    );
     // Calories burned
     const burnedResult = await WorkoutSession.findAll({
       attributes: [
@@ -142,6 +143,51 @@ router.get("/weights", auth, async (req, res) => {
     return res.status(500).json({
       message: "Error retrieving weight records",
       error: error.message,
+    });
+  }
+});
+
+router.get("/weight-summary", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const firstWeight = await WeightRecord.findOne({
+      where: { userId },
+      order: [["createdAt", "ASC"]],
+    });
+    const lastWeight = await WeightRecord.findOne({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+    });
+
+    const status = lastWeight.weight >= firstWeight.weight ? "Gains" : "Loss";
+    const difference = lastWeight.weight - firstWeight.weight;
+
+    return res.status(200).json({
+      from: firstWeight,
+      current: lastWeight,
+      difference: status === "Loss" ? difference * -1 : difference,
+      status,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error retrieving weight summary: " + error.message,
+    });
+  }
+});
+
+router.get("/streak", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const result = await WorkoutSession.count({
+      where: { userId },
+    });
+
+    return res.status(200).json({
+      streak: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error retrieving streak count: " + error.message,
     });
   }
 });
