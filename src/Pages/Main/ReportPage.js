@@ -44,6 +44,7 @@ const ReportPage = () => {
     try {
       const response = await api.get("/api/report/monthly-workouts");
 
+      console.log("Report Response: ", response.data);
       if (response) {
         console.log("Report Data: ", response.data.reportData);
         setReportData(response.data.reportData);

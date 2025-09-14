@@ -103,24 +103,24 @@ router.get("/monthly-workouts", auth, async (req, res) => {
       raw: true,
     });
 
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
+    const monthLabels = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
       "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
 
     const formatted = results.map((r) => ({
-      ...r,
-      month: monthNames[parseInt(r.monthNumber, 10) - 1],
+      label: monthLabels[parseInt(r.monthNumber, 10) - 1],
+      value: parseInt(r.total, 10),
     }));
 
     return res.status(200).json({ reportData: formatted });
