@@ -76,6 +76,40 @@ router.post(
   }
 );
 
+router.patch(
+  "/",
+  auth,
+  [
+    body("dateOfBirth").isISO8601(),
+    body("height").isFloat({ min: 50, max: 300 }),
+    body("gender").isIn(["Male", "Female"]),
+  ],
+  async (req, res) => {
+    const userId = req.user.userId;
+    const { gender, height, dateOfBirth } = req.body;
+
+    try {
+      const profile = await Profile.findOne({ where: { userId } });
+
+      if (profile) {
+        const updates = {};
+        if (gender !== undefined) updates.gender = gender;
+        if (height !== undefined) updates.height = height;
+        if (dateOfBirth !== undefined) updates.dateOfBirth = dateOfBirth;
+
+        await profile.update(updates);
+      }
+      return res
+        .status(200)
+        .json({ message: "Profile edited successfully!", profile });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Error editing profile", error: error.message });
+    }
+  }
+);
+
 // Update weight (originally POST /update-weight)
 router.post("/update-weight", auth, async (req, res) => {
   const { newWeight } = req.body;
