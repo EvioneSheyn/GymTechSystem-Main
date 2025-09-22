@@ -4,7 +4,7 @@ import WorkoutExercisesScreen from "@/Pages/Main/Workout/WorkoutExercisesScreen"
 import BeginWorkout from "@/Pages/Main/Workout/BeginWorkout";
 import ExerciseInfo from "@/Pages/Main/Workout/ExerciseInfo";
 import PlanOverview from "./Workout/PlanOverview";
-import PlanRoutineOverview from "./Workout/PlanRoutineOverview"; 
+import PlanRoutineOverview from "./Workout/PlanRoutineOverview";
 import ProgressPage from "./ProgressPage";
 import TrackMeal from "./TrackMeal";
 import CalendarPage from "./Calendar";
@@ -16,6 +16,8 @@ import FoodPage from "./FoodPage";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack"; // ✅ Added this
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import ProfilePage from "./ProfilePage";
+import UpdatePasswordPage from "./UpdatePasswordPage";
 const Stack = createNativeStackNavigator();
 // const Tabs = createBottomTabNavigator(); //TODO refactor to tabs, too many stacks
 
@@ -45,6 +47,8 @@ export default function MainNavigator() {
       <Stack.Screen name="Goal" component={GoalPage} />
       <Stack.Screen name="Report" component={ReportPage} />
       <Stack.Screen name="Settings" component={SettingsPage} />
+      <Stack.Screen name="Profile" component={ProfilePage} />
+      <Stack.Screen name="UpdatePassword" component={UpdatePasswordPage} />
     </Stack.Navigator>
   );
 }

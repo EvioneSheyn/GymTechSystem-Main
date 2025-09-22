@@ -85,6 +85,10 @@ router.patch(
     body("gender").isIn(["Male", "Female"]),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+    
     const userId = req.user.userId;
     const { gender, height, dateOfBirth } = req.body;
 

@@ -20,8 +20,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigation = useNavigation();
 
   const handleRegister = async () => {
@@ -48,7 +47,6 @@ export default function Register() {
         navigation.navigate("MainNavigator", {
           screen: "Dashboard",
         });
-        console.log("abot last");
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -121,16 +119,12 @@ export default function Register() {
         </View>
         <View style={styles.inputWrapper}>
           <TouchableOpacity
-            onPress={() =>
-              setShowConfirmPassword(!showConfirmPassword)
-            }
+            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
             style={styles.eyeIconWrapper}
             activeOpacity={0.7}
           >
             <MaterialIcons
-              name={
-                showConfirmPassword ? "visibility" : "visibility-off"
-              }
+              name={showConfirmPassword ? "visibility" : "visibility-off"}
               size={24}
               color="#4e8cff"
             />
@@ -159,9 +153,7 @@ export default function Register() {
           onPress={() => navigation.navigate("Login")}
           activeOpacity={0.7}
         >
-          <Text style={styles.toggleText}>
-            Already have an account? Login
-          </Text>
+          <Text style={styles.toggleText}>Already have an account? Login</Text>
         </TouchableOpacity>
       </View>
     </AuthLayout>

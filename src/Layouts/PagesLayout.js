@@ -18,6 +18,7 @@ const PagesLayout = ({
   modal,
   showModal = false,
   isHeadless = false,
+  withInformation = false,
 }) => {
   const navigation = useNavigation();
   return (
@@ -48,16 +49,18 @@ const PagesLayout = ({
               <Ionicons name="chevron-back" size={28} color="#38bdf8" />
               <Text style={styles.backText}>Back</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                //TODO add information page?
-              }}
-            >
-              <Ionicons
-                style={{ fontSize: 24, color: "#ddd" }}
-                name="information-circle-outline"
-              />
-            </TouchableOpacity>
+            {withInformation && (
+              <TouchableOpacity
+                onPress={() => {
+                  //TODO add information page?
+                }}
+              >
+                <Ionicons
+                  style={{ fontSize: 24, color: "#ddd" }}
+                  name="information-circle-outline"
+                />
+              </TouchableOpacity>
+            )}
           </View>
         )}
         {children}

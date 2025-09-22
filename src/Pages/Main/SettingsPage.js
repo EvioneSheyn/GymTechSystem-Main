@@ -8,11 +8,10 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
+import { useNavigation } from "@react-navigation/native";
 
 const SettingsPage = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [useKg, setUseKg] = useState(true);
-  const [reminders, setReminders] = useState(true);
+  const navigation = useNavigation();
 
   return (
     <PagesLayout>
@@ -24,7 +23,10 @@ const SettingsPage = () => {
         {/* Profile Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Profile</Text>
-          <TouchableOpacity style={styles.itemRow}>
+          <TouchableOpacity
+            style={styles.itemRow}
+            onPress={() => navigation.navigate("Profile")}
+          >
             <Text style={styles.itemText}>Edit Profile</Text>
           </TouchableOpacity>
         </View>
@@ -32,7 +34,10 @@ const SettingsPage = () => {
         {/* Account */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Account</Text>
-          <TouchableOpacity style={styles.itemRow}>
+          <TouchableOpacity
+            style={styles.itemRow}
+            onPress={() => navigation.navigate("UpdatePassword")}
+          >
             <Text style={styles.itemText}>Change Password</Text>
           </TouchableOpacity>
           <View style={styles.divider} />
