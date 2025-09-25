@@ -216,7 +216,7 @@ export default function Dashboard() {
     console.log("cgi asdfkoasdf");
     async function fetchAdminAnnouncements() {
       try {
-        const response = await admin_api.get("/admin/api/test.php");
+        const response = await admin_api.get("/admin/api/announcements.php");
         setServerConnection(true);
 
         if (response.status === 200) {

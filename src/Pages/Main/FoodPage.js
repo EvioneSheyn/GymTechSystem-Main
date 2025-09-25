@@ -69,7 +69,7 @@ const FoodPage = () => {
       <View style={styles.headerView}>
         <WhiteText style={styles.headerTitle}>Select a Food</WhiteText>
 
-        <TouchableOpacity style={styles.addButton}>
+        {/* <TouchableOpacity style={styles.addButton}>
           <WhiteText style={{ fontSize: 14, fontWeight: "bold" }}>
             Create Food
           </WhiteText>
@@ -77,20 +77,21 @@ const FoodPage = () => {
             name="add-circle"
             style={{ color: "white", fontSize: 18 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
-      <View style={styles.searchContainer}>
+      {/* <View style={styles.searchContainer}>
         <TextInput style={{ flexGrow: 1 }} placeholder="Search here" />
         <TouchableOpacity>
           <MaterialIcons name="search" style={{ fontSize: 24 }} />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
+          marginTop: 12
         }}
       >
         <RadioSet>
@@ -134,7 +135,7 @@ const FoodPage = () => {
           >
             <Image
               source={{
-                uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
+                uri: food.imageUrl,
               }}
               height={40}
               width={40}

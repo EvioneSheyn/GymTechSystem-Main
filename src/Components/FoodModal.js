@@ -84,7 +84,7 @@ export function FoodModal({
       <View style={styles.foodModalCenterView}>
         <Image
           source={{
-            uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
+            uri: selectedFood.imageUrl,
           }}
           height={"70%"}
           width={"100%"}
