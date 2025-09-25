@@ -134,12 +134,10 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   const handleQuitting = () => {
-    "Leaving",
-      "Do you really wish to quit?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Leave", onPress: () => navigation.goBack() },
-      ];
+    Alert.alert("Leaving", "Do you really wish to quit?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Leave", onPress: () => navigation.goBack() },
+    ]);
   };
 
   const getMinuteFormat = (time) => {
@@ -195,7 +193,7 @@ const BeginWorkout = ({ route, navigation }) => {
       });
 
       if (response.status === 200) {
-        alert("Congratulations bossing!");
+        alert("Congratulations, You have finished the routine!");
         navigation.navigate("Dashboard");
       }
     } catch (error) {

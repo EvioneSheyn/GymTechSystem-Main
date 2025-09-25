@@ -44,7 +44,7 @@ const Profile = ({ setProfile }) => {
         ...form,
       });
 
-      const response = await api.post("/api/create-profile", {
+      const response = await api.post("/api/profile/create", {
         dateOfBirth: myDate.toISOString(),
         ...form,
       });
@@ -53,13 +53,13 @@ const Profile = ({ setProfile }) => {
 
       if (response.status === 200) {
         alert("Profile created successfully!");
-        setProfile(response.data.profile);
 
         await AsyncStorage.setItem(
           "profile",
           JSON.stringify(response.data.profile)
         );
       }
+      setProfile(() => response.data.profile);
     } catch (error) {
       const errors = error.response.data.errors;
       console.log("Error on creating profile: ", error.response.data.message);

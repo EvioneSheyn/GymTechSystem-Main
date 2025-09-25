@@ -39,26 +39,26 @@ const MealPage = () => {
   const [foods, setFoods] = useState([]);
   const [editMode, setEditMode] = useState(false);
 
-  useEffect(() => {
-    const fetchMealFoods = async () => {
-      try {
-        const response = await api.post("/api/meal/by-type", {
-          mealType,
-        });
+  const fetchMealFoods = async () => {
+    try {
+      const response = await api.post("/api/meal/by-type", {
+        mealType,
+      });
 
-        if (response.status === 200) {
-          console.log(response.data);
-          setFoods(response.data.foods);
-        }
-      } catch (error) {
-        console.log("Fetch meal foods error: ", error.response.data.message);
-
-        if (error.status === 404) {
-          setFoods([]);
-        }
+      if (response.status === 200) {
+        console.log(response.data);
+        setFoods(response.data.foods);
       }
-    };
+    } catch (error) {
+      console.log("Fetch meal foods error: ", error.response.data.message);
 
+      if (error.status === 404) {
+        setFoods([]);
+      }
+    }
+  };
+
+  useEffect(() => {
     fetchMealFoods();
   }, [mealType]);
 
@@ -82,12 +82,7 @@ const MealPage = () => {
       });
 
       if (response.status == 200) {
-        setFoods((prevFoods) =>
-          prevFoods.filter(
-            (foodItem) =>
-              foodItem.Foodid !== food.Foodid && foodItem.MealId !== food.MealId
-          )
-        );
+        fetchMealFoods();
       }
     } catch (error) {
       console.log(error.response.data.message);
@@ -134,12 +129,12 @@ const MealPage = () => {
           ))}
         </RadioSet>
         <ScrollView style={{ marginTop: 18 }}>
-          {foods.map((food, index) => (
+          {foods.map((meal, index) => (
             <View style={{ flexDirection: "row" }} key={index}>
               <View style={styles.foodContainer}>
                 <Image
                   source={{
-                    uri: "https://assets.epicurious.com/photos/62f16ed5fe4be95d5a460eed/16:9/w_5803,h_3264,c_limit/RoastChicken_RECIPE_080420_37993.jpg",
+                    uri: meal.food.imageUrl,
                   }}
                   height={40}
                   width={40}
@@ -153,10 +148,10 @@ const MealPage = () => {
                     }}
                   >
                     <WhiteText style={{ fontWeight: "800" }}>
-                      {food.food.name}
+                      {meal.food.name}
                     </WhiteText>
                     <WhiteText style={{ fontSize: 12, fontWeight: 600 }}>
-                      🍗 {food.totalCalories} kcal
+                      🍗 {meal.totalCalories} kcal
                     </WhiteText>
                   </View>
                   <WhiteText
@@ -166,7 +161,7 @@ const MealPage = () => {
                       color: "#ddd",
                     }}
                   >
-                    {food.quantity} {food.food.unit}
+                    {meal.quantity} {meal.food.unit}
                   </WhiteText>
                 </View>
               </View>
@@ -178,7 +173,7 @@ const MealPage = () => {
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <TouchableOpacity onPress={() => promptDeleteMeal(food)}>
+                  <TouchableOpacity onPress={() => promptDeleteMeal(meal)}>
                     <MaterialIcons
                       name="delete"
                       size={22}

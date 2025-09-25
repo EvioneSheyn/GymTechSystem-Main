@@ -5,17 +5,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { FontAwesome5 } from "react-native-vector-icons";
-import React, { useRef, useState } from "react";
+import { FontAwesome5 } from "@expo/vector-icons";
+
+import React, { useEffect, useRef, useState } from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { Image } from "expo-image";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const ExerciseInfo = () => {
+export default function ExerciseInfo() {
   const playerRef = useRef(null);
-  const [videoId, setVideoId] = useState("catFklsra18");
+  const [videoId, setVideoId] = useState("acSm0vMpqBg");
+  const [videoUrl, setVideoUrl] = useState();
   const navigation = useNavigation();
   const route = useRoute();
   const { exercise } = route.params;
+  const [loading, setLoading] = useState(true);
 
   const instructions = [
     "Extend one arm straight in front of you, palm down.",
@@ -25,6 +29,27 @@ const ExerciseInfo = () => {
   ];
   const description =
     "Enhances flexibility in forearms and shoulders, reducing injury risk.";
+
+  const fetchFirstVideo = async () => {
+    try {
+      const query = exercise.name; // your search query
+      const queryURL = `https://www.youtube.com/results?search_query=${encodeURIComponent(
+        query
+      )}`;
+
+      setVideoUrl(queryURL);
+    } catch (err) {
+      console.error("Error fetching video:", err);
+    }
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      await fetchFirstVideo();
+      setLoading(false);
+    };
+    load();
+  }, []);
 
   return (
     <View
@@ -48,32 +73,28 @@ const ExerciseInfo = () => {
         <Text style={{ fontWeight: "bold", fontSize: 24 }}>Info</Text>
       </View>
       <View style={{ gap: 0 }}>
-        <YoutubePlayer
-          ref={playerRef}
-          height={220}
-          play={true}
-          videoId={videoId}
-        />
+        {!loading && (
+          <YoutubePlayer
+            ref={playerRef}
+            height={220}
+            play={true}
+            videoId={videoId}
+          />
+        )}
         <Text>
           If player takes time to load, visit:{" "}
           <Text
             style={{
               color: "blue",
             }}
-            onPress={() =>
-              Linking.openURL(
-                `https:://www.youtube.com/watch?v=${videoId}`
-              )
-            }
+            onPress={() => Linking.openURL(videoUrl)}
           >
             Link to Tutorial Video
           </Text>
         </Text>
       </View>
       <View>
-        <Text
-          style={{ fontWeight: "bold", fontSize: 18, marginTop: 24 }}
-        >
+        <Text style={{ fontWeight: "bold", fontSize: 18, marginTop: 24 }}>
           Description
         </Text>
         <Text
@@ -86,9 +107,7 @@ const ExerciseInfo = () => {
       </View>
 
       <View>
-        <Text
-          style={{ fontWeight: "bold", fontSize: 18, marginTop: 24 }}
-        >
+        <Text style={{ fontWeight: "bold", fontSize: 18, marginTop: 24 }}>
           Instructions
         </Text>
         {instructions.map((item, index) => (
@@ -104,8 +123,6 @@ const ExerciseInfo = () => {
       </View>
     </View>
   );
-};
-
-export default ExerciseInfo;
+}
 
 const styles = StyleSheet.create({});

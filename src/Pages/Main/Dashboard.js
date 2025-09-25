@@ -232,6 +232,12 @@ export default function Dashboard() {
     fetchAdminAnnouncements();
   }, []);
 
+  useEffect(() => {
+    if (profile) {
+      setShowProfileForm(false);
+    }
+  }, [profile]);
+
   const handleLogout = async () => {
     await AsyncStorage.clear();
 

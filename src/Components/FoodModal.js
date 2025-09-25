@@ -1,4 +1,4 @@
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { WhiteText } from "@/Components/WhiteText";
 import { Image } from "expo-image";
 import React, { useState, useEffect } from "react";
@@ -19,6 +19,7 @@ export function FoodModal({
   mealType,
   navigation,
 }) {
+  const [quantity, setQuantity] = useState(1);
   const handleSubmit = async () => {
     if (!quantity || quantity <= 0) {
       setQuantity(1);
@@ -32,6 +33,7 @@ export function FoodModal({
         quantity: quantity,
         mealType: mealType,
       });
+      console.log("ni sud diri");
 
       console.log("nisud diri: ", response.data);
 
@@ -44,8 +46,6 @@ export function FoodModal({
 
     setShowModal(false);
   };
-
-  const [quantity, setQuantity] = useState(1);
 
   const normalizeQty = () => {
     if (!quantity || quantity <= 1) {
