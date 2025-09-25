@@ -1,10 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import Constants from "expo-constants";
+
+const localhost = Constants.expoConfig.hostUri?.split(":")[0];
+const baseURL = `http://${localhost}:3030`;
 
 const api = axios.create({
-  // baseURL: "http://10.40.219.7:3030", // FiX this in the future
-  baseURL: "http://192.168.254.110:3030", // FiX this in the future
-  // baseURL: "http://localhost:3030", // FiX this in the future
+  baseURL,
   timeout: 5000,
 });
 
@@ -13,7 +15,6 @@ api.interceptors.request.use(async (config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 });
 

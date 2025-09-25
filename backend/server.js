@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 
 dotenv.config();
 
-const PORT = process.env.PORT;
+const PORT = 3030;
 const SECRET = process.env.JWT_SECRET;
 
 const app = express();
@@ -28,9 +28,7 @@ app.post("/validate", (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET); // throws if invalid or expired
-    return res
-      .status(200)
-      .json({ valid: true, expired: false, decoded });
+    return res.status(200).json({ valid: true, expired: false, decoded });
   } catch (err) {
     return res.status(401).json({
       valid: false,
