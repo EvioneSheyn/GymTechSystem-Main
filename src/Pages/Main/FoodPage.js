@@ -13,7 +13,7 @@ import { Image } from "expo-image";
 import { WhiteText } from "@/Components/WhiteText";
 import RadioSet from "@/Components/RadioSet";
 import { RadioButton } from "@/Components/RadioButton";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FoodModal } from "../../Components/FoodModal";
 

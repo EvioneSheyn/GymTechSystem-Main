@@ -14,7 +14,7 @@ import RadioSet from "../../Components/RadioSet";
 import { Image } from "expo-image";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import api from "@/Axios";
+import { api } from "@/Axios";
 
 const MealPage = () => {
   const options = ["Breakfast", "Lunch", "Dinner", "Snacks"];

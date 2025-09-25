@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { Image } from "expo-image";
 import { ExerciseImages } from "root/sample-data/Exercises";
 import { AnimatedCircularProgress } from "react-native-circular-progress";

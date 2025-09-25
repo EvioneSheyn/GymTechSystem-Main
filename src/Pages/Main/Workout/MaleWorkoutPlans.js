@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { ExerciseImages } from "../../../../sample-data/Exercises";
 
 const screenWidth = Dimensions.get("window").width;

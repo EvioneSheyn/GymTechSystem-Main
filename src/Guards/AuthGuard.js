@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { CommonActions } from "@react-navigation/native";
 
 const AuthGuard = ({ children }) => {

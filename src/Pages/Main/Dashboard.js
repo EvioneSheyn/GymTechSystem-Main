@@ -12,13 +12,14 @@ import { Image } from "expo-image";
 import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "@/Axios";
+import { api, admin_api } from "@/Axios";
 import Profile from "@/Components/Profile";
 import MainNav from "@/Components/MainNav";
 import { CommonActions } from "@react-navigation/native";
 import * as WebBrowser from "expo-web-browser";
 import PagesLayout from "../../Layouts/PagesLayout";
 import Loader from "../../Components/Loader";
+import { format } from "date-fns";
 
 // Map announcement types to icons
 const announcementIcons = {
@@ -77,7 +78,7 @@ const quickActions = [
   },
 ];
 
-export const announcements = [
+export const announcements_testing = [
   {
     id: "1",
     title: "Server Maintenance",
@@ -138,6 +139,8 @@ export default function Dashboard() {
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [verifiedUser, setVerifiedUser] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [isConnectedToServer, setServerConnection] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -208,6 +211,26 @@ export default function Dashboard() {
   useEffect(() => {
     console.log("Profile: ", profile);
   }, [profile]);
+
+  useEffect(() => {
+    console.log("cgi asdfkoasdf");
+    async function fetchAdminAnnouncements() {
+      try {
+        const response = await admin_api.get("/admin/api/test.php");
+        setServerConnection(true);
+
+        if (response.status === 200) {
+          console.log("ADMIN: ", response.data);
+          setAnnouncements(response.data);
+        }
+      } catch (error) {
+        setServerConnection(false);
+        console.log("ADMIN ERROR: ", error.message);
+      }
+    }
+
+    fetchAdminAnnouncements();
+  }, []);
 
   const handleLogout = async () => {
     await AsyncStorage.clear();
@@ -328,16 +351,19 @@ export default function Dashboard() {
         /> */}
       {/* Announcements */}
       <Text style={styles.sectionTitle}>Announcements</Text>
-      {announcements.length === 0 ? (
+      {!isConnectedToServer ? (
+        <Text style={{ color: "white", textAlign: "center" }}>
+          Admin server is unreachable.
+        </Text>
+      ) : announcements.length === 0 ? (
         <Text style={{ color: "white", textAlign: "center" }}>
           No Announcements yet.
         </Text>
       ) : (
         announcements.map((item) => {
-          const Icon = announcementIcons[item.type].component;
-          const iconName = announcementIcons[item.type].name;
-          const iconColor = announcementIcons[item.type].color;
-
+          const Icon = announcementIcons["info"].component;
+          const iconName = announcementIcons["info"].name;
+          const iconColor = announcementIcons["info"].color;
           return (
             <View key={item.id} style={styles.card}>
               <View
@@ -355,8 +381,10 @@ export default function Dashboard() {
                 />
                 <Text style={styles.title}>{item.title}</Text>
               </View>
-              <Text style={styles.content}>{item.content}</Text>
-              <Text style={styles.date}>{item.date}</Text>
+              <Text style={styles.content}>{item.message}</Text>
+              <Text style={styles.date}>
+                {format(new Date(item.created_at), "MMM d, yyyy h:mm a")}
+              </Text>
             </View>
           );
         })
@@ -533,6 +561,7 @@ const styles = StyleSheet.create({
     color: "#D0D6E0", // light grayish text
   },
   date: {
+    textAlign: "right",
     fontSize: 10,
     color: "white",
   },

@@ -12,7 +12,7 @@ import PagesLayout from "../../Layouts/PagesLayout";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 
 const ProfilePage = () => {

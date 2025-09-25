@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, Modal, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { WhiteText } from "@/Components/WhiteText";
 import RNCalendar from "../../Components/RNCalendar";

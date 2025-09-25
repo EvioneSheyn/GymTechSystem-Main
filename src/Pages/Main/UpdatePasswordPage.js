@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import api from "@/Axios";
+import { api } from "@/Axios";
 
 const UpdatePasswordPage = () => {
   const navigation = useNavigation();

@@ -1,15 +1,9 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Keyboard } from "react-native";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -68,10 +62,7 @@ const Profile = ({ setProfile }) => {
       }
     } catch (error) {
       const errors = error.response.data.errors;
-      console.log(
-        "Error on creating profile: ",
-        error.response.data.message
-      );
+      console.log("Error on creating profile: ", error.response.data.message);
       if (errors) {
         const errorMessages = errors.map((err) => err.msg).join("\n");
         alert("Error: " + errorMessages);
@@ -82,10 +73,7 @@ const Profile = ({ setProfile }) => {
   return (
     <View style={styles.container}>
       {page === 1 && (
-        <TouchableOpacity
-          onPress={() => setPage(0)}
-          style={styles.backButton}
-        >
+        <TouchableOpacity onPress={() => setPage(0)} style={styles.backButton}>
           <Ionicons name="chevron-back" size={28} color="#38bdf8" />
           <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>

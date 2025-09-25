@@ -10,6 +10,12 @@ const api = axios.create({
   timeout: 5000,
 });
 
+// run php -S 0.0.0.0:3003 on GYM001
+const admin_api = axios.create({
+  baseURL: `http://${localhost}:3003`,
+  timeout: 5000,
+});
+
 api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem("jwtToken");
   if (token) {
@@ -18,4 +24,4 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-export default api;
+export { api, admin_api };

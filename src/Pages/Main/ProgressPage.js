@@ -11,7 +11,7 @@ import PagesLayout from "../../Layouts/PagesLayout";
 import { RadioButton } from "@/Components/RadioButton";
 import { LineChart } from "react-native-chart-kit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import ModalComponent from "../../Components/ModalComponent";
 import { MaterialIcons } from "@expo/vector-icons";
 

@@ -10,7 +10,7 @@ import PagesLayout from "../../Layouts/PagesLayout";
 import { RadioButton } from "@/Components/RadioButton";
 import { useNavigation } from "@react-navigation/native";
 import { WhiteText } from "@/Components/WhiteText";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { PieChart } from "react-native-gifted-charts";
 import { LineChart } from "react-native-chart-kit";
 import { MaterialIcons } from "@expo/vector-icons";

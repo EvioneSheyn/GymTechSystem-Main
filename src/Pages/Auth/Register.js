@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import api from "@/Axios";
+import { api } from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 import AuthLayout from "@/Layouts/AuthLayout";
 import AsyncStorage from "@react-native-async-storage/async-storage";

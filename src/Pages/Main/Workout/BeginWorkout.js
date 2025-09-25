@@ -12,7 +12,7 @@ import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { ExerciseImages } from "root/sample-data/Exercises";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "@/Axios";
+import { api } from "@/Axios";
 
 const REST_NOTES = [
   "Rest helps your muscles recover and grow stronger.",
@@ -134,10 +134,12 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   const handleQuitting = () => {
-     ("Leaving", "Do you really wish to quit?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Leave", onPress: () => navigation.goBack() },
-    ]);
+    "Leaving",
+      "Do you really wish to quit?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Leave", onPress: () => navigation.goBack() },
+      ];
   };
 
   const getMinuteFormat = (time) => {

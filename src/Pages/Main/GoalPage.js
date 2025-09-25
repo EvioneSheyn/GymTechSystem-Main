@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import ModalComponent from "../../Components/ModalComponent";
 import RNPickerSelect from "react-native-picker-select";
 import { Button, TextInput } from "react-native-paper";
-import api from "@/Axios";
+import { api } from "@/Axios";
 const GoalPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [goals, setGoals] = useState([]);

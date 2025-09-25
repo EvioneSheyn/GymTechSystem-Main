@@ -12,7 +12,7 @@ import {
   BarChart as BarChartGifted,
   PieChart,
 } from "react-native-gifted-charts";
-import api from "@/Axios";
+import { api } from "@/Axios";
 
 const screenWidth = Dimensions.get("window").width;
 
