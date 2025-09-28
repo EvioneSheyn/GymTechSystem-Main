@@ -162,11 +162,11 @@ const BeginWorkout = ({ route, navigation }) => {
   };
 
   const getDuration = () => {
-    const REST_DURATION = 5;
+    const REST_DURATION = 2;
 
     if (currentExercise.unit === "mins") {
       // return currentExercise.value * 60;
-      return 10;
+      return 3;
     } else if (currentExercise.unit === "secs") {
       return currentExercise.value;
     } else {
@@ -197,7 +197,7 @@ const BeginWorkout = ({ route, navigation }) => {
         navigation.navigate("Dashboard");
       }
     } catch (error) {
-      console.log("Error recording workout: ", error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
 
@@ -206,6 +206,9 @@ const BeginWorkout = ({ route, navigation }) => {
       <View style={styles.container}>
         <Text style={styles.title}>Congratulations!</Text>
         <Text style={styles.subtitle}>You have completed all exercises.</Text>
+        <TouchableOpacity onPress={handleOnFinish}>
+          <Text>Go Home</Text>
+        </TouchableOpacity>
       </View>
     );
   }

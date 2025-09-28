@@ -21,17 +21,23 @@ router.get("/calorie", auth, async (req, res) => {
       (d) => d.toLocaleDateString("en-CA") // format YYYY-MM-DD in local time
     );
     // Calories burned
+
     const burnedResult = await WorkoutSession.findAll({
       attributes: [
-        [fn("date", col("updatedAt")), "day"],
+        [
+          // Shift updatedAt by +02:00 before grouping by day
+          literal(`DATE("WorkoutSession"."updatedAt", '+08:00')`),
+          "day",
+        ],
         [fn("SUM", col("caloriesBurned")), "totalCaloriesBurned"],
       ],
       where: {
         userId,
+        // Filter on createdAt — keep in UTC or apply the same offset if you want local filtering
         createdAt: { [Op.gte]: startOfDay(startDate) },
       },
-      group: [literal("day")],
-      order: [[literal("day"), "ASC"]],
+      group: [literal(`DATE("WorkoutSession"."updatedAt", '+08:00')`)],
+      order: [[literal(`DATE("WorkoutSession"."updatedAt", '+08:00')`), "ASC"]],
       raw: true,
     });
 
@@ -58,6 +64,7 @@ router.get("/calorie", auth, async (req, res) => {
     });
 
     const formattedBurnedResult = burnedResult.reduce((acc, b) => {
+      console.log("BDAY: " + JSON.stringify(b));
       acc[b.day] = b.totalCaloriesBurned;
       return acc;
     }, {});

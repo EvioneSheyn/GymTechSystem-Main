@@ -147,7 +147,7 @@ const TrackMeal = () => {
       setCalorieReportData(chartData);
     } catch (error) {
       console.log(
-        "Error retrieving calorie report: " + error.response.data.message
+        "Error retrieving calorie report: " + error.response.data.error
       );
     }
   };

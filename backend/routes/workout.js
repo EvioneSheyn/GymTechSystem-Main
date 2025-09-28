@@ -9,22 +9,38 @@ const Goal = require("../models/Goal");
 router.post("/finish-exercise", auth, async (req, res) => {
   const { routineId, caloriesBurned, duration } = req.body;
   const userId = req.user.userId;
-
+  console.log("called");
   try {
+    if (!userId || !routineId || !caloriesBurned || !duration) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const calories = parseFloat(caloriesBurned);
+    const dur = parseInt(duration, 10);
+
+    if (isNaN(calories) || isNaN(dur)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid number format for calories or duration" });
+    }
+
     const workoutSession = await WorkoutSession.create({
       userId,
       routineId,
-      caloriesBurned,
-      duration,
+      caloriesBurned: calories, // ensure float
+      duration: dur, // ensure integer
     });
 
-    if (workoutSession) {
-      const userGoal = await Goal.findOne({
-        where: {
-          [Op.and]: [{ userId }, { completed: false }],
-        },
-      });
+    const userGoal = await Goal.findOne({
+      where: {
+        [Op.and]: [{ userId }, { completed: false }],
+      },
+    });
 
+    console.log(userGoal);
+    console.log(workoutSession);
+
+    if (workoutSession && userGoal) {
       const progressIncremented = userGoal.progress + 1;
 
       if (progressIncremented < userGoal.target) {
@@ -39,7 +55,7 @@ router.post("/finish-exercise", auth, async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Error recording workout", error: error.message });
+      .json({ message: "Error recording workout " + error.message });
   }
 });
 
