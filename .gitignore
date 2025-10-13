@@ -1,6 +1,5 @@
 /node_modules/
-src/Pages/_Dev/DevExercises.js
-src/Pages/_Dev/_DevNavigator.js
+src/Pages/_Dev/*
 backend/.fuse_hidden*
 backend/database.sqlite-wal
 backend/database.sqlite-shm

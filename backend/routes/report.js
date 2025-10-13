@@ -44,7 +44,11 @@ router.get("/calorie", auth, async (req, res) => {
     // Calories intake
     const mealsTaken = await MealFood.findAll({
       attributes: [
-        [fn("date", col("Meal.createdAt")), "day"],
+        [
+          // Shift createdAt by +02:00 before extracting date
+          literal(`DATE("Meal"."createdAt", '+08:00')`),
+          "day",
+        ],
         [fn("SUM", col("MealFood.totalCalories")), "totalCaloriesIntake"],
       ],
       include: [
@@ -54,12 +58,13 @@ router.get("/calorie", auth, async (req, res) => {
           attributes: [],
           where: {
             userId,
+            // Still filter using UTC startDate — you can also apply '+02:00' if needed
             createdAt: { [Op.gte]: startOfDay(startDate) },
           },
         },
       ],
-      group: [literal("day")],
-      order: [[literal("day"), "ASC"]],
+      group: [literal(`DATE("Meal"."createdAt", '+08:00')`)],
+      order: [[literal(`DATE("Meal"."createdAt", '+08:00')`), "ASC"]],
       raw: true,
     });
 
