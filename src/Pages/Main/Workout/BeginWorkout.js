@@ -10,7 +10,6 @@ import {
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { ExerciseImages } from "root/sample-data/Exercises";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "@/Axios";
 
@@ -281,8 +280,11 @@ const BeginWorkout = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <Image
-        source={ExerciseImages[currentExercise.exercise.image]}
+        source={{ uri: currentExercise.exercise.image }}
         style={styles.gif}
+        contentFit="cover"
+        placeholder="🏋️"
+        transition={200}
       />
       <View
         style={{

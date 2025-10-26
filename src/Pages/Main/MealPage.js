@@ -15,10 +15,14 @@ import { Image } from "expo-image";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { api } from "@/Axios";
+import ErrorHandler from "@/Components/ErrorHandler";
 
 const MealPage = () => {
   const options = ["Breakfast", "Lunch", "Dinner", "Snacks"];
   const navigation = useNavigation();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [foodToDelete, setFoodToDelete] = useState(null);
 
   const getMealStatus = () => {
     const formatter = new Intl.DateTimeFormat("en-US", {
@@ -63,15 +67,8 @@ const MealPage = () => {
   }, [mealType]);
 
   function promptDeleteMeal(food) {
-    Alert.alert(
-      "Delete Item",
-      "Are you sure you want to delete this?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "OK", onPress: () => deleteMeal(food) },
-      ],
-      { cancelable: true }
-    );
+    setShowDeleteModal(true);
+    setFoodToDelete(food);
   }
 
   async function deleteMeal(food) {
@@ -83,15 +80,22 @@ const MealPage = () => {
 
       if (response.status == 200) {
         fetchMealFoods();
+        setShowDeleteModal(false);
+        setFoodToDelete(null);
       }
     } catch (error) {
-      console.log(error.response.data.message);
+      setErrorMessage(error.response?.data?.message || "Failed to delete meal");
     }
   }
 
   return (
     <View style={{ flexGrow: 1 }}>
       <PagesLayout style={{ flexGrow: 1 }}>
+        <ErrorHandler 
+          error={errorMessage} 
+          onDismiss={() => setErrorMessage("")}
+          type="error"
+        />
         <View
           style={{
             flexDirection: "row",
@@ -139,6 +143,9 @@ const MealPage = () => {
                   height={40}
                   width={40}
                   borderRadius={12}
+                  contentFit="cover"
+                  placeholder="🍽️"
+                  transition={200}
                 />
                 <View style={{ flexGrow: 1 }}>
                   <View
@@ -196,6 +203,32 @@ const MealPage = () => {
           <MaterialIcons name="add" style={{ color: "white", fontSize: 32 }} />
         </TouchableOpacity>
       </View>
+      
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Delete Meal Item</Text>
+            <Text style={styles.modalMessage}>
+              Are you sure you want to delete this meal item? This action cannot be undone.
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={styles.modalCancelButton}
+                onPress={() => setShowDeleteModal(false)}
+              >
+                <Text style={styles.modalCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalDeleteButton}
+                onPress={() => deleteMeal(foodToDelete)}
+              >
+                <Text style={styles.modalDeleteText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -215,7 +248,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   absoluteAddButtonContainer: {
-    flexDireciton: "row",
+    flexDirection: "row",
     alignItems: "flex-end",
     marginTop: 12,
     position: "absolute",
@@ -226,5 +259,60 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 12,
     backgroundColor: "#5bce7eff",
+  },
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    margin: 20,
+    minWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 12,
+    color: "#333",
+  },
+  modalMessage: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 20,
+    lineHeight: 20,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: 12,
+  },
+  modalCancelButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "#f3f4f6",
+  },
+  modalDeleteButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "#ef4444",
+  },
+  modalCancelText: {
+    color: "#374151",
+    fontWeight: "600",
+  },
+  modalDeleteText: {
+    color: "white",
+    fontWeight: "600",
   },
 });

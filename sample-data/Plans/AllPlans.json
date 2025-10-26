@@ -1,0 +1,1204 @@
+{
+  "plans": [
+    {
+      "title": "Arm Hypertrophy",
+      "details": [
+        "24 workout days (3 sessions/week)",
+        "Focus on arm mass",
+        "High-volume isolation work"
+      ],
+      "description": "Designed for intermediate lifters aiming to maximize arm growth with a focus on biceps and triceps hypertrophy.",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
+      "routines": [
+        {
+          "title": "Day 1 - Biceps Blast",
+          "sets": [
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 13,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 9,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 3,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 2 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 3 - Triceps Pump",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 14,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 12,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 4 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 5 - Arm Power",
+          "sets": [
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 13,
+              "set_count": 4,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 14,
+              "set_count": 4,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 4,
+              "set_count": 4,
+              "target": {
+                "value": 20,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 6 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 7 - Core + Stretch",
+          "sets": [
+            {
+              "exercise": 15,
+              "set_count": 3,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 11,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Full Body Strength",
+      "details": [
+        "28 workout days (4 sessions/week)",
+        "Full body focus",
+        "Progressive overload"
+      ],
+      "description": "Comprehensive full-body strength program designed for intermediate to advanced lifters focusing on compound movements and progressive overload.",
+      "image": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=400&h=300&fit=crop&q=80",
+      "routines": [
+        {
+          "title": "Day 1 - Upper Body Push",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 20,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 21,
+              "set_count": 4,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 7,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 14,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 2 - Lower Body",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 17,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 16,
+              "set_count": 4,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 28,
+              "set_count": 3,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 19,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 30,
+              "set_count": 3,
+              "target": {
+                "value": 20,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 3 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 4 - Upper Body Pull",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 18,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 22,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 29,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 13,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 9,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 5 - Full Body Circuit",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 23,
+              "set_count": 3,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 24,
+              "set_count": 3,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 3,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 25,
+              "set_count": 3,
+              "target": {
+                "value": 20,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 26,
+              "set_count": 3,
+              "target": {
+                "value": 60,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 6 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 7 - Active Recovery",
+          "sets": [
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 11,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 12,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Cardio Blast",
+      "details": [
+        "21 workout days (3 sessions/week)",
+        "Cardio focus",
+        "Fat burning"
+      ],
+      "description": "High-intensity cardio program designed to improve cardiovascular fitness, burn calories, and boost endurance.",
+      "image": "https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop&q=80",
+      "routines": [
+        {
+          "title": "Day 1 - HIIT Cardio",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 24,
+              "set_count": 4,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 27,
+              "set_count": 4,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 26,
+              "set_count": 4,
+              "target": {
+                "value": 60,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 23,
+              "set_count": 3,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 10,
+                "unit": "mins"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 2 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 3 - Steady State Cardio",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 30,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 11,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 12,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 4 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 5 - Circuit Training",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 23,
+              "set_count": 3,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 24,
+              "set_count": 3,
+              "target": {
+                "value": 45,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 27,
+              "set_count": 3,
+              "target": {
+                "value": 45,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 26,
+              "set_count": 3,
+              "target": {
+                "value": 60,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 6 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 7 - Long Cardio",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 45,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 11,
+              "set_count": 1,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 12,
+              "set_count": 1,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Core Crusher",
+      "details": [
+        "14 workout days (2 sessions/week)",
+        "Core focus",
+        "Stability training"
+      ],
+      "description": "Intensive core training program designed to build abdominal strength, improve stability, and enhance overall core performance.",
+      "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=400&h=300&fit=crop&q=80",
+      "routines": [
+        {
+          "title": "Day 1 - Core Strength",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 4,
+              "target": {
+                "value": 45,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 4,
+              "set_count": 3,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 25,
+              "set_count": 3,
+              "target": {
+                "value": 25,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 23,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 2 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 3 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 4 - Core Stability",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 3,
+              "target": {
+                "value": 60,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 4,
+              "set_count": 4,
+              "target": {
+                "value": 20,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 25,
+              "set_count": 4,
+              "target": {
+                "value": 30,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 4,
+              "target": {
+                "value": 20,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 24,
+              "set_count": 3,
+              "target": {
+                "value": 45,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 5 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 6 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 7 - Core Endurance",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 5,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 4,
+              "set_count": 3,
+              "target": {
+                "value": 25,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 25,
+              "set_count": 3,
+              "target": {
+                "value": 35,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 20,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 23,
+              "set_count": 3,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Beginner's Journey",
+      "details": [
+        "21 workout days (3 sessions/week)",
+        "Beginner friendly",
+        "Foundation building"
+      ],
+      "description": "Perfect for fitness beginners focusing on building a solid foundation with basic movements and proper form.",
+      "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop&q=80",
+      "routines": [
+        {
+          "title": "Day 1 - Full Body Basics",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 16,
+              "set_count": 3,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 19,
+              "set_count": 2,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 2,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 2 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 3 - Cardio & Mobility",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 15,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 26,
+              "set_count": 3,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 11,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 12,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 4 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 5 - Upper Body Focus",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 13,
+              "set_count": 3,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 14,
+              "set_count": 3,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 2,
+              "target": {
+                "value": 20,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 6 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 7 - Active Recovery",
+          "sets": [
+            {
+              "exercise": 10,
+              "set_count": 1,
+              "target": {
+                "value": 20,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 11,
+              "set_count": 1,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            },
+            {
+              "exercise": 12,
+              "set_count": 1,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Powerlifting Prep",
+      "details": [
+        "28 workout days (4 sessions/week)",
+        "Powerlifting focus",
+        "Strength building"
+      ],
+      "description": "Advanced program designed for powerlifters focusing on the big three lifts: squat, bench press, and deadlift.",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "routines": [
+        {
+          "title": "Day 1 - Squat Focus",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 10,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 16,
+              "set_count": 5,
+              "target": {
+                "value": 5,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 17,
+              "set_count": 3,
+              "target": {
+                "value": 5,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 28,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 30,
+              "set_count": 4,
+              "target": {
+                "value": 15,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 2 - Bench Press Focus",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 10,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 20,
+              "set_count": 5,
+              "target": {
+                "value": 5,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 7,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 14,
+              "set_count": 4,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 8,
+              "set_count": 3,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 3 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 4 - Deadlift Focus",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 10,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 17,
+              "set_count": 5,
+              "target": {
+                "value": 5,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 22,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 18,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 15,
+              "set_count": 3,
+              "target": {
+                "value": 30,
+                "unit": "secs"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 5 - Rest",
+          "sets": []
+        },
+        {
+          "title": "Day 6 - Accessory Work",
+          "sets": [
+            {
+              "exercise": 1,
+              "set_count": 1,
+              "target": {
+                "value": 5,
+                "unit": "mins"
+              }
+            },
+            {
+              "exercise": 21,
+              "set_count": 4,
+              "target": {
+                "value": 8,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 29,
+              "set_count": 4,
+              "target": {
+                "value": 10,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 13,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            },
+            {
+              "exercise": 14,
+              "set_count": 4,
+              "target": {
+                "value": 12,
+                "unit": "reps"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Day 7 - Rest",
+          "sets": []
+        }
+      ]
+    }
+  ]
+}

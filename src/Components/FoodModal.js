@@ -9,9 +9,9 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import ErrorHandler from "@/Components/ErrorHandler";
 
 export function FoodModal({
   setShowModal,
@@ -20,12 +20,18 @@ export function FoodModal({
   navigation,
 }) {
   const [quantity, setQuantity] = useState(1);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async () => {
     if (!quantity || quantity <= 0) {
       setQuantity(1);
-      Alert.alert("Error", "Quantity cannot be 0");
+      setErrorMessage("Quantity cannot be 0");
       return;
     }
+
+    setIsLoading(true);
+    setErrorMessage("");
 
     try {
       const response = await api.post("/api/meal/add", {
@@ -39,12 +45,13 @@ export function FoodModal({
 
       if (response.status === 200) {
         navigation.navigate("Meal");
+        setShowModal(false);
       }
     } catch (error) {
-      alert("Error selecting food: " + error.response.data.error);
+      setErrorMessage("Error selecting food: " + (error.response?.data?.error || "Something went wrong"));
+    } finally {
+      setIsLoading(false);
     }
-
-    setShowModal(false);
   };
 
   const normalizeQty = () => {
@@ -80,6 +87,12 @@ export function FoodModal({
 
   return (
     <View style={styles.foodModalContainer}>
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+        position="top"
+      />
       <Pressable style={styles.backdrop} onPress={() => setShowModal(false)} />
       <View style={styles.foodModalCenterView}>
         <Image
@@ -90,6 +103,9 @@ export function FoodModal({
           width={"100%"}
           borderRadius={12}
           marginTop={-50}
+          contentFit="cover"
+          placeholder="🍽️"
+          transition={200}
         />
         <View
           style={{
@@ -105,9 +121,9 @@ export function FoodModal({
               <TextInput
                 style={styles.servingSizeText}
                 onChangeText={setQuantity}
-              >
-                {quantity}
-              </TextInput>
+                keyboardType="numeric"
+                value={quantity.toString()}
+              />
               <TouchableOpacity onPress={handleQtyIncrement}>
                 <MaterialIcons name="add" />
               </TouchableOpacity>
@@ -126,10 +142,11 @@ export function FoodModal({
               <WhiteText>Cancel</WhiteText>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.modalAddButton}
+              style={[styles.modalAddButton, isLoading && styles.buttonDisabled]}
               onPress={handleSubmit}
+              disabled={isLoading}
             >
-              <WhiteText>Add</WhiteText>
+              <WhiteText>{isLoading ? "Adding..." : "Add"}</WhiteText>
             </TouchableOpacity>
           </View>
         </View>
@@ -201,5 +218,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 12,
+  },
+  buttonDisabled: {
+    backgroundColor: "#6b7280",
+    opacity: 0.6,
   },
 });

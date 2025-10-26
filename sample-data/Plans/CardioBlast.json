@@ -1,0 +1,53 @@
+{
+  "plan": {
+    "title": "Cardio Blast",
+    "details": ["21 workout days (3 sessions/week)", "Cardio focus", "Fat burning"],
+    "description": "High-intensity cardio program designed to improve cardiovascular fitness, burn calories, and boost endurance.",
+    "image": "cardio_blast",
+    "routines": [
+      {
+        "title": "Day 1 - HIIT Cardio",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 24, "set_count": 4, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 27, "set_count": 4, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 26, "set_count": 4, "target": { "value": 60, "unit": "secs" } },
+          { "exercise": 23, "set_count": 3, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 1, "set_count": 1, "target": { "value": 10, "unit": "mins" } }
+        ]
+      },
+      { "title": "Day 2 - Rest", "sets": [] },
+      {
+        "title": "Day 3 - Steady State Cardio",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 10, "set_count": 1, "target": { "value": 30, "unit": "mins" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "secs" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
+        ]
+      },
+      { "title": "Day 4 - Rest", "sets": [] },
+      {
+        "title": "Day 5 - Circuit Training",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 23, "set_count": 3, "target": { "value": 15, "unit": "reps" } },
+          { "exercise": 24, "set_count": 3, "target": { "value": 45, "unit": "secs" } },
+          { "exercise": 27, "set_count": 3, "target": { "value": 45, "unit": "secs" } },
+          { "exercise": 26, "set_count": 3, "target": { "value": 60, "unit": "secs" } },
+          { "exercise": 8, "set_count": 3, "target": { "value": 15, "unit": "reps" } }
+        ]
+      },
+      { "title": "Day 6 - Rest", "sets": [] },
+      {
+        "title": "Day 7 - Long Cardio",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 10, "set_count": 1, "target": { "value": 45, "unit": "mins" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 30, "unit": "secs" } }
+        ]
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 {
   "exercises": [
     {
+      "id": 1,
       "name": "Treadmill",
       "type": "time",
       "duration": 20,
@@ -8,7 +9,7 @@
       "reps": 1,
       "sets": 1,
       "details": "5 min., 110-140bpm",
-      "image": "treadmill",
+      "image": "https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kmph",
       "instruction": [
         "Step onto the treadmill and attach the safety clip.",
@@ -25,6 +26,7 @@
       ]
     },
     {
+      "id": 2,
       "name": "Arm circles back",
       "type": "reps",
       "duration": 0,
@@ -32,7 +34,7 @@
       "reps": 20,
       "sets": 1,
       "details": "1x20",
-      "image": "arm_circles_back",
+      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "bodyweight",
       "instruction": [
         "Stand with feet shoulder-width apart.",
@@ -47,6 +49,7 @@
       ]
     },
     {
+      "id": 3,
       "name": "Arm circles forward",
       "type": "reps",
       "duration": 0,
@@ -54,7 +57,7 @@
       "reps": 20,
       "sets": 1,
       "details": "1x20",
-      "image": "arm_circles_forward",
+      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "bodyweight",
       "instruction": [
         "Stand upright with feet shoulder-width apart.",
@@ -69,6 +72,7 @@
       ]
     },
     {
+      "id": 4,
       "name": "Hanging side leg raise",
       "type": "reps",
       "duration": 0,
@@ -76,7 +80,7 @@
       "reps": 20,
       "sets": 4,
       "details": "4x20",
-      "image": "leg_raise",
+      "image": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&h=300&fit=crop&q=80",
       "variantUnit": "bodyweight",
       "instruction": [
         "Hang from a pull-up bar with arms fully extended.",
@@ -92,6 +96,7 @@
       ]
     },
     {
+      "id": 5,
       "name": "Seated pec fly",
       "type": "reps",
       "duration": 0,
@@ -100,7 +105,7 @@
       "sets": 4,
       "weight": 20,
       "details": "4x12x20 kg",
-      "image": "pec_fly",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kg",
       "instruction": [
         "Sit on the pec fly machine with your back against the pad.",
@@ -115,6 +120,7 @@
       ]
     },
     {
+      "id": 6,
       "name": "Flat bench dumbbell chest press",
       "type": "reps",
       "duration": 0,
@@ -123,7 +129,7 @@
       "sets": 4,
       "weight": 10,
       "details": "4x10x10 kg",
-      "image": "dumbbell_press",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kg",
       "instruction": [
         "Lie flat on a bench holding a dumbbell in each hand.",
@@ -139,6 +145,7 @@
       ]
     },
     {
+      "id": 7,
       "name": "Machine incline chest press",
       "type": "reps",
       "duration": 0,
@@ -147,7 +154,7 @@
       "sets": 4,
       "weight": 20,
       "details": "4x12x20 kg",
-      "image": "incline_press",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kg",
       "instruction": [
         "Sit on the incline press machine with back supported.",
@@ -163,6 +170,7 @@
       ]
     },
     {
+      "id": 8,
       "name": "Chest to floor push-ups",
       "type": "reps",
       "duration": 0,
@@ -170,7 +178,7 @@
       "reps": 12,
       "sets": 4,
       "details": "4x12",
-      "image": "pushups",
+      "image": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=400&h=300&fit=crop&q=80",
       "variantUnit": "bodyweight",
       "instruction": [
         "Start in a plank position with hands under shoulders.",
@@ -186,6 +194,7 @@
       ]
     },
     {
+      "id": 9,
       "name": "High-pulley curl",
       "type": "reps",
       "duration": 0,
@@ -194,7 +203,7 @@
       "sets": 4,
       "weight": 15,
       "details": "4x12x15 kg",
-      "image": "pulley_curl",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kg",
       "instruction": [
         "Stand facing the high pulley machine.",
@@ -208,6 +217,7 @@
       ]
     },
     {
+      "id": 10,
       "name": "Elliptical trainer",
       "type": "time",
       "duration": 5,
@@ -215,7 +225,7 @@
       "reps": 1,
       "sets": 1,
       "details": "5 min., 110-140bpm",
-      "image": "elliptical",
+      "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop&q=80",
       "variantUnit": "level",
       "instruction": [
         "Step onto the pedals and hold the handles.",
@@ -232,6 +242,7 @@
       ]
     },
     {
+      "id": 11,
       "name": "Chest muscles stretch",
       "type": "time",
       "duration": 20,
@@ -239,7 +250,7 @@
       "reps": 1,
       "sets": 1,
       "details": "1x20 s",
-      "image": "chest_stretch",
+      "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "seconds",
       "instruction": [
         "Stand beside a wall or doorway.",
@@ -253,6 +264,7 @@
       ]
     },
     {
+      "id": 12,
       "name": "Hand and shoulder extensor stretch",
       "type": "time",
       "duration": 20,
@@ -260,7 +272,7 @@
       "reps": 1,
       "sets": 1,
       "details": "1x20 s",
-      "image": "shoulder_stretch",
+      "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&q=80",
       "variantUnit": "seconds",
       "instruction": [
         "Extend one arm straight in front of you, palm down.",
@@ -284,7 +296,7 @@
       "sets": 4,
       "weight": 20,
       "details": "4x12x20 kg",
-      "image": "barbell_curl",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kg",
       "instruction": [
         "Stand with feet shoulder-width apart, holding a barbell with an underhand grip.",
@@ -308,7 +320,7 @@
       "sets": 4,
       "weight": 12,
       "details": "4x12x12 kg",
-      "image": "triceps_extension",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
       "variantUnit": "kg",
       "instruction": [
         "Hold a dumbbell with both hands and lift it overhead.",
@@ -331,7 +343,7 @@
       "reps": 1,
       "sets": 3,
       "details": "3x30 s",
-      "image": "plank",
+      "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=400&h=300&fit=crop&q=80",
       "variantUnit": "seconds",
       "instruction": [
         "Start in a forearm plank position with elbows under shoulders.",
@@ -344,6 +356,618 @@
         "Core",
         "Abs",
         "Lower back"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Squats",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 4,
+      "weight": 0,
+      "details": "4x15",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Stand with feet shoulder-width apart, toes slightly pointed out.",
+        "Lower your body by bending at the hips and knees.",
+        "Keep your chest up and core engaged.",
+        "Descend until thighs are parallel to the floor, then return to standing."
+      ],
+      "description": "Builds lower body strength, improves mobility, and burns calories.",
+      "target": [
+        "Quadriceps",
+        "Glutes",
+        "Hamstrings",
+        "Core"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Deadlifts",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 8,
+      "sets": 4,
+      "weight": 50,
+      "details": "4x8x50 kg",
+      "image": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Stand with feet hip-width apart, bar over mid-foot.",
+        "Bend at hips and knees to grip the bar with hands just outside legs.",
+        "Keep back straight and chest up.",
+        "Lift the bar by extending hips and knees, then lower with control."
+      ],
+      "description": "Develops posterior chain strength, improves posture, and builds functional strength.",
+      "target": [
+        "Hamstrings",
+        "Glutes",
+        "Lower back",
+        "Traps"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Pull-ups",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 8,
+      "sets": 4,
+      "details": "4x8",
+      "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Hang from a pull-up bar with hands slightly wider than shoulders.",
+        "Pull your body up until your chin clears the bar.",
+        "Lower yourself with control to full arm extension.",
+        "Keep core engaged throughout the movement."
+      ],
+      "description": "Builds upper body pulling strength and improves grip strength.",
+      "target": [
+        "Latissimus dorsi",
+        "Biceps",
+        "Rear deltoids",
+        "Rhomboids"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Lunges",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 3,
+      "details": "3x12 each leg",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Stand with feet hip-width apart.",
+        "Step forward with one leg, lowering hips until both knees are bent at 90 degrees.",
+        "Push back to starting position.",
+        "Alternate legs for each rep."
+      ],
+      "description": "Improves balance, strengthens legs unilaterally, and enhances stability.",
+      "target": [
+        "Quadriceps",
+        "Glutes",
+        "Hamstrings",
+        "Calves"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Bench Press",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 8,
+      "sets": 4,
+      "weight": 60,
+      "details": "4x8x60 kg",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Lie on bench with feet flat on floor.",
+        "Grip bar with hands slightly wider than shoulders.",
+        "Lower bar to chest with control.",
+        "Press bar up until arms are fully extended."
+      ],
+      "description": "Builds chest strength, improves pushing power, and develops triceps.",
+      "target": [
+        "Pectorals",
+        "Triceps",
+        "Anterior deltoids"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Overhead Press",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 10,
+      "sets": 4,
+      "weight": 30,
+      "details": "4x10x30 kg",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Stand with feet hip-width apart, holding barbell at shoulder level.",
+        "Press the bar straight up overhead.",
+        "Lower with control back to starting position.",
+        "Keep core tight throughout the movement."
+      ],
+      "description": "Develops shoulder strength and stability, improves posture.",
+      "target": [
+        "Deltoids",
+        "Triceps",
+        "Core"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Rows",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 4,
+      "weight": 40,
+      "details": "4x12x40 kg",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Bend at hips with knees slightly bent, holding barbell.",
+        "Pull bar toward lower chest/upper abdomen.",
+        "Squeeze shoulder blades together at the top.",
+        "Lower with control to starting position."
+      ],
+      "description": "Strengthens back muscles, improves posture, and balances pushing movements.",
+      "target": [
+        "Latissimus dorsi",
+        "Rhomboids",
+        "Middle trapezius",
+        "Rear deltoids"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Burpees",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 10,
+      "sets": 3,
+      "details": "3x10",
+      "image": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Start in standing position.",
+        "Drop into squat and place hands on floor.",
+        "Jump feet back into plank position.",
+        "Do a push-up, jump feet back to squat, then jump up with arms overhead."
+      ],
+      "description": "Full-body exercise that improves cardiovascular fitness and builds strength.",
+      "target": [
+        "Full body",
+        "Cardio",
+        "Core"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Mountain Climbers",
+      "type": "time",
+      "duration": 30,
+      "durationType": "seconds",
+      "reps": 1,
+      "sets": 3,
+      "details": "3x30s",
+      "image": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "seconds",
+      "instruction": [
+        "Start in plank position with hands under shoulders.",
+        "Bring one knee toward chest, then quickly switch legs.",
+        "Continue alternating legs at a fast pace.",
+        "Keep core tight and hips level."
+      ],
+      "description": "High-intensity cardio exercise that improves endurance and core strength.",
+      "target": [
+        "Cardio",
+        "Core",
+        "Shoulders"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Russian Twists",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 20,
+      "sets": 3,
+      "details": "3x20",
+      "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Sit on floor with knees bent, feet lifted off ground.",
+        "Lean back slightly and rotate torso side to side.",
+        "Keep core engaged and maintain balance.",
+        "Touch ground on each side if possible."
+      ],
+      "description": "Targets obliques and improves rotational core strength.",
+      "target": [
+        "Obliques",
+        "Core"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Jumping Jacks",
+      "type": "time",
+      "duration": 60,
+      "durationType": "seconds",
+      "reps": 1,
+      "sets": 3,
+      "details": "3x60s",
+      "image": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "seconds",
+      "instruction": [
+        "Stand with feet together and arms at sides.",
+        "Jump up spreading feet shoulder-width apart while raising arms overhead.",
+        "Jump back to starting position.",
+        "Maintain steady rhythm and breathing."
+      ],
+      "description": "Simple cardio exercise that improves coordination and cardiovascular fitness.",
+      "target": [
+        "Cardio",
+        "Calves",
+        "Shoulders"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "High Knees",
+      "type": "time",
+      "duration": 30,
+      "durationType": "seconds",
+      "reps": 1,
+      "sets": 3,
+      "details": "3x30s",
+      "image": "https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "seconds",
+      "instruction": [
+        "Stand with feet hip-width apart.",
+        "Run in place, bringing knees up toward chest.",
+        "Pump arms naturally as you run.",
+        "Maintain quick pace and light feet."
+      ],
+      "description": "Dynamic warm-up exercise that improves coordination and cardiovascular fitness.",
+      "target": [
+        "Cardio",
+        "Hip flexors",
+        "Calves"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Leg Press",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 4,
+      "weight": 100,
+      "details": "4x15x100 kg",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Sit on leg press machine with back against pad.",
+        "Place feet shoulder-width apart on platform.",
+        "Lower weight by bending knees to 90 degrees.",
+        "Press through heels to extend legs."
+      ],
+      "description": "Builds lower body strength safely with machine support.",
+      "target": [
+        "Quadriceps",
+        "Glutes",
+        "Hamstrings"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Lat Pulldown",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 4,
+      "weight": 50,
+      "details": "4x12x50 kg",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Sit at lat pulldown machine with thighs secured.",
+        "Grip bar wider than shoulders with overhand grip.",
+        "Pull bar down to upper chest.",
+        "Control the weight back to starting position."
+      ],
+      "description": "Develops latissimus dorsi and improves pulling strength.",
+      "target": [
+        "Latissimus dorsi",
+        "Biceps",
+        "Rear deltoids"
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Calf Raises",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 20,
+      "sets": 3,
+      "weight": 0,
+      "details": "3x20",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Stand with feet hip-width apart.",
+        "Rise up onto balls of feet.",
+        "Lower with control back to starting position.",
+        "Keep core engaged and maintain balance."
+      ],
+      "description": "Strengthens calf muscles and improves ankle stability.",
+      "target": [
+        "Calves",
+        "Ankles"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Dumbbell Rows",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 4,
+      "weight": 25,
+      "details": "4x12x25 kg",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Bend at hips with one hand on bench, other holding dumbbell.",
+        "Pull dumbbell toward hip, keeping elbow close to body.",
+        "Squeeze shoulder blade at the top.",
+        "Lower with control to starting position."
+      ],
+      "description": "Strengthens back muscles and improves posture.",
+      "target": [
+        "Latissimus dorsi",
+        "Rhomboids",
+        "Rear deltoids"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "Lateral Raises",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 3,
+      "weight": 8,
+      "details": "3x15x8 kg",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Stand with feet hip-width apart, holding dumbbells at sides.",
+        "Raise arms out to sides until parallel to floor.",
+        "Keep slight bend in elbows throughout.",
+        "Lower with control to starting position."
+      ],
+      "description": "Targets lateral deltoids for broader shoulders.",
+      "target": [
+        "Lateral deltoids",
+        "Shoulders"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Leg Curls",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 4,
+      "weight": 30,
+      "details": "4x15x30 kg",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Lie face down on leg curl machine.",
+        "Place ankles under the padded bar.",
+        "Curl heels toward glutes.",
+        "Lower with control to starting position."
+      ],
+      "description": "Isolates hamstring muscles for strength and definition.",
+      "target": [
+        "Hamstrings",
+        "Calves"
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Leg Extensions",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 4,
+      "weight": 40,
+      "details": "4x15x40 kg",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Sit on leg extension machine with back against pad.",
+        "Place shins behind padded bar.",
+        "Extend legs until knees are straight.",
+        "Lower with control to starting position."
+      ],
+      "description": "Isolates quadriceps for strength and definition.",
+      "target": [
+        "Quadriceps"
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Cable Flyes",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 3,
+      "weight": 15,
+      "details": "3x12x15 kg",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Stand between cable machines with handles at chest level.",
+        "Bring handles together in front of chest.",
+        "Keep slight bend in elbows.",
+        "Return to starting position with control."
+      ],
+      "description": "Targets chest muscles with constant tension.",
+      "target": [
+        "Pectorals",
+        "Anterior deltoids"
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Face Pulls",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 3,
+      "weight": 20,
+      "details": "3x15x20 kg",
+      "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Set cable at face height.",
+        "Pull rope toward face, separating hands at face.",
+        "Focus on pulling with rear deltoids.",
+        "Return to starting position with control."
+      ],
+      "description": "Strengthens rear deltoids and improves posture.",
+      "target": [
+        "Rear deltoids",
+        "Rhomboids",
+        "Middle trapezius"
+      ]
+    },
+    {
+      "id": 37,
+      "name": "Hammer Curls",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 4,
+      "weight": 15,
+      "details": "4x12x15 kg",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Stand with feet hip-width apart, holding dumbbells.",
+        "Keep palms facing each other throughout.",
+        "Curl weights up toward shoulders.",
+        "Lower with control to starting position."
+      ],
+      "description": "Targets biceps and forearms with neutral grip.",
+      "target": [
+        "Biceps",
+        "Forearms"
+      ]
+    },
+    {
+      "id": 38,
+      "name": "Tricep Dips",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 12,
+      "sets": 3,
+      "details": "3x12",
+      "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Sit on edge of bench with hands gripping edge.",
+        "Lower body by bending elbows.",
+        "Push back up to starting position.",
+        "Keep body close to bench throughout."
+      ],
+      "description": "Strengthens triceps using bodyweight.",
+      "target": [
+        "Triceps",
+        "Shoulders"
+      ]
+    },
+    {
+      "id": 39,
+      "name": "Bulgarian Split Squats",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 10,
+      "sets": 3,
+      "details": "3x10 each leg",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "bodyweight",
+      "instruction": [
+        "Place rear foot on bench behind you.",
+        "Lower into lunge position.",
+        "Push through front heel to return to start.",
+        "Keep torso upright throughout."
+      ],
+      "description": "Advanced unilateral leg exercise for strength and balance.",
+      "target": [
+        "Quadriceps",
+        "Glutes",
+        "Hamstrings"
+      ]
+    },
+    {
+      "id": 40,
+      "name": "Hip Thrusts",
+      "type": "reps",
+      "duration": 0,
+      "durationType": "seconds",
+      "reps": 15,
+      "sets": 4,
+      "weight": 30,
+      "details": "4x15x30 kg",
+      "image": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop&q=80",
+      "variantUnit": "kg",
+      "instruction": [
+        "Sit with upper back against bench, knees bent.",
+        "Place weight on hips.",
+        "Thrust hips up until body forms straight line.",
+        "Lower with control to starting position."
+      ],
+      "description": "Targets glutes and hamstrings for posterior chain strength.",
+      "target": [
+        "Glutes",
+        "Hamstrings",
+        "Core"
       ]
     }
   ]

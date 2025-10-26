@@ -12,6 +12,7 @@ import PagesLayout from "../../Layouts/PagesLayout";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { api } from "@/Axios";
+import ErrorHandler from "@/Components/ErrorHandler";
 
 const UpdatePasswordPage = () => {
   const navigation = useNavigation();
@@ -25,6 +26,9 @@ const UpdatePasswordPage = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validate = () => {
     let newErrors = {};
@@ -53,6 +57,10 @@ const UpdatePasswordPage = () => {
   const handleSave = async () => {
     if (!validate()) return;
 
+    setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
     try {
       const response = await api.patch("/api/user/change-password", {
         oldPassword: currentPassword,
@@ -61,17 +69,19 @@ const UpdatePasswordPage = () => {
       });
 
       if (response.status === 200) {
-        Alert.alert("Success", response.data.message);
+        setSuccessMessage(response.data.message);
         // reset state
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
         setErrors({});
 
-        // navigate back to settings
-        navigation.navigate("Settings");
+        // navigate back to settings after a short delay
+        setTimeout(() => {
+          navigation.navigate("Settings");
+        }, 1500);
       } else {
-        Alert.alert("Error", response.data.message);
+        setErrorMessage(response.data.message);
       }
     } catch (error) {
       if (error.response?.data?.errors) {
@@ -82,11 +92,10 @@ const UpdatePasswordPage = () => {
         });
         setErrors(errorObj);
       } else {
-        Alert.alert(
-          "Error",
-          error.response?.data?.message || "Something went wrong"
-        );
+        setErrorMessage(error.response?.data?.message || "Something went wrong");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -138,6 +147,16 @@ const UpdatePasswordPage = () => {
 
   return (
     <PagesLayout>
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+      />
+      <ErrorHandler 
+        error={successMessage} 
+        onDismiss={() => setSuccessMessage("")}
+        type="success"
+      />
       <ScrollView style={{ paddingBottom: 120 }}>
         {/* Header */}
         <Text style={styles.header}>Update Password</Text>
@@ -182,10 +201,13 @@ const UpdatePasswordPage = () => {
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.actionButton, styles.saveButton]}
+            style={[styles.actionButton, styles.saveButton, isLoading && styles.buttonDisabled]}
             onPress={handleSave}
+            disabled={isLoading}
           >
-            <Text style={styles.saveText}>Save</Text>
+            <Text style={styles.saveText}>
+              {isLoading ? "Updating..." : "Save"}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -275,5 +297,9 @@ const styles = StyleSheet.create({
     color: "#aaa",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  buttonDisabled: {
+    backgroundColor: "#6b7280",
+    opacity: 0.6,
   },
 });

@@ -19,6 +19,45 @@ router.post("/add-foods", async (req, res) => {
   }
 });
 
+// Reset/Delete all foods
+router.delete("/reset-foods", async (req, res) => {
+  try {
+    await Food.destroy({ where: {} });
+    return res.status(200).json({ message: "Successfully reset all foods" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when resetting foods",
+      error: error.message,
+    });
+  }
+});
+
+// Update food images from JSON data
+router.put("/update-food-images", async (req, res) => {
+  const { foods } = req.body;
+  try {
+    let updatedCount = 0;
+    
+    for (const foodData of foods) {
+      const [updatedRows] = await Food.update(
+        { imageUrl: foodData.imageUrl },
+        { where: { name: foodData.name } }
+      );
+      updatedCount += updatedRows;
+    }
+    
+    return res.status(200).json({ 
+      message: `Successfully updated ${updatedCount} food images`,
+      updatedCount 
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when updating food images",
+      error: error.message,
+    });
+  }
+});
+
 // Get foods (originally GET /foods)
 router.get("/", async (req, res) => {
   const { category } = req.query;

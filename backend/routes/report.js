@@ -171,13 +171,33 @@ router.get("/weight-summary", auth, async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
-    const status = lastWeight.weight >= firstWeight.weight ? "Gains" : "Loss";
+    // Handle case when no weight records exist
+    if (!firstWeight || !lastWeight) {
+      return res.status(200).json({
+        from: null,
+        current: null,
+        difference: 0,
+        status: "No data",
+      });
+    }
+
+    // Calculate weight difference (positive = gained, negative = lost)
     const difference = lastWeight.weight - firstWeight.weight;
+    
+    // Determine status based on difference
+    let status;
+    if (difference > 0) {
+      status = "Gained";
+    } else if (difference < 0) {
+      status = "Lost";
+    } else {
+      status = "No change";
+    }
 
     return res.status(200).json({
       from: firstWeight,
       current: lastWeight,
-      difference: status === "Loss" ? difference * -1 : difference,
+      difference: difference, // Keep original sign: positive = gained, negative = lost
       status,
     });
   } catch (error) {
@@ -190,12 +210,49 @@ router.get("/weight-summary", auth, async (req, res) => {
 router.get("/streak", auth, async (req, res) => {
   const userId = req.user.userId;
   try {
-    const result = await WorkoutSession.count({
+    // Get all workout sessions ordered by date (newest first)
+    const sessions = await WorkoutSession.findAll({
       where: { userId },
+      order: [["createdAt", "DESC"]],
+      attributes: ["createdAt"],
+      raw: true,
     });
 
+    if (sessions.length === 0) {
+      return res.status(200).json({
+        streak: 0,
+      });
+    }
+
+    // Calculate consecutive days from today backwards
+    let streak = 0;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const workoutDates = new Set();
+    sessions.forEach(session => {
+      const sessionDate = new Date(session.createdAt);
+      sessionDate.setHours(0, 0, 0, 0);
+      workoutDates.add(sessionDate.getTime());
+    });
+
+    // Check consecutive days starting from today
+    let currentDate = new Date(today);
+    
+    // If today has a workout, start counting from today
+    // If not, start from yesterday (don't count today as day 0)
+    if (!workoutDates.has(currentDate.getTime())) {
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+    
+    // Count consecutive days backwards
+    while (workoutDates.has(currentDate.getTime())) {
+      streak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+
     return res.status(200).json({
-      streak: result,
+      streak: streak,
     });
   } catch (error) {
     return res.status(500).json({

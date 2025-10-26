@@ -22,59 +22,67 @@ const PagesLayout = ({
 }) => {
   const navigation = useNavigation();
   return (
-    // <KeyboardAwareScrollView
-    //   style={{ flex: 1 }}
-    //   contentContainerStyle={{
-    //     flexGrow: 1,
-    //     justifyContent: "flex-end",
-    //   }}
-    //   enableOnAndroid={true}
-    //   extraScrollHeight={20} // space above keyboard
-    // >
     <AuthGuard>
-      <ScrollView style={[styles.container, style]}>
-        {!isHeadless && (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: 12,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.backButton}
-            >
-              <Ionicons name="chevron-back" size={28} color="#38bdf8" />
-              <Text style={styles.backText}>Back</Text>
-            </TouchableOpacity>
-            {withInformation && (
-              <TouchableOpacity
-                onPress={() => {
-                  //TODO add information page?
+      <View style={styles.mainContainer}>
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 80, // Space for fixed bottom nav
+          }}
+          enableOnAndroid={true}
+          extraScrollHeight={20}
+          keyboardShouldPersistTaps="handled"
+        >
+          <ScrollView style={[styles.container, style]}>
+            {!isHeadless && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: 12,
                 }}
               >
-                <Ionicons
-                  style={{ fontSize: 24, color: "#ddd" }}
-                  name="information-circle-outline"
-                />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={styles.backButton}
+                >
+                  <Ionicons name="chevron-back" size={28} color="#38bdf8" />
+                  <Text style={styles.backText}>Back</Text>
+                </TouchableOpacity>
+                {withInformation && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      //TODO add information page?
+                    }}
+                  >
+                    <Ionicons
+                      style={{ fontSize: 24, color: "#ddd" }}
+                      name="information-circle-outline"
+                    />
+                  </TouchableOpacity>
+                )}
+                
+              </View>
             )}
-          </View>
-        )}
-        {children}
-      </ScrollView>
-      <MainNav navigation={navigation} />
-      {showModal && modal}
+            {children}
+          </ScrollView>
+        </KeyboardAwareScrollView>
+        <MainNav navigation={navigation} />
+        {showModal && modal}
+      </View>
     </AuthGuard>
-    // </KeyboardAwareScrollView>
   );
 };
 
 export default PagesLayout;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#0f172a",
+  },
   container: {
     flexGrow: 1,
     backgroundColor: "#0f172a",

@@ -71,6 +71,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get all exercises
+router.get("/exercises", async (req, res) => {
+  try {
+    const exercises = await Exercise.findAll();
+    return res.status(200).json({ message: "Successfully retrieved exercises", exercises });
+  } catch (error) {
+    return res.status(500).json({ message: "Error retrieving exercises: " + error.message });
+  }
+});
+
 // Get plan by ID (originally GET /plan/:id)
 router.get("/:id", async (req, res) => {
   const planId = req.params.id;
@@ -155,6 +165,144 @@ router.post("/exercises/delete", async (req, res) => {
     return res.status(200).json({ message: "Successfully deleted all exercises" });
   } catch (error) {
     return res.status(500).json({ message: "Error deleting exercises: " + error.message });
+  }
+});
+
+// Bulk add exercises from JSON (similar to foods)
+router.post("/exercises/add-bulk", async (req, res) => {
+  const { exercises } = req.body;
+  try {
+    for (const exercise of exercises) {
+      await Exercise.create({
+        id: exercise.id, // Preserve the original ID from JSON
+        name: exercise.name,
+        type: exercise.type,
+        target: JSON.stringify(exercise.target),
+        description: exercise.description,
+        instruction: JSON.stringify(exercise.instruction),
+        image: exercise.image,
+        variantUnit: exercise.variantUnit,
+      });
+    }
+    return res.status(200).json({ message: `Successfully added ${exercises.length} exercises` });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when adding exercises",
+      error: error.message,
+    });
+  }
+});
+
+// Reset all exercises
+router.delete("/exercises/reset", async (req, res) => {
+  try {
+    await Exercise.destroy({ where: {} });
+    return res.status(200).json({ message: "Successfully reset all exercises" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when resetting exercises",
+      error: error.message,
+    });
+  }
+});
+
+// Bulk add plans from JSON
+router.post("/plans/add-bulk", async (req, res) => {
+  const { plans } = req.body;
+  try {
+    let addedCount = 0;
+    
+    for (const planData of plans) {
+      const planEntry = await Plan.create({
+        title: planData.title,
+        description: planData.description,
+        details: JSON.stringify(planData.details),
+        image: planData.image,
+      });
+
+      for (const routine of planData.routines) {
+        const routineEntry = await Routine.create({
+          title: routine.title,
+          routineableId: planEntry.id,
+          routineableType: "Plan",
+          isRest: routine.sets.length === 0,
+        });
+
+        for (const set of routine.sets) {
+          await Set.create({
+            exerciseId: set.exercise,
+            routineId: routineEntry.id,
+            count: set.set_count,
+            value: set.target.value,
+            unit: set.target.unit,
+          });
+        }
+      }
+      addedCount++;
+    }
+    
+    return res.status(200).json({ message: `Successfully added ${addedCount} plans` });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when adding plans",
+      error: error.message,
+    });
+  }
+});
+
+// Update exercise image
+router.put("/exercises/:id", async (req, res) => {
+  const { id } = req.params;
+  const { image } = req.body;
+  
+  try {
+    const exercise = await Exercise.findByPk(id);
+    if (!exercise) {
+      return res.status(404).json({ message: "Exercise not found!" });
+    }
+    
+    exercise.image = image;
+    await exercise.save();
+    
+    return res.status(200).json({ message: "Successfully updated exercise image" });
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating exercise: " + error.message });
+  }
+});
+
+// Update plan image
+router.put("/plans/:id", async (req, res) => {
+  const { id } = req.params;
+  const { image } = req.body;
+  
+  try {
+    const plan = await Plan.findByPk(id);
+    if (!plan) {
+      return res.status(404).json({ message: "Plan not found!" });
+    }
+    
+    plan.image = image;
+    await plan.save();
+    
+    return res.status(200).json({ message: "Successfully updated plan image" });
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating plan: " + error.message });
+  }
+});
+
+// Reset all plans
+router.delete("/plans/reset", async (req, res) => {
+  try {
+    // Delete in order due to foreign key constraints
+    await Set.destroy({ where: {} });
+    await Routine.destroy({ where: {} });
+    await Plan.destroy({ where: {} });
+    return res.status(200).json({ message: "Successfully reset all plans" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong when resetting plans",
+      error: error.message,
+    });
   }
 });
 

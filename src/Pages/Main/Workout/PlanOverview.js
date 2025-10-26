@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ExerciseImages } from "root/sample-data/Exercises";
 import { api } from "@/Axios";
 
 export default function PlanOverview() {
@@ -54,7 +53,13 @@ export default function PlanOverview() {
 
       <Text style={styles.header}>Workout Plan</Text>
 
-      <Image source={ExerciseImages[plan.image]} style={styles.image} />
+      <Image 
+        source={{ uri: plan.image }} 
+        style={styles.image}
+        contentFit="cover"
+        placeholder="🏋️"
+        transition={200}
+      />
       <View style={styles.textOverlay}>
         <Text style={styles.planTitle}>{plan.title}</Text>
       </View>

@@ -15,6 +15,7 @@ import { PieChart } from "react-native-gifted-charts";
 import { LineChart } from "react-native-chart-kit";
 import { MaterialIcons } from "@expo/vector-icons";
 import { parseISO, format } from "date-fns";
+import ErrorHandler from "@/Components/ErrorHandler";
 
 const today = new Date();
 const screenWidth = Dimensions.get("window").width;
@@ -77,6 +78,7 @@ const TrackMeal = () => {
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalCaloriesBurned, setTotalCaloriesBurned] = useState(0);
   const [calorieReportData, setCalorieReportData] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchMeals();
@@ -98,7 +100,7 @@ const TrackMeal = () => {
         setTotalCalories(Number(response.data.totalCalories) || 0);
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to fetch meals");
+      setErrorMessage(error.response?.data?.message || "Failed to fetch meals");
       setTotalCalories(0); // fallback
     }
   };
@@ -116,7 +118,7 @@ const TrackMeal = () => {
         setTotalCaloriesBurned(Number(response.data.caloriesBurned) || 0);
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to fetch workouts");
+      setErrorMessage(error.response?.data?.message || "Failed to fetch workouts");
       setTotalCaloriesBurned(0); // fallback
     }
   };
@@ -154,6 +156,11 @@ const TrackMeal = () => {
 
   return (
     <PagesLayout>
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+      />
       <View>
         <Text style={styles.subHeader}>Details of</Text>
         <Text style={styles.mainHeader}>Caloric Balance</Text>

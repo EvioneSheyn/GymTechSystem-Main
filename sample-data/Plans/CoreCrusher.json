@@ -1,0 +1,47 @@
+{
+  "plan": {
+    "title": "Core Crusher",
+    "details": ["14 workout days (2 sessions/week)", "Core focus", "Stability training"],
+    "description": "Intensive core training program designed to build abdominal strength, improve stability, and enhance overall core performance.",
+    "image": "core_crusher",
+    "routines": [
+      {
+        "title": "Day 1 - Core Strength",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 15, "set_count": 4, "target": { "value": 45, "unit": "secs" } },
+          { "exercise": 4, "set_count": 3, "target": { "value": 15, "unit": "reps" } },
+          { "exercise": 25, "set_count": 3, "target": { "value": 25, "unit": "reps" } },
+          { "exercise": 8, "set_count": 3, "target": { "value": 15, "unit": "reps" } },
+          { "exercise": 23, "set_count": 3, "target": { "value": 12, "unit": "reps" } }
+        ]
+      },
+      { "title": "Day 2 - Rest", "sets": [] },
+      { "title": "Day 3 - Rest", "sets": [] },
+      {
+        "title": "Day 4 - Core Stability",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 15, "set_count": 3, "target": { "value": 60, "unit": "secs" } },
+          { "exercise": 4, "set_count": 4, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 25, "set_count": 4, "target": { "value": 30, "unit": "reps" } },
+          { "exercise": 8, "set_count": 4, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 24, "set_count": 3, "target": { "value": 45, "unit": "secs" } }
+        ]
+      },
+      { "title": "Day 5 - Rest", "sets": [] },
+      { "title": "Day 6 - Rest", "sets": [] },
+      {
+        "title": "Day 7 - Core Endurance",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 15, "set_count": 5, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 4, "set_count": 3, "target": { "value": 25, "unit": "reps" } },
+          { "exercise": 25, "set_count": 3, "target": { "value": 35, "unit": "reps" } },
+          { "exercise": 8, "set_count": 3, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 23, "set_count": 3, "target": { "value": 15, "unit": "reps" } }
+        ]
+      }
+    ]
+  }
+}

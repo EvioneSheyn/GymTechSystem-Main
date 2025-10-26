@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
-  Alert,
   StyleSheet,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -13,6 +12,8 @@ import { api } from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
 import AuthLayout from "@/Layouts/AuthLayout";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ErrorHandler from "@/Components/ErrorHandler";
+import FormField from "@/Components/FormField";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -21,133 +22,229 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
-  const handleRegister = async () => {
-    if (!email || !password || !confirmPassword) {
-      Alert.alert("Error", "Please fill all fields.");
-      return;
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!username.trim()) {
+      newErrors.username = "Username is required";
+    } else if (username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
     }
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match.");
-      return;
+    
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
     }
+    
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    await api
-      .post("/api/auth/register", {
+  const handleRegister = async () => {
+    if (!validateForm()) return;
+    
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await api.post("/api/auth/register", {
         username,
         email,
         password,
-      })
-      .then((response) => {
-        console.log("Successfully created the account!");
-        const data = response.data;
-        AsyncStorage.setItem("jwtToken", data.token);
-        AsyncStorage.setItem("user", JSON.stringify(data.user));
-        navigation.navigate("MainNavigator", {
-          screen: "Dashboard",
-        });
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
       });
+      
+      console.log("Successfully created the account!");
+      const data = response.data;
+      await AsyncStorage.setItem("jwtToken", data.token);
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+      
+      navigation.navigate("MainNavigator", {
+        screen: "Dashboard",
+      });
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage(error.response.data.message || "Registration failed");
+      } else if (error.request) {
+        setErrorMessage("Network error. Please check your connection.");
+      } else {
+        setErrorMessage("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <AuthLayout>
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+      />
       <View style={styles.innerContainer}>
         <Text style={styles.title}>Create Account</Text>
-        <View style={styles.inputWrapper}>
-          <MaterialIcons
-            name="account-circle"
-            size={24}
-            color="#4e8cff"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={[styles.input, { paddingLeft: 50 }]}
-            placeholder="Username"
-            placeholderTextColor="#ccc"
-            autoCapitalize="none"
-            value={username}
-            onChangeText={setUsername}
-            autoComplete="username"
-            textContentType="username"
-          />
-        </View>
-        <View style={styles.inputWrapper}>
-          <MaterialIcons
-            name="email"
-            size={24}
-            color="#4e8cff"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={[styles.input, { paddingLeft: 50 }]}
-            placeholder="Email"
-            placeholderTextColor="#ccc"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
-            autoComplete="email"
-            textContentType="emailAddress"
-          />
-        </View>
-        <View style={styles.inputWrapper}>
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            style={styles.eyeIconWrapper}
-            activeOpacity={0.7}
-          >
+        
+        <FormField label="Username" error={errors.username} required>
+          <View style={styles.inputWrapper}>
             <MaterialIcons
-              name={showPassword ? "visibility" : "visibility-off"}
+              name="account-circle"
               size={24}
               color="#4e8cff"
+              style={styles.inputIcon}
             />
-          </TouchableOpacity>
-          <TextInput
-            style={[styles.input, { paddingLeft: 50 }]}
-            placeholder="Password"
-            placeholderTextColor="#ccc"
-            secureTextEntry={!showPassword}
-            value={password}
-            onChangeText={setPassword}
-            autoComplete="password"
-            textContentType="password"
-          />
-        </View>
-        <View style={styles.inputWrapper}>
-          <TouchableOpacity
-            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-            style={styles.eyeIconWrapper}
-            activeOpacity={0.7}
-          >
+            <TextInput
+              style={[
+                styles.input, 
+                { paddingLeft: 50 },
+                errors.username && styles.inputError
+              ]}
+              placeholder="Username"
+              placeholderTextColor="#ccc"
+              autoCapitalize="none"
+              value={username}
+              onChangeText={(text) => {
+                setUsername(text);
+                if (errors.username) {
+                  setErrors(prev => ({ ...prev, username: "" }));
+                }
+              }}
+              autoComplete="username"
+              textContentType="username"
+            />
+          </View>
+        </FormField>
+
+        <FormField label="Email" error={errors.email} required>
+          <View style={styles.inputWrapper}>
             <MaterialIcons
-              name={showConfirmPassword ? "visibility" : "visibility-off"}
+              name="email"
               size={24}
               color="#4e8cff"
+              style={styles.inputIcon}
             />
-          </TouchableOpacity>
-          <TextInput
-            style={[styles.input, { paddingLeft: 50 }]}
-            placeholder="Confirm Password"
-            placeholderTextColor="#ccc"
-            secureTextEntry={!showConfirmPassword}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            autoComplete="password"
-            textContentType="password"
-          />
-        </View>
+            <TextInput
+              style={[
+                styles.input, 
+                { paddingLeft: 50 },
+                errors.email && styles.inputError
+              ]}
+              placeholder="Email"
+              placeholderTextColor="#ccc"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                if (errors.email) {
+                  setErrors(prev => ({ ...prev, email: "" }));
+                }
+              }}
+              autoComplete="email"
+              textContentType="emailAddress"
+            />
+          </View>
+        </FormField>
+
+        <FormField label="Password" error={errors.password} required>
+          <View style={styles.inputWrapper}>
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
+              style={styles.eyeIconWrapper}
+              activeOpacity={0.7}
+            >
+              <MaterialIcons
+                name={showPassword ? "visibility" : "visibility-off"}
+                size={24}
+                color="#4e8cff"
+              />
+            </TouchableOpacity>
+            <TextInput
+              style={[
+                styles.input, 
+                { paddingLeft: 50 },
+                errors.password && styles.inputError
+              ]}
+              placeholder="Password"
+              placeholderTextColor="#ccc"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+                if (errors.password) {
+                  setErrors(prev => ({ ...prev, password: "" }));
+                }
+              }}
+              autoComplete="password"
+              textContentType="password"
+            />
+          </View>
+        </FormField>
+
+        <FormField label="Confirm Password" error={errors.confirmPassword} required>
+          <View style={styles.inputWrapper}>
+            <TouchableOpacity
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={styles.eyeIconWrapper}
+              activeOpacity={0.7}
+            >
+              <MaterialIcons
+                name={showConfirmPassword ? "visibility" : "visibility-off"}
+                size={24}
+                color="#4e8cff"
+              />
+            </TouchableOpacity>
+            <TextInput
+              style={[
+                styles.input, 
+                { paddingLeft: 50 },
+                errors.confirmPassword && styles.inputError
+              ]}
+              placeholder="Confirm Password"
+              placeholderTextColor="#ccc"
+              secureTextEntry={!showConfirmPassword}
+              value={confirmPassword}
+              onChangeText={(text) => {
+                setConfirmPassword(text);
+                if (errors.confirmPassword) {
+                  setErrors(prev => ({ ...prev, confirmPassword: "" }));
+                }
+              }}
+              autoComplete="password"
+              textContentType="password"
+            />
+          </View>
+        </FormField>
+
         <Pressable
           onPress={handleRegister}
+          disabled={isLoading}
           style={({ pressed }) => [
             styles.button,
             pressed && styles.buttonPressed,
+            isLoading && styles.buttonDisabled,
           ]}
         >
-          <Text style={styles.buttonText}>Sign Up</Text>
+          <Text style={styles.buttonText}>
+            {isLoading ? "Creating Account..." : "Sign Up"}
+          </Text>
         </Pressable>
         <TouchableOpacity
           onPress={() => navigation.navigate("Login")}
@@ -182,7 +279,7 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     position: "relative",
-    marginBottom: 28,
+    marginBottom: 16,
   },
   inputIcon: {
     position: "absolute",
@@ -227,6 +324,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 6,
     transform: [{ scale: 0.97 }],
+  },
+  buttonDisabled: {
+    backgroundColor: "#6b7280",
+    opacity: 0.6,
+  },
+  inputError: {
+    borderColor: "#EF4444",
+    borderWidth: 2,
   },
   buttonText: {
     color: "#fff",

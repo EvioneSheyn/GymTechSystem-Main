@@ -10,13 +10,28 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Exercises,
-  ExerciseImages,
-} from "../../../sample-data/Exercises";
 import { Alert } from "react-native";
 
-const largeArmsExercises = [...Exercises];
+const largeArmsExercises = [
+  {
+    id: 1,
+    name: "Barbell Curl",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80",
+    details: "4 sets x 12 reps"
+  },
+  {
+    id: 2,
+    name: "Hammer Curl",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80",
+    details: "3 sets x 15 reps"
+  },
+  {
+    id: 3,
+    name: "Tricep Extension",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80",
+    details: "4 sets x 10 reps"
+  }
+];
 
 export default function LargeArmsExercises() {
   const navigation = useNavigation();
@@ -36,8 +51,11 @@ export default function LargeArmsExercises() {
         <View key={index} style={styles.exerciseContainer}>
           {exercise.image && (
             <Image
-              source={ExerciseImages[exercise.image]}
+              source={{ uri: exercise.image }}
               style={styles.exerciseImage}
+              contentFit="cover"
+              placeholder="🏋️"
+              transition={200}
             />
           )}
           <View style={styles.textContent}>

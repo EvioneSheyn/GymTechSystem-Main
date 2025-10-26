@@ -14,6 +14,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
 import { api } from "@/Axios";
 import { useNavigation } from "@react-navigation/native";
+import ErrorHandler from "@/Components/ErrorHandler";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({
@@ -25,6 +26,9 @@ const ProfilePage = () => {
 
   const [savedProfile, setSavedProfile] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -44,18 +48,24 @@ const ProfilePage = () => {
   };
 
   const handleSave = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
     try {
       const response = await api.patch("/api/profile", profile);
 
       if (response.status === 200) {
         await AsyncStorage.setItem("profile", JSON.stringify(profile));
         setSavedProfile(profile);
-        alert("Profile updated!");
+        setSuccessMessage("Profile updated successfully!");
       } else {
-        console.log("Something went wrong when changing profile");
+        setErrorMessage("Something went wrong when updating profile");
       }
     } catch (error) {
-      console.log("Error saving profile: ", error.response.data.message);
+      setErrorMessage(error.response?.data?.message || "Failed to update profile");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,6 +88,16 @@ const ProfilePage = () => {
 
   return (
     <PagesLayout>
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+      />
+      <ErrorHandler 
+        error={successMessage} 
+        onDismiss={() => setSuccessMessage("")}
+        type="success"
+      />
       <ScrollView style={{ paddingBottom: 120 }}>
         {/* Header */}
         <Text style={styles.header}>Profile</Text>
@@ -182,10 +202,13 @@ const ProfilePage = () => {
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.actionButton, styles.saveButton]}
+            style={[styles.actionButton, styles.saveButton, isLoading && styles.buttonDisabled]}
             onPress={handleSave}
+            disabled={isLoading}
           >
-            <Text style={styles.saveText}>Save</Text>
+            <Text style={styles.saveText}>
+              {isLoading ? "Saving..." : "Save"}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -302,5 +325,9 @@ const styles = StyleSheet.create({
     color: "#aaa",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  buttonDisabled: {
+    backgroundColor: "#6b7280",
+    opacity: 0.6,
   },
 });

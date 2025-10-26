@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
-  Alert,
   StyleSheet,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -13,110 +12,165 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "@/Axios";
 import AuthLayout from "@/Layouts/AuthLayout";
 import { useNavigation } from "@react-navigation/native";
+import ErrorHandler from "@/Components/ErrorHandler";
+import FormField from "@/Components/FormField";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Please enter both email and password.");
-      return;
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
     }
+    
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    console.log("naay error");
+  const handleLogin = async () => {
+    if (!validateForm()) return;
+    
+    setIsLoading(true);
+    setErrorMessage("");
 
-    await api
-      .post("/api/auth/login", {
+    try {
+      const response = await api.post("/api/auth/login", {
         email,
         password,
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log("Auth data: ", data);
-        AsyncStorage.setItem("jwtToken", data.token);
-        AsyncStorage.setItem("user", JSON.stringify(data.user));
-
-        navigation.navigate("MainNavigator", {
-          screen: "Dashboard",
-        });
-      })
-      .catch((error) => {
-        if (error.response) {
-          // Server responded with a status outside 2xx
-
-          alert(error.response.data.message);
-          console.log("API ERROR:", {
-            status: error.response.status,
-            data: error.response.data,
-            headers: error.response.headers,
-          });
-        } else if (error.request) {
-          // Request was made but no response
-          console.log("No response received:", error.request);
-        } else {
-          // Something else caused the error
-          console.log("Error setting up request:", error.message);
-        }
       });
+      
+      const data = response.data;
+      console.log("Auth data: ", data);
+      await AsyncStorage.setItem("jwtToken", data.token);
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+
+      navigation.navigate("MainNavigator", {
+        screen: "Dashboard",
+      });
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage(error.response.data.message || "Login failed");
+        console.log("API ERROR:", {
+          status: error.response.status,
+          data: error.response.data,
+          headers: error.response.headers,
+        });
+      } else if (error.request) {
+        setErrorMessage("Network error. Please check your connection.");
+        console.log("No response received:", error.request);
+      } else {
+        setErrorMessage("Something went wrong. Please try again.");
+        console.log("Error setting up request:", error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <AuthLayout>
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+      />
       <View style={styles.innerContainer}>
         <Text style={styles.title}>L O G I N</Text>
-        <View style={styles.inputWrapper}>
-          <MaterialIcons
-            name="email"
-            size={24}
-            color="#4e8cff"
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={[styles.input, { paddingLeft: 50 }]}
-            placeholder="Email"
-            placeholderTextColor="#ccc"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
-            autoComplete="email"
-            textContentType="emailAddress"
-          />
-        </View>
-        <View style={styles.inputWrapper}>
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            style={styles.eyeIconWrapper}
-            activeOpacity={0.7}
-          >
+        
+        <FormField label="Email" error={errors.email} required>
+          <View style={styles.inputWrapper}>
             <MaterialIcons
-              name={showPassword ? "visibility" : "visibility-off"}
+              name="email"
               size={24}
               color="#4e8cff"
+              style={styles.inputIcon}
             />
-          </TouchableOpacity>
-          <TextInput
-            style={[styles.input, { paddingLeft: 50 }]}
-            placeholder="Password"
-            placeholderTextColor="#ccc"
-            secureTextEntry={!showPassword}
-            value={password}
-            onChangeText={setPassword}
-            autoComplete="password"
-            textContentType="password"
-          />
-        </View>
+            <TextInput
+              style={[
+                styles.input, 
+                { paddingLeft: 50 },
+                errors.email && styles.inputError
+              ]}
+              placeholder="Email"
+              placeholderTextColor="#ccc"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                if (errors.email) {
+                  setErrors(prev => ({ ...prev, email: "" }));
+                }
+              }}
+              autoComplete="email"
+              textContentType="emailAddress"
+            />
+          </View>
+        </FormField>
+
+        <FormField label="Password" error={errors.password} required>
+          <View style={styles.inputWrapper}>
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
+              style={styles.eyeIconWrapper}
+              activeOpacity={0.7}
+            >
+              <MaterialIcons
+                name={showPassword ? "visibility" : "visibility-off"}
+                size={24}
+                color="#4e8cff"
+              />
+            </TouchableOpacity>
+            <TextInput
+              style={[
+                styles.input, 
+                { paddingLeft: 50 },
+                errors.password && styles.inputError
+              ]}
+              placeholder="Password"
+              placeholderTextColor="#ccc"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+                if (errors.password) {
+                  setErrors(prev => ({ ...prev, password: "" }));
+                }
+              }}
+              autoComplete="password"
+              textContentType="password"
+            />
+          </View>
+        </FormField>
+
         <Pressable
           onPress={handleLogin}
+          disabled={isLoading}
           style={({ pressed }) => [
             styles.button,
             pressed && styles.buttonPressed,
+            isLoading && styles.buttonDisabled,
           ]}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>
+            {isLoading ? "Logging in..." : "Login"}
+          </Text>
         </Pressable>
         <TouchableOpacity
           onPress={() => navigation.navigate("Register")}
@@ -151,7 +205,7 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     position: "relative",
-    marginBottom: 28,
+    marginBottom: 16,
   },
   inputIcon: {
     position: "absolute",
@@ -196,6 +250,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 6,
     transform: [{ scale: 0.97 }],
+  },
+  buttonDisabled: {
+    backgroundColor: "#6b7280",
+    opacity: 0.6,
+  },
+  inputError: {
+    borderColor: "#EF4444",
+    borderWidth: 2,
   },
   buttonText: {
     color: "#fff",

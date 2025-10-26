@@ -1,144 +1,466 @@
 {
-    "foods" :  [
-      {
-        "name": "Garlic Rice (Sinangag)",
-        "calories": 250,
-        "unit": "cup",
-        "category": "side",
-        "imageUrl": "https://i.imgur.com/EU8bXv5.jpg"
-      },
-      {
-        "name": "Plain Steamed Rice",
-        "calories": 200,
-        "unit": "cup",
-        "category": "side",
-        "imageUrl": "https://i.imgur.com/TIhSDeM.jpg"
-      },
-      {
-        "name": "Chicken Adobo",
-        "calories": 320,
-        "unit": "serving",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/7zGk0sE.jpg"
-      },
-      {
-        "name": "Pork Adobo",
-        "calories": 400,
-        "unit": "serving",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/1wYyW3f.jpg"
-      },
-      {
-        "name": "Beef Tapa",
-        "calories": 380,
-        "unit": "serving",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/MOaHnQp.jpg"
-      },
-      {
-        "name": "Pork Sinigang",
-        "calories": 350,
-        "unit": "bowl",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/EfXoXoA.jpg"
-      },
-      {
-        "name": "Kare-Kare",
-        "calories": 480,
-        "unit": "bowl",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/lUw0hjL.jpg"
-      },
-      {
-        "name": "Lechon Kawali",
-        "calories": 500,
-        "unit": "serving",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/4C3F7rI.jpg"
-      },
-      {
-        "name": "Chicken Inasal",
-        "calories": 300,
-        "unit": "piece",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/t7iFjaC.jpg"
-      },
-      {
-        "name": "Bangus Sisig",
-        "calories": 350,
-        "unit": "serving",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/8CrQqse.jpg"
-      },
-      {
-        "name": "Lumpiang Shanghai",
-        "calories": 100,
-        "unit": "piece",
-        "category": "appetizer",
-        "imageUrl": "https://i.imgur.com/nS1wxA4.jpg"
-      },
-      {
-        "name": "Ukoy (Shrimp Fritter)",
-        "calories": 180,
-        "unit": "piece",
-        "category": "appetizer",
-        "imageUrl": "https://i.imgur.com/erQdVOV.jpg"
-      },
-      {
-        "name": "Pancit Canton",
-        "calories": 320,
-        "unit": "plate",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/ZvdCoP0.jpg"
-      },
-      {
-        "name": "Palabok",
-        "calories": 400,
-        "unit": "plate",
-        "category": "main",
-        "imageUrl": "https://i.imgur.com/vuHLoIL.jpg"
-      },
-      {
-        "name": "Halo-Halo",
-        "calories": 380,
-        "unit": "glass",
-        "category": "dessert",
-        "imageUrl": "https://i.imgur.com/THA9JTy.jpg"
-      },
-      {
-        "name": "Leche Flan",
-        "calories": 250,
-        "unit": "slice",
-        "category": "dessert",
-        "imageUrl": "https://i.imgur.com/dqpDhzG.jpg"
-      },
-      {
-        "name": "Turon (Banana Lumpia)",
-        "calories": 180,
-        "unit": "piece",
-        "category": "dessert",
-        "imageUrl": "https://i.imgur.com/8FuRZ5M.jpg"
-      },
-      {
-        "name": "Bibingka",
-        "calories": 300,
-        "unit": "piece",
-        "category": "dessert",
-        "imageUrl": "https://i.imgur.com/gFb2oGq.jpg"
-      },
-      {
-        "name": "Puto (Steamed Rice Cake)",
-        "calories": 120,
-        "unit": "piece",
-        "category": "dessert",
-        "imageUrl": "https://i.imgur.com/t3gFSTX.jpg"
-      },
-      {
-        "name": "Buko Pandan",
-        "calories": 260,
-        "unit": "cup",
-        "category": "dessert",
-        "imageUrl": "https://i.imgur.com/zMb4K9P.jpg"
-      }
-    ]
+  "foods": [
+    {
+      "name": "Garlic Rice (Sinangag)",
+      "calories": 250,
+      "unit": "cup",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Plain Steamed Rice",
+      "calories": 200,
+      "unit": "cup",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Chicken Adobo",
+      "calories": 320,
+      "unit": "serving",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Pork Adobo",
+      "calories": 400,
+      "unit": "serving",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Beef Tapa",
+      "calories": 380,
+      "unit": "serving",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Pork Sinigang",
+      "calories": 350,
+      "unit": "bowl",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Kare-Kare",
+      "calories": 480,
+      "unit": "bowl",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Lechon Kawali",
+      "calories": 500,
+      "unit": "serving",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Chicken Inasal",
+      "calories": 300,
+      "unit": "piece",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Bangus Sisig",
+      "calories": 350,
+      "unit": "serving",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Lumpiang Shanghai",
+      "calories": 100,
+      "unit": "piece",
+      "category": "appetizer",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Ukoy (Shrimp Fritter)",
+      "calories": 180,
+      "unit": "piece",
+      "category": "appetizer",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Pancit Canton",
+      "calories": 320,
+      "unit": "plate",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Palabok",
+      "calories": 400,
+      "unit": "plate",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Halo-Halo",
+      "calories": 380,
+      "unit": "glass",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Leche Flan",
+      "calories": 250,
+      "unit": "slice",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Turon (Banana Lumpia)",
+      "calories": 180,
+      "unit": "piece",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Bibingka",
+      "calories": 300,
+      "unit": "piece",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Puto (Steamed Rice Cake)",
+      "calories": 120,
+      "unit": "piece",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Buko Pandan",
+      "calories": 260,
+      "unit": "cup",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5acd4371144?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Grilled Chicken Breast",
+      "calories": 165,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Salmon Fillet",
+      "calories": 208,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Quinoa Bowl",
+      "calories": 120,
+      "unit": "cup",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Sweet Potato",
+      "calories": 86,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Broccoli",
+      "calories": 34,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Greek Yogurt",
+      "calories": 59,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Almonds",
+      "calories": 579,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Avocado",
+      "calories": 160,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Eggs",
+      "calories": 155,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Oatmeal",
+      "calories": 68,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Banana",
+      "calories": 89,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Berries Mix",
+      "calories": 57,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Spinach",
+      "calories": 23,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Tomatoes",
+      "calories": 18,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Protein Shake",
+      "calories": 120,
+      "unit": "serving",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Whole Grain Bread",
+      "calories": 247,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Brown Rice",
+      "calories": 111,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Chicken Thigh",
+      "calories": 209,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Turkey Breast",
+      "calories": 135,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Tuna Steak",
+      "calories": 132,
+      "unit": "100g",
+      "category": "main",
+      "imageUrl": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Cottage Cheese",
+      "calories": 98,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Walnuts",
+      "calories": 654,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Chia Seeds",
+      "calories": 486,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Apple",
+      "calories": 52,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Orange",
+      "calories": 47,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Carrots",
+      "calories": 41,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Bell Peppers",
+      "calories": 31,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Cucumber",
+      "calories": 16,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Lettuce",
+      "calories": 15,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Green Beans",
+      "calories": 31,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Asparagus",
+      "calories": 20,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Zucchini",
+      "calories": 17,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Cauliflower",
+      "calories": 25,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Brussels Sprouts",
+      "calories": 43,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Kale",
+      "calories": 49,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Mushrooms",
+      "calories": 22,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Onions",
+      "calories": 40,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Garlic",
+      "calories": 149,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Ginger",
+      "calories": 80,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Olive Oil",
+      "calories": 884,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Coconut Oil",
+      "calories": 862,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Honey",
+      "calories": 304,
+      "unit": "100g",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Dark Chocolate",
+      "calories": 546,
+      "unit": "100g",
+      "category": "dessert",
+      "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Green Tea",
+      "calories": 1,
+      "unit": "cup",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Coffee",
+      "calories": 2,
+      "unit": "cup",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    },
+    {
+      "name": "Water",
+      "calories": 0,
+      "unit": "cup",
+      "category": "side",
+      "imageUrl": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop&q=80"
+    }
+  ]
 }

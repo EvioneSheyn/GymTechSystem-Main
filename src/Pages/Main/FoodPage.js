@@ -140,6 +140,9 @@ const FoodPage = () => {
               height={40}
               width={40}
               borderRadius={12}
+              contentFit="cover"
+              placeholder="🍽️"
+              transition={200}
             />
             <View style={{ flexGrow: 1 }}>
               <View

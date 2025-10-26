@@ -10,7 +10,6 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { api } from "@/Axios";
 import { Image } from "expo-image";
-import { ExerciseImages } from "root/sample-data/Exercises";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const PlanRoutineOverview = () => {
@@ -149,10 +148,11 @@ const PlanRoutineOverview = () => {
         }}
       >
         <Image
-          source={ExerciseImages[plan.image]}
+          source={{ uri: plan.image }}
           style={{ width: "100%", height: "100%" }}
           contentFit="cover"
-          top={0}
+          placeholder="🏋️"
+          transition={200}
         />
       </View>
 

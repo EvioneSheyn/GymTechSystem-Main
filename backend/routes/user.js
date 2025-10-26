@@ -3,6 +3,15 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
 const User = require("../models/User");
+const Profile = require("../models/Profile");
+const Meal = require("../models/Meal");
+const MealFood = require("../models/MealFood");
+const WorkoutSession = require("../models/WorkoutSession");
+const WeightRecord = require("../models/WeightRecord");
+const Goal = require("../models/Goal");
+const Routine = require("../models/Routine");
+const Set = require("../models/Set");
+const sequelize = require("../config/db");
 const { body, validationResult } = require("express-validator");
 
 // Verification update (originally GET /verification-update)
@@ -82,18 +91,68 @@ router.patch(
   }
 );
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/delete-account", auth, async (req, res) => {
   const userId = req.user.userId;
+  
+  const transaction = await sequelize.transaction();
+  
   try {
-    await User.findByPk(userId).delete();
+    const user = await User.findByPk(userId, { transaction });
+    if (!user) {
+      await transaction.rollback();
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // Delete all user-related data in order
+    // 1. Delete MealFood records
+    const userMeals = await Meal.findAll({ where: { userId }, attributes: ['id'], transaction });
+    if (userMeals.length > 0) {
+      const mealIds = userMeals.map(meal => meal.id);
+      await MealFood.destroy({ where: { mealId: mealIds }, transaction });
+    }
+
+    // 2. Delete Sets from user routines
+    const userRoutines = await Routine.findAll({ 
+      where: { routineableId: userId, routineableType: 'User' }, 
+      attributes: ['id'], 
+      transaction 
+    });
+    if (userRoutines.length > 0) {
+      const routineIds = userRoutines.map(routine => routine.id);
+      await Set.destroy({ where: { routineId: routineIds }, transaction });
+    }
+
+    // 3. Delete user routines
+    await Routine.destroy({ 
+      where: { routineableId: userId, routineableType: 'User' }, 
+      transaction 
+    });
+
+    // 4. Delete other user data
+    await WorkoutSession.destroy({ where: { userId }, transaction });
+    await WeightRecord.destroy({ where: { userId }, transaction });
+    await Goal.destroy({ where: { userId }, transaction });
+    await Meal.destroy({ where: { userId }, transaction });
+    await Profile.destroy({ where: { userId }, transaction });
+
+    // 5. Finally delete the user
+    await user.destroy({ transaction });
+
+    // Commit the transaction
+    await transaction.commit();
 
     return res.status(200).json({
-      message: "Succesfully delteted your account.",
+      message: "Successfully deleted your account and all associated data.",
     });
   } catch (err) {
+    // Rollback the transaction on error
+    await transaction.rollback();
+    console.error("Delete account error:", err);
     return res
       .status(500)
-      .json({ message: "Error deleting account: ", error: err.message });
+      .json({ message: "Error deleting account: " + err.message });
   }
 });
 

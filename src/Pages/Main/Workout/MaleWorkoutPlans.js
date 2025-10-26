@@ -11,7 +11,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { api } from "@/Axios";
-import { ExerciseImages } from "../../../../sample-data/Exercises";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -101,8 +100,11 @@ export default function MaleWorkoutPlans() {
               }
             >
               <Image
-                source={ExerciseImages[plan.image]}
+                source={{ uri: plan.image }}
                 style={styles.cardImage}
+                contentFit="cover"
+                placeholder="🏋️"
+                transition={200}
               />
               <View style={styles.overlay} />
               <Text style={styles.cardText}>{plan.title}</Text>

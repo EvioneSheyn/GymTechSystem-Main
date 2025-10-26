@@ -1,0 +1,64 @@
+{
+  "plan": {
+    "title": "Full Body Strength",
+    "details": ["28 workout days (4 sessions/week)", "Full body focus", "Progressive overload"],
+    "description": "Comprehensive full-body strength program designed for intermediate to advanced lifters focusing on compound movements and progressive overload.",
+    "image": "full_body_strength",
+    "routines": [
+      {
+        "title": "Day 1 - Upper Body Push",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 20, "set_count": 4, "target": { "value": 8, "unit": "reps" } },
+          { "exercise": 21, "set_count": 4, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 7, "set_count": 3, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 8, "set_count": 3, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 14, "set_count": 3, "target": { "value": 12, "unit": "reps" } }
+        ]
+      },
+      {
+        "title": "Day 2 - Lower Body",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 17, "set_count": 4, "target": { "value": 8, "unit": "reps" } },
+          { "exercise": 16, "set_count": 4, "target": { "value": 15, "unit": "reps" } },
+          { "exercise": 28, "set_count": 3, "target": { "value": 15, "unit": "reps" } },
+          { "exercise": 19, "set_count": 3, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 30, "set_count": 3, "target": { "value": 20, "unit": "reps" } }
+        ]
+      },
+      { "title": "Day 3 - Rest", "sets": [] },
+      {
+        "title": "Day 4 - Upper Body Pull",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 18, "set_count": 4, "target": { "value": 8, "unit": "reps" } },
+          { "exercise": 22, "set_count": 4, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 29, "set_count": 3, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 13, "set_count": 3, "target": { "value": 12, "unit": "reps" } },
+          { "exercise": 9, "set_count": 3, "target": { "value": 12, "unit": "reps" } }
+        ]
+      },
+      {
+        "title": "Day 5 - Full Body Circuit",
+        "sets": [
+          { "exercise": 1, "set_count": 1, "target": { "value": 5, "unit": "mins" } },
+          { "exercise": 23, "set_count": 3, "target": { "value": 10, "unit": "reps" } },
+          { "exercise": 24, "set_count": 3, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 15, "set_count": 3, "target": { "value": 30, "unit": "secs" } },
+          { "exercise": 25, "set_count": 3, "target": { "value": 20, "unit": "reps" } },
+          { "exercise": 26, "set_count": 3, "target": { "value": 60, "unit": "secs" } }
+        ]
+      },
+      { "title": "Day 6 - Rest", "sets": [] },
+      {
+        "title": "Day 7 - Active Recovery",
+        "sets": [
+          { "exercise": 10, "set_count": 1, "target": { "value": 20, "unit": "mins" } },
+          { "exercise": 11, "set_count": 1, "target": { "value": 20, "unit": "secs" } },
+          { "exercise": 12, "set_count": 1, "target": { "value": 20, "unit": "secs" } }
+        ]
+      }
+    ]
+  }
+}

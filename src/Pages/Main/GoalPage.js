@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import PagesLayout from "../../Layouts/PagesLayout";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -6,9 +6,14 @@ import ModalComponent from "../../Components/ModalComponent";
 import RNPickerSelect from "react-native-picker-select";
 import { Button, TextInput } from "react-native-paper";
 import { api } from "@/Axios";
+import ErrorHandler from "@/Components/ErrorHandler";
+import FormField from "@/Components/FormField";
 const GoalPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [goals, setGoals] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [formErrors, setFormErrors] = useState({});
 
   const OPTIONS = [
     { label: "Weight", value: "weight" },
@@ -22,23 +27,49 @@ const GoalPage = () => {
       ...prev,
       [key]: value,
     }));
+    // Clear form errors when user starts typing
+    if (formErrors[key]) {
+      setFormErrors(prev => ({ ...prev, [key]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!form.type) {
+      errors.type = "Please select a goal type";
+    }
+    
+    if (!form.target || form.target <= 0) {
+      errors.target = "Please enter a valid target value";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const createGoal = async () => {
-    if (!form.target || !form.type) {
-      alert("Fill up necessary details. " + JSON.stringify(form));
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       const response = await api.post("/api/goal", form);
 
-      alert(response.data.message);
+      setSuccessMessage(response.data.message);
       setShowModal(false);
       setForm({});
+      setFormErrors({});
       fetchGoals();
     } catch (error) {
-      alert(error.response.data.message);
+      if (error.response?.data?.errors) {
+        // Convert errors array into object: { field: message }
+        const errorObj = {};
+        error.response.data.errors.forEach((err) => {
+          errorObj[err.param] = err.msg;
+        });
+        setFormErrors(errorObj);
+      } else {
+        setErrorMessage(error.response?.data?.message || "Failed to create goal");
+      }
     }
   };
 
@@ -53,20 +84,24 @@ const GoalPage = () => {
   };
 
   const handleDeleting = (id) => {
-    Alert.alert("Deleting Goal", "Do you really wish to delete this goal?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Remove", onPress: () => deleteGoal(id) },
-    ]);
+    // Use a custom confirmation modal instead of Alert
+    setShowDeleteModal(true);
+    setGoalToDelete(id);
   };
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [goalToDelete, setGoalToDelete] = useState(null);
 
   async function deleteGoal(id) {
     try {
       const response = await api.delete("/api/goal/" + id);
 
-      alert(response.data.message);
+      setSuccessMessage(response.data.message);
       fetchGoals();
+      setShowDeleteModal(false);
+      setGoalToDelete(null);
     } catch (error) {
-      alert(error.response.data.message);
+      setErrorMessage(error.response?.data?.message || "Failed to delete goal");
     }
   }
 
@@ -92,35 +127,40 @@ const GoalPage = () => {
           <View style={styles.modalCenterView}>
             <Text style={styles.modalTitleText}>Set New Goal</Text>
             <View style={styles.goalFormView}>
-              <View style={styles.pickerBorder}>
-                <RNPickerSelect
-                  onValueChange={(value) => handleFormChange("type", value)}
-                  items={OPTIONS}
-                  placeholder={{
-                    label: "Select Goal Type",
-                    value: null,
-                  }}
-                  value={form.type}
-                />
-              </View>
-              <View
-                style={{ flexDirection: "row", gap: 5, alignItems: "center" }}
-              >
-                <TextInput
-                  style={{ flex: 1 }}
-                  label={"Enter Target"}
-                  keyboardType="numeric"
-                  onChangeText={(value) => handleFormChange("target", value)}
-                  value={form.target}
-                />
-                <Text>
-                  {form.type != undefined
-                    ? form.type == "workout"
-                      ? "sessions"
-                      : "KG"
-                    : ""}
-                </Text>
-              </View>
+              <FormField label="Goal Type" error={formErrors.type} required>
+                <View style={styles.pickerBorder}>
+                  <RNPickerSelect
+                    onValueChange={(value) => handleFormChange("type", value)}
+                    items={OPTIONS}
+                    placeholder={{
+                      label: "Select Goal Type",
+                      value: null,
+                    }}
+                    value={form.type}
+                  />
+                </View>
+              </FormField>
+              
+              <FormField label="Target" error={formErrors.target} required>
+                <View style={{ flexDirection: "row", gap: 5, alignItems: "center" }}>
+                  <TextInput
+                    style={{ flex: 1 }}
+                    label={"Enter Target"}
+                    keyboardType="numeric"
+                    onChangeText={(value) => handleFormChange("target", value)}
+                    value={form.target}
+                    error={!!formErrors.target}
+                  />
+                  <Text>
+                    {form.type != undefined
+                      ? form.type == "workout"
+                        ? "sessions"
+                        : "KG"
+                      : ""}
+                  </Text>
+                </View>
+              </FormField>
+              
               <View style={{ alignItems: "flex-end" }}>
                 <Button style={styles.createButton} onPress={createGoal}>
                   <Text
@@ -138,6 +178,17 @@ const GoalPage = () => {
         </ModalComponent>
       }
     >
+      <ErrorHandler 
+        error={errorMessage} 
+        onDismiss={() => setErrorMessage("")}
+        type="error"
+      />
+      <ErrorHandler 
+        error={successMessage} 
+        onDismiss={() => setSuccessMessage("")}
+        type="success"
+      />
+      
       {/* Header */}
       <Text style={styles.subHeader}>Customize</Text>
       <Text style={styles.mainHeader}>My Goals</Text>
@@ -187,6 +238,32 @@ const GoalPage = () => {
       >
         <Text style={{ color: "white", textAlign: "center" }}>Add Goals</Text>
       </TouchableOpacity>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <ModalComponent onClose={() => setShowDeleteModal(false)}>
+          <View style={styles.modalCenterView}>
+            <Text style={styles.modalTitleText}>Delete Goal</Text>
+            <Text style={styles.modalSubText}>
+              Are you sure you want to delete this goal? This action cannot be undone.
+            </Text>
+            <View style={styles.modalButtonGroupView}>
+              <TouchableOpacity
+                style={styles.modalCancelButton}
+                onPress={() => setShowDeleteModal(false)}
+              >
+                <Text style={{ fontWeight: "bold", color: "white" }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalSaveButton}
+                onPress={() => deleteGoal(goalToDelete)}
+              >
+                <Text style={{ fontWeight: "bold", color: "white" }}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ModalComponent>
+      )}
     </PagesLayout>
   );
 };
@@ -274,5 +351,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#3ad",
     borderRadius: 12,
     marginTop: 12,
+  },
+  modalCancelButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "rgba(221,81,81,1)",
+    borderRadius: 12,
+    marginTop: 12,
+    marginRight: 8,
+  },
+  modalButtonGroupView: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginTop: 16,
   },
 });

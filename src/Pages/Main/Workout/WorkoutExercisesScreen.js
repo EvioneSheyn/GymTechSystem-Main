@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ExerciseImages } from "root/sample-data/Exercises";
 import { api } from "@/Axios";
 
 export default function WorkoutExercisesScreen() {
@@ -56,8 +55,11 @@ export default function WorkoutExercisesScreen() {
         {exercises.map((item, index) => (
           <View key={index} style={styles.exerciseItem}>
             <Image
-              source={ExerciseImages[item.exercise.image]}
+              source={{ uri: item.exercise.image }}
               style={styles.exerciseImage}
+              contentFit="cover"
+              placeholder="🏋️"
+              transition={200}
             />
             <View style={styles.exerciseText}>
               <Text style={styles.exerciseName}>{item.exercise.name}</Text>
