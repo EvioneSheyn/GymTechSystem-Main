@@ -273,9 +273,7 @@
         "Forearms",
         "Shoulders"
       ]
-    }
-  ],
-  "new_exercises": [
+    },
     {
       "id": 13,
       "name": "Barbell curl",
@@ -295,7 +293,10 @@
         "Lower slowly back to the starting position."
       ],
       "description": "Classic biceps mass builder that develops arm strength and definition.",
-      "target": ["Biceps", "Forearms"]
+      "target": [
+        "Biceps",
+        "Forearms"
+      ]
     },
     {
       "id": 14,
@@ -316,7 +317,10 @@
         "Extend your arms back up to the starting position."
       ],
       "description": "Strengthens the triceps and improves overhead pushing power.",
-      "target": ["Triceps", "Shoulders"]
+      "target": [
+        "Triceps",
+        "Shoulders"
+      ]
     },
     {
       "id": 15,
@@ -336,7 +340,11 @@
         "Hold for the prescribed time."
       ],
       "description": "Builds core stability, endurance, and improves posture.",
-      "target": ["Core", "Abs", "Lower back"]
+      "target": [
+        "Core",
+        "Abs",
+        "Lower back"
+      ]
     }
   ]
 }
