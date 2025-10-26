@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@expo/metro-config": "^54.0.7",
     "babel-plugin-module-resolver": "^5.0.2",
     "concurrently": "^9.2.0"
   },
